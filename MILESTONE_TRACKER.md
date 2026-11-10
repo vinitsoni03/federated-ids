@@ -2,7 +2,7 @@
 
 Student: Vinit Soni (E23CSEU0437)
 Project: AI-Enabled Cyberattack Detection and Adversarially Robust Federated Intrusion Detection
-Last updated: 2026-11-10 (final submission Fri 2026-11-13: report, slides, GitHub, live demo)
+Last updated: 2026-11-11 (final submission Fri 2026-11-13: report, slides, GitHub, live demo)
 
 Statuses: `Not started` / `In progress` / `Blocked` / `Done (verified)`. "Done (verified)" means the
 command/tests ran successfully and the evidence file exists; code alone never counts.
@@ -22,7 +22,7 @@ command/tests ran successfully and the evidence file exists; code alone never co
 | WP5 | Adversarial training vs evasion (fixed FPR) | Done (verified) | `python -m federated_ids.experiments.wp5_advtrain` exit 0 (resumed 2026-11-10, done 23:37); 36 evals, 0 constraint violations in 108 attacked evaluations -> `reports/tables/wp5_evasion.csv`, `wp5_advtrain_summary.csv`, `wp5_advtrain_per_family_fpr1.csv`, `reports/figures/wp5_advtrain_evasion.png`; report §7.1 |
 | WP6 | GridStratLLM without the ARP signature (core) | Done (verified) | `python -m federated_ids.gridstrat.wp6_no_arp --root ...` (45 s, M8 volume folds reproduced exactly) -> `reports/gridstrat/wp6_results.json`, `reports/tables/wp6_gridstrat_no_arp.csv`, `reports/figures/wp6_gridstrat_no_arp_auc.png`; report §8.1. Sensitivity (window/guard) = future work (student: core only) |
 | WP4 | Federated with v2 + realism checks | Done (verified) | 45 runs exit 0; `python -m federated_ids.experiments.wp4_eval` -> `reports/tables/wp4_federated.csv` (72 runs at calibrated 5 %/1 % FPR, comm, rounds to 95 %) |
-| M9 | Final report & reproducibility | In progress | `reports/final_report.md` updated from GPU results (§4-7); WP3-WP6 sections and the Flower result missing |
+| M9 | Final report, demo & reproducibility | In progress | `reports/final_report.md` has all experiment sections (§4-8 incl. WP3-WP6, Flower §5.4); local demo dashboard done (`demo/`, `scripts/run_demo.ps1`, tested in Chrome, `tests/test_demo.py`). Missing: rest of report pass + conclusion, Word/PDF, slides, fresh-venv test, v1.0.0 tag, demo rehearsal |
 
 ## Open items / blockers
 * Waiting for the student: (1) laptop sleep restored to 10 min on 2026-11-01 (done); (2) WP3 search size - decided 2026-11-01: full grid.
