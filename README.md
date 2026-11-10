@@ -12,7 +12,7 @@ An offline, reproducible research pipeline with four **separate** studies:
 | D | LLM-coordinated smart-grid attacks, leave-one-LLM-out detection | GridStratLLM | `gridstrat/analysis.py` | §8 |
 
 Threat models: `reports/threat_models.md`. Status of every milestone: `MILESTONE_TRACKER.md`.
-Chronological record of what was run: `WORK_LOG.md`. Datasets: `data/README.md`.
+Datasets: `data/README.md`.
 
 Nothing here attacks a real system: all attacks are simulated on recorded data.
 Federated learning here gives **no formal privacy guarantee**; no differential privacy or secure
@@ -26,12 +26,24 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install --index-url https://download.pytorch.org/whl/cpu torch==2.14.1
 pip install -r requirements.txt          # editable install + dev extras
-pytest -q                                # 47 tests
+pytest -q                                # 63 tests
 ```
 Exact versions used: `requirements-lock.txt`. Large intermediates go to `configs/data.yaml: work_dir`
 (default `D:/federated-ids-work`; override with `$env:FIDS_WORK_DIR`).
 On machines where Windows Application Control blocks unsigned DLLs, `pyarrow.parquet` and `duckdb`
 may fail to import; the code only needs `polars` for Parquet.
+
+## Live demo dashboard
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scriptsun_demo.ps1   # opens http://127.0.0.1:8000
+```
+Runs locally from `demo/bundle/` (built by `python scripts/build_demo_bundle.py`; committed, so no dataset is
+needed): the 8-class v2 MLP before and after adversarial training, its validation thresholds, 320 real test
+windows (40 per class) and the recorded Flower run. Tabs: **Detect** (probabilities, attack score vs. calibrated
+threshold, scan of all windows), **Evasion attack** (the constrained black-box attacker of §7, query by query, and
+frozen vs. hardened on all 280 attack windows), **Federated training** (replay of the Azure + laptop Flower run),
+**Results** (read live from `reports/tables/`). Binds to localhost only; the secured API endpoint is `serving/app.py`.
 
 ## Reproduce everything (in order)
 

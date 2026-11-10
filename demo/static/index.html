@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Federated IDS Demo</title>
+<style>
+:root{
+  --bg:#f6f5f2; --panel:#ffffff; --ink:#15171a; --ink2:#55595f; --line:#e3e1dc; --soft:#efeee9;
+  --accent:#2a63d6; --attack:#d2462f; --benign:#1d9a6c; --warn:#c98a00; --azure:#2a78d6; --laptop:#7a52c7;
+  --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:#14171c;color:#f3f2ee;padding:18px 28px 0}
+header h1{margin:0;font-size:20px;font-weight:650;letter-spacing:.2px}
+header p{margin:2px 0 14px;color:#a9adb4;font-size:13px}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{background:none;border:0;color:#a9adb4;font:inherit;font-weight:600;padding:10px 16px;border-radius:8px 8px 0 0;cursor:pointer}
+nav button.on{background:var(--bg);color:var(--ink)}
+main{max-width:1240px;margin:0 auto;padding:22px 28px 60px}
+section{display:none} section.on{display:block}
+.lead{color:var(--ink2);max-width:880px;margin:0 0 18px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:minmax(300px,380px) 1fr}
+.g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink2)}
+label{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin:12px 0 5px}
+select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{flex:1;border:0;background:#fff;padding:8px 6px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink2)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--ink);color:#fff}
+.btn{display:inline-block;border:0;background:var(--accent);color:#fff;font:inherit;font-weight:600;padding:10px 16px;border-radius:8px;cursor:pointer;margin-top:14px}
+.btn.alt{background:var(--soft);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:wait}
+.verdict{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.badge{font-weight:700;font-size:22px;padding:6px 14px;border-radius:8px;color:#fff}
+.badge.attack{background:var(--attack)} .badge.benign{background:var(--benign)}
+.muted{color:var(--ink2);font-size:13px}
+.mono{font-family:var(--mono);font-size:13px}
+.bars .row{display:grid;grid-template-columns:96px 1fr 64px;align-items:center;gap:8px;margin:5px 0;font-size:13px}
+.bars .track{height:12px;background:var(--soft);border-radius:6px;overflow:hidden}
+.bars .fill{height:100%;background:var(--accent);border-radius:6px;transition:width .35s}
+.gauge{position:relative;height:20px;background:linear-gradient(90deg,#dff2ea,#fbe3de);border-radius:10px;margin:22px 0 6px}
+.gauge .pt{position:absolute;top:-5px;width:4px;height:30px;background:var(--ink);border-radius:2px;transition:left .35s}
+.gauge .th{position:absolute;top:-16px;bottom:-4px;border-left:2px dashed var(--attack)}
+.gauge .th span{position:absolute;top:-4px;left:4px;font-size:11px;color:var(--attack);white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--ink2);font-weight:600;font-size:12px}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.trace{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.trace tr.hit td{background:#e5f5ee;font-weight:700}
+.stat{font-size:28px;font-weight:700;line-height:1.1}
+.stat small{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-top:4px}
+.callout{border-left:4px solid var(--accent);background:#eef3fc;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px;font-size:14px}
+.callout.bad{border-color:var(--attack);background:#fdeeea} .callout.good{border-color:var(--benign);background:#e8f6ef}
+svg text{font-family:system-ui,sans-serif}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--ink2);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:5px;border-radius:2px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <h1>Adversarially Robust Federated Intrusion Detection</h1>
+  <p>Live demo · CICIoT2023 8-class detector (v2 MLP) · Vinit Soni (E23CSEU0437) · everything runs locally from the project's own models and attack code</p>
+  <nav id="tabs">
+    <button data-t="detect" class="on">1 · Detect</button>
+    <button data-t="attack">2 · Evasion attack</button>
+    <button data-t="fed">3 · Federated training</button>
+    <button data-t="results">4 · Results</button>
+  </nav>
+</header>
+<main>
+
+<!-- DETECT -->
+<section id="detect" class="on">
+  <p class="lead">Pick a real held-out <b>test</b> window (never seen in training). The detector outputs class probabilities; the
+  <b>attack score</b> is 1 − P(Benign). With a calibrated rule the window is flagged only if the score exceeds a threshold chosen on validation data so that just 5 % or 1 % of benign traffic raises an alarm.</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Input</h3>
+      <label>True class</label><select id="d-class"></select>
+      <label>Test window</label><select id="d-win"></select>
+      <label>Model</label><div class="seg" id="d-model"></div>
+      <label>Decision rule</label><div class="seg" id="d-rule"></div>
+      <button class="btn alt" id="d-scan">Scan all 320 demo windows</button>
+    </div>
+    <div class="card">
+      <h3>Detector output</h3>
+      <div class="verdict"><span class="badge" id="d-badge">…</span><div><div id="d-line"></div><div class="muted" id="d-sub"></div></div></div>
+      <div class="gauge" id="d-gauge"><div class="th" id="d-th"><span></span></div><div class="pt" id="d-pt"></div></div>
+      <div class="muted" style="display:flex;justify-content:space-between"><span>attack score 0 (benign)</span><span>1 (attack)</span></div>
+      <h3 style="margin-top:18px">Class probabilities</h3>
+      <div class="bars" id="d-bars"></div>
+      <div id="d-scanout" class="hidden" style="margin-top:16px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ATTACK -->
+<section id="attack">
+  <p class="lead">A black-box attacker that only sees the IDS verdict tries to make a <b>detected</b> attack window look Benign. It may only change
+  its own packets: pad them (≤ MTU), slow down to r × the rate (r ≥ 0.1), and set the TTL to a typical benign value. Protocol, flags and headers cannot change.
+  The <b>hardened</b> model is the same network after two rounds of adversarial training (WP5).</p>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Target</h3>
+      <label>Attack family</label><select id="a-class"></select>
+      <label>Test window</label><select id="a-win"></select>
+      <label>Model under attack</label><div class="seg" id="a-model"></div>
+      <label>Decision rule</label><div class="seg" id="a-rule"></div>
+      <button class="btn" id="a-go">Launch attack</button>
+      <button class="btn alt" id="a-all">Attack all 280 windows: frozen vs hardened</button>
+      <p class="muted" style="margin-top:14px">Tip: Spoofing, Web and Recon windows are the ones that evade most often against the frozen model.</p>
+    </div>
+    <div class="card">
+      <h3>Attack search, query by query</h3>
+      <div id="a-status" class="muted">Choose a window and launch the attack.</div>
+      <svg id="a-chart" viewBox="0 0 720 200" width="100%" style="margin-top:8px"></svg>
+      <div class="legend"><span><i style="background:var(--accent)"></i>attack score of each query</span><span><i style="background:var(--attack)"></i>decision threshold</span></div>
+      <div class="trace" style="margin-top:12px"><table><thead><tr><th>#</th><th class="num">rate r</th><th class="num">padding (B)</th><th class="num">TTL</th><th>IDS verdict</th><th class="num">score</th></tr></thead><tbody id="a-trace"></tbody></table></div>
+      <div id="a-final"></div>
+    </div>
+  </div>
+  <div class="card hidden" id="a-allcard" style="margin-top:16px">
+    <h3>Evasion rate by family (share of detected windows turned Benign)</h3>
+    <svg id="a-allchart" viewBox="0 0 900 260" width="100%"></svg>
+    <div class="legend"><span><i style="background:var(--attack)"></i>frozen model</span><span><i style="background:var(--benign)"></i>hardened model (WP5)</span></div>
+    <div id="a-allsum"></div>
+  </div>
+</section>
+
+<!-- FEDERATED -->
+<section id="fed">
+  <p class="lead">Real deployment run (Flower 1.42): the server ran on an Azure VM; 10 clients each trained on their own share of the data,
+  5 on a second Azure VM and 5 on this laptop, across the internet over TLS. Only model weights travel; raw traffic never leaves a client.
+  Replay the recorded run round by round. This deployment run used the v1 MLP (13k parameters) and was checked against the
+  simulator (identical test macro-F1); the v2 federated results below come from the simulator.</p>
+  <div class="grid g4" id="f-stats"></div>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card">
+      <h3>Topology</h3>
+      <svg id="f-topo" viewBox="0 0 360 330" width="100%"></svg>
+      <div class="legend"><span><i style="background:var(--azure)"></i>Azure VM client</span><span><i style="background:var(--laptop)"></i>laptop client</span></div>
+      <button class="btn" id="f-play">Replay 30 rounds</button>
+    </div>
+    <div class="card">
+      <h3>Global model after each round (held-out test set)</h3>
+      <div class="stat" id="f-round">Round 0 / 30</div>
+      <svg id="f-chart" viewBox="0 0 720 260" width="100%"></svg>
+      <div class="legend"><span><i style="background:var(--accent)"></i>test macro-F1</span><span><i style="background:var(--attack)"></i>benign false-positive rate (argmax)</span></div>
+      <div id="f-wp4" style="margin-top:14px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <p class="lead">Headline numbers, read live from the result tables in <span class="mono">reports/tables/</span> (same files as the report).</p>
+  <div class="grid g3">
+    <div class="card"><h3>Detection on the test set (WP3)</h3><div id="r-det"></div></div>
+    <div class="card"><h3>Evasion at 1 % FPR, before → after adversarial training (WP5)</h3><div id="r-adv"></div></div>
+    <div class="card"><h3>GridStratLLM without the ARP signature (WP6)</h3><div id="r-grid"></div></div>
+  </div>
+</section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const api = (p, body) => fetch(p, body ? {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)} : {}).then(r => {
+  if (!r.ok) throw new Error(p + " " + r.status); return r.json(); });
+const pct = (x, d=1) => (100 * x).toFixed(d) + " %";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let META;
+const state = {d:{model:"frozen", rule:"fpr1"}, a:{model:"frozen", rule:"fpr1"}};
+const MODEL_LABEL = {frozen:"Frozen v2", hardened:"Hardened (WP5)"};
+const RULE_LABEL = {argmax:"argmax", fpr5:"5 % FPR", fpr1:"1 % FPR"};
+
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("#tabs button").forEach(x => x.classList.toggle("on", x === b));
+  document.querySelectorAll("section").forEach(s => s.classList.toggle("on", s.id === b.dataset.t));
+});
+
+function seg(el, opts, key, obj, cb) {
+  el.innerHTML = Object.entries(opts).map(([k, v]) => `<button data-k="${k}" class="${obj[key] === k ? "on" : ""}">${v}</button>`).join("");
+  el.querySelectorAll("button").forEach(b => b.onclick = () => {
+    obj[key] = b.dataset.k; el.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); cb(); });
+}
+function fillClasses(sel, classes) { sel.innerHTML = classes.map(c => `<option>${c}</option>`).join(""); }
+function fillWindows(sel, cls) {
+  sel.innerHTML = META.windows.filter(w => w.family === cls)
+    .map((w, i) => `<option value="${w.id}">#${i + 1} · ${esc(w.attack)} (row ${w.id})</option>`).join("");
+}
+
+// ---------- DETECT ----------
+async function detect() {
+  const id = +$("#d-win").value; if (!id && id !== 0) return;
+  const r = await api("/api/detect", {id, model:state.d.model, rule:state.d.rule});
+  const res = r.result, truth = r.window.family;
+  $("#d-badge").textContent = res.is_attack ? "ATTACK" : "BENIGN";
+  $("#d-badge").className = "badge " + (res.is_attack ? "attack" : "benign");
+  const right = res.label === truth;
+  $("#d-line").innerHTML = `Predicted <b>${res.label}</b> · true class <b>${truth}</b> ${right ? "✓" : "✗"}`;
+  $("#d-sub").textContent = `attack score ${res.attack_score.toFixed(4)}` +
+    (res.threshold === null ? " · argmax rule (no threshold)" : ` · threshold ${res.threshold.toFixed(4)} (${RULE_LABEL[state.d.rule]})`);
+  $("#d-pt").style.left = `calc(${(100 * res.attack_score).toFixed(2)}% - 2px)`;
+  const th = $("#d-th");
+  if (res.threshold === null) th.classList.add("hidden");
+  else { th.classList.remove("hidden"); th.style.left = (100 * res.threshold).toFixed(2) + "%"; th.querySelector("span").textContent = "threshold"; }
+  $("#d-bars").innerHTML = Object.entries(res.proba).map(([c, p]) => `<div class="row"><span>${c}</span>
+    <div class="track"><div class="fill" style="width:${(100 * p).toFixed(1)}%;background:${c === "Benign" ? "var(--benign)" : c === res.label ? "var(--attack)" : "var(--accent)"}"></div></div>
+    <span class="mono" style="text-align:right">${p.toFixed(3)}</span></div>`).join("");
+}
+async function scan() {
+  const b = $("#d-scan"); b.disabled = true;
+  const r = await api("/api/scan", {model:state.d.model, rule:state.d.rule});
+  b.disabled = false;
+  const pc = r.per_class, ben = pc.Benign;
+  let att = {n:0, f:0};
+  const rows = META.classes.map(c => { const o = pc[c]; if (c !== "Benign") { att.n += o.n; att.f += o.flagged; }
+    return `<tr><td>${c}</td><td class="num">${o.n}</td><td class="num">${o.flagged}</td><td class="num">${o.correct_class}</td></tr>`; }).join("");
+  $("#d-scanout").classList.remove("hidden");
+  $("#d-scanout").innerHTML = `<h3>Scan: ${MODEL_LABEL[state.d.model]}, ${RULE_LABEL[state.d.rule]}</h3>
+    <table><thead><tr><th>True class</th><th class="num">windows</th><th class="num">flagged as attack</th><th class="num">exact class right</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="callout">${ben.flagged} of ${ben.n} benign windows raised a false alarm; ${att.f} of ${att.n} attack windows were detected.
+    Switch the rule between <b>argmax</b> and <b>1 % FPR</b> to see the trade-off the report calibrates.</div>`;
+}
+
+// ---------- ATTACK ----------
+function scoreChart(svg, trace, thr) {
+  const W = 720, H = 200, L = 46, R = 10, T = 10, B = 26;
+  const n = Math.max(trace.length, 1), ys = trace.map(t => t.attack_score);
+  const lo = Math.max(0, Math.min(...ys, thr ?? 1) - 0.02), hi = 1;
+  const x = i => L + (W - L - R) * (n === 1 ? 0.5 : i / (n - 1)), y = v => T + (H - T - B) * (1 - (v - lo) / (hi - lo || 1));
+  let s = "";
+  for (let k = 0; k <= 4; k++) { const v = lo + (hi - lo) * k / 4;
+    s += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="#e3e1dc"/><text x="${L - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end" fill="#55595f">${v.toFixed(3)}</text>`; }
+  if (thr !== null && thr !== undefined) s += `<line x1="${L}" x2="${W - R}" y1="${y(thr)}" y2="${y(thr)}" stroke="#d2462f" stroke-width="2" stroke-dasharray="6 4"/>`;
+  if (trace.length) {
+    s += `<polyline fill="none" stroke="#2a63d6" stroke-width="2" points="${trace.map((t, i) => `${x(i)},${y(t.attack_score)}`).join(" ")}"/>`;
+    trace.forEach((t, i) => s += `<circle cx="${x(i)}" cy="${y(t.attack_score)}" r="${t.label === "Benign" ? 6 : 2.5}" fill="${t.label === "Benign" ? "#1d9a6c" : "#2a63d6"}"/>`);
+  }
+  s += `<text x="${(L + W - R) / 2}" y="${H - 4}" font-size="11" text-anchor="middle" fill="#55595f">query number</text>`;
+  svg.innerHTML = s;
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function launch() {
+  const id = +$("#a-win").value, b = $("#a-go"); b.disabled = true;
+  $("#a-trace").innerHTML = ""; $("#a-final").innerHTML = ""; scoreChart($("#a-chart"), [], null);
+  try {
+    const r = await api("/api/attack", {id, model:state.a.model, rule:state.a.rule});
+    const thr = r.start.threshold;
+    if (!r.detected) {
+      $("#a-status").innerHTML = `This window is <b>not detected</b> by ${MODEL_LABEL[state.a.model]} (${RULE_LABEL[state.a.rule]}): it already passes as Benign, so there is nothing to evade. Pick another window.`;
+      return;
+    }
+    $("#a-status").innerHTML = `Start: detected as <b>${r.start.label}</b> (score ${r.start.attack_score.toFixed(4)}). Searching ${r.grid_size} allowed perturbations, cheapest first…`;
+    const shown = [];
+    const delay = Math.max(8, Math.min(60, 2400 / r.trace.length));
+    for (const [i, t] of r.trace.entries()) {
+      shown.push(t);
+      const hit = t.label === "Benign";
+      $("#a-trace").insertAdjacentHTML("beforeend", `<tr class="${hit ? "hit" : ""}"><td>${i + 1}</td><td class="num">${t.r}</td><td class="num">${t.padding}</td>
+        <td class="num">${t.ttl === null ? "original" : t.ttl.toFixed(1)}</td><td>${t.label}</td><td class="num mono">${t.attack_score.toFixed(4)}</td></tr>`);
+      $(".trace").scrollTop = 1e6;
+      if (i % 2 === 0 || hit || i === r.trace.length - 1) scoreChart($("#a-chart"), shown, thr);
+      await sleep(delay);
+    }
+    $("#a-status").innerHTML = `Start: detected as <b>${r.start.label}</b> (score ${r.start.attack_score.toFixed(4)}). Search finished after <b>${r.queries}</b> of ${r.grid_size} allowed perturbations.`;
+    if (!r.evaded) {
+      $("#a-final").innerHTML = `<div class="callout good"><b>Attack failed.</b> All ${r.queries} allowed perturbations were tried; the window stays detected. The constraints (protocol, flags, headers fixed) leave no disguise that works for this window.</div>`;
+    } else {
+      const p = r.perturbation, o = r.other_model, viol = Object.values(r.constraint_violations).reduce((a, b) => a + b, 0);
+      const feats = r.changed_features.map(f => `<tr><td>${f.feature}</td><td class="num mono">${f.before === null ? "–" : (+f.before).toPrecision(5)}</td><td class="num mono">${f.after === null ? "–" : (+f.after).toPrecision(5)}</td></tr>`).join("");
+      $("#a-final").innerHTML = `<div class="callout bad"><b>Evaded after ${r.queries} queries:</b> rate × ${p.r}, padding +${p.padding} bytes/packet, TTL ${p.ttl === null ? "unchanged" : "→ " + p.ttl.toFixed(1)}.
+        The ${MODEL_LABEL[state.a.model]} detector now says <b>Benign</b>. Constraint violations: ${viol}.</div>
+        <div class="callout ${o.result.is_attack ? "good" : "bad"}">Same disguised window against the <b>${MODEL_LABEL[o.model]}</b> model: <b>${o.result.is_attack ? "DETECTED as " + o.result.label : "also evades (Benign)"}</b> (score ${o.result.attack_score.toFixed(4)}).</div>
+        <table style="margin-top:10px"><thead><tr><th>Changed feature</th><th class="num">before</th><th class="num">after</th></tr></thead><tbody>${feats}</tbody></table>`;
+    }
+  } finally { b.disabled = false; }
+}
+function familyBars(svg, fr, hd) {
+  const fams = Object.keys(fr), W = 900, H = 260, L = 46, B = 30, T = 10, bw = (W - L - 10) / fams.length;
+  const y = v => T + (H - T - B) * (1 - v);
+  let s = "";
+  for (let k = 0; k <= 4; k++) { const v = k / 4; s += `<line x1="${L}" x2="${W - 10}" y1="${y(v)}" y2="${y(v)}" stroke="#e3e1dc"/><text x="${L - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end" fill="#55595f">${v * 100}%</text>`; }
+  fams.forEach((f, i) => {
+    const rate = o => o.detected ? o.evaded / o.detected : 0, x0 = L + i * bw + bw * 0.15, w = bw * 0.33;
+    [[fr[f], "#d2462f", 0], [hd[f], "#1d9a6c", 1]].forEach(([o, c, j]) => {
+      const v = rate(o); s += `<rect x="${x0 + j * w}" y="${y(v)}" width="${w - 3}" height="${y(0) - y(v)}" fill="${c}" rx="2"/>
+        <text x="${x0 + j * w + (w - 3) / 2}" y="${y(v) - 4}" font-size="10" text-anchor="middle" fill="#15171a">${Math.round(100 * v)}%</text>`; });
+    s += `<text x="${L + i * bw + bw / 2}" y="${H - 10}" font-size="12" text-anchor="middle" fill="#15171a">${f}</text>`;
+  });
+  svg.innerHTML = s;
+}
+async function attackAll() {
+  const b = $("#a-all"); b.disabled = true; b.textContent = "Attacking 280 windows on both models…";
+  try {
+    const [fr, hd] = await Promise.all(["frozen", "hardened"].map(m => api("/api/attack_all", {model:m, rule:state.a.rule})));
+    $("#a-allcard").classList.remove("hidden");
+    familyBars($("#a-allchart"), fr.per_family, hd.per_family);
+    $("#a-allsum").innerHTML = `<div class="callout">Decision rule: <b>${RULE_LABEL[state.a.rule]}</b>. Frozen: ${fr.evaded} of ${fr.detected} detected windows evaded (<b>${pct(fr.evaded / fr.detected)}</b>).
+      Hardened: ${hd.evaded} of ${hd.detected} (<b>${pct(hd.evaded / hd.detected)}</b>). Clean detection is unchanged (${fr.detected} vs ${hd.detected} of ${fr.n} detected before any attack).</div>`;
+    $("#a-allcard").scrollIntoView({behavior:"smooth"});
+  } finally { b.disabled = false; b.textContent = "Attack all 280 windows: frozen vs hardened"; }
+}
+
+// ---------- FEDERATED ----------
+let FED;
+function topo(active) {
+  const cx = 180, cy = 160, sv = $("#f-topo"); let s = "";
+  const nodes = [...Array(10).keys()].map(i => { const a = -Math.PI / 2 + i * 2 * Math.PI / 10;
+    return {x:cx + 130 * Math.cos(a), y:cy + 130 * Math.sin(a), azure:i < 5, i}; });
+  nodes.forEach(n => s += `<line x1="${cx}" y1="${cy}" x2="${n.x}" y2="${n.y}" stroke="${active ? (n.azure ? "#2a78d6" : "#7a52c7") : "#d9d7d1"}" stroke-width="${active ? 2.5 : 1.5}" ${active ? 'stroke-dasharray="5 5"' : ""}>
+    ${active ? '<animate attributeName="stroke-dashoffset" from="20" to="0" dur="0.6s" repeatCount="indefinite"/>' : ""}</line>`);
+  s += `<rect x="${cx - 54}" y="${cy - 26}" width="108" height="52" rx="10" fill="#14171c"/><text x="${cx}" y="${cy - 4}" fill="#fff" font-size="12" text-anchor="middle" font-weight="700">Server (FedAvg)</text>
+    <text x="${cx}" y="${cy + 13}" fill="#a9adb4" font-size="10" text-anchor="middle">Azure VM · ${esc(FED.flower.server_host || "")}</text>`;
+  nodes.forEach(n => s += `<circle cx="${n.x}" cy="${n.y}" r="19" fill="${n.azure ? "#2a78d6" : "#7a52c7"}"/><text x="${n.x}" y="${n.y + 4}" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">C${n.i}</text>`);
+  sv.innerHTML = s;
+}
+function fedChart(k) {
+  const h = FED.flower.history.slice(0, k), W = 720, H = 260, L = 44, R = 10, T = 10, B = 28;
+  const x = r => L + (W - L - R) * (r - 1) / 29, y = v => T + (H - T - B) * (1 - v / 0.8);
+  let s = "";
+  for (let v = 0; v <= 0.8001; v += 0.2) s += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="#e3e1dc"/><text x="${L - 6}" y="${y(v) + 4}" font-size="11" text-anchor="end" fill="#55595f">${v.toFixed(1)}</text>`;
+  [1, 10, 20, 30].forEach(r => s += `<text x="${x(r)}" y="${H - 8}" font-size="11" text-anchor="middle" fill="#55595f">${r}</text>`);
+  if (h.length) {
+    s += `<polyline fill="none" stroke="#2a63d6" stroke-width="2.5" points="${h.map(r => `${x(r.round)},${y(r.test_macro_f1)}`).join(" ")}"/>`;
+    s += `<polyline fill="none" stroke="#d2462f" stroke-width="2" points="${h.map(r => `${x(r.round)},${y(r.test_benign_fpr)}`).join(" ")}"/>`;
+    const last = h[h.length - 1]; s += `<circle cx="${x(last.round)}" cy="${y(last.test_macro_f1)}" r="4" fill="#2a63d6"/>`;
+  }
+  $("#f-chart").innerHTML = s;
+  const last = h[h.length - 1];
+  $("#f-round").innerHTML = `Round ${k} / 30` + (last ? `<small>test macro-F1 ${last.test_macro_f1.toFixed(3)} · benign FPR ${pct(last.test_benign_fpr)} · ${last.elapsed_s.toFixed(0)} s elapsed</small>` : "<small>press Replay</small>");
+}
+async function play() {
+  const b = $("#f-play"); b.disabled = true; topo(true);
+  for (let k = 1; k <= 30; k++) { fedChart(k); await sleep(220); }
+  topo(false); b.disabled = false;
+}
+
+// ---------- RESULTS ----------
+function results(r) {
+  const det = r.detection.map(d => `<tr><td>${d.task === "category" ? "8-class" : d.task === "class34" ? "34-class" : "binary"}</td><td>${d.detector === "v2_mlp" ? "v2 MLP" : "HGB"}</td>
+    <td>${d.rule === "fpr1" ? "1 % FPR" : "argmax"}</td><td class="num">${pct(d.detection)}</td><td class="num">${pct(d.benign_fpr)}</td></tr>`).join("");
+  $("#r-det").innerHTML = `<table><thead><tr><th>Task</th><th>Model</th><th>Rule</th><th class="num">attacks detected</th><th class="num">benign flagged</th></tr></thead><tbody>${det}</tbody></table>
+    <div class="callout">${(() => { const m = r.detection.filter(d => d.detector === "v2_mlp"), a = m.filter(d => d.rule === "argmax"), c = m.filter(d => d.rule === "fpr1");
+      const rng = (xs, f) => `${(100 * Math.min(...xs.map(f))).toFixed(0)}–${pct(Math.max(...xs.map(f)), 0)}`;
+      return `v2 MLP: at argmax ${rng(a, d => d.benign_fpr)} of benign traffic is flagged; the calibrated 1 % rule keeps ${rng(c, d => d.detection)} detection.`; })()}</div>`;
+  const g = {};
+  r.advtrain.forEach(a => { (g[a.task + "|" + a.model] ??= {})[a.round] = a; });
+  $("#r-adv").innerHTML = `<table><thead><tr><th>Task</th><th>Model</th><th class="num">round 0</th><th class="num">round 2</th></tr></thead><tbody>${
+    Object.entries(g).map(([k, v]) => { const [t, m] = k.split("|"); return `<tr><td>${t === "category" ? "8-class" : t === "class34" ? "34-class" : "binary"}</td><td>${m === "mlp" ? "v2 MLP" : "HGB"}</td>
+      <td class="num">${pct(v[0].evasion)}</td><td class="num"><b>${pct(v[2].evasion)}</b></td></tr>`; }).join("")}</tbody></table>
+    <div class="callout good">${(() => { const f = Object.values(g).map(v => v[0].evasion / v[2].evasion);
+      return `Two rounds of adversarial training cut evasion ${Math.min(...f).toFixed(1)}–${Math.max(...f).toFixed(1)}× (evasion among detected windows, r ≥ 0.1).`; })()}</div>`;
+  const sets = {timing_volume_noid:"timing/volume, no ARP", process:"process data only"};
+  $("#r-grid").innerHTML = `<table><thead><tr><th>Held-out LLM</th><th>Features</th><th class="num">AUC</th><th class="num">sessions</th></tr></thead><tbody>${
+    r.gridstrat_no_arp.filter(x => sets[x.features]).map(x => `<tr><td>${esc(x.llm)}</td><td>${sets[x.features]}</td><td class="num">${x.auc.toFixed(3)}</td><td class="num">${pct(x.session_detection, 0)}</td></tr>`).join("")}</tbody></table>
+    <div class="callout">Without ARP features, S7 timing/volume (the MITM relay) still detects the attacks; SCADA process data alone does not.</div>`;
+}
+
+// ---------- INIT ----------
+(async () => {
+  META = await api("/api/meta");
+  const models = {frozen:MODEL_LABEL.frozen, hardened:MODEL_LABEL.hardened};
+  fillClasses($("#d-class"), META.classes); fillWindows($("#d-win"), "Benign");
+  $("#d-class").onchange = () => { fillWindows($("#d-win"), $("#d-class").value); detect(); };
+  $("#d-win").onchange = detect;
+  seg($("#d-model"), models, "model", state.d, detect);
+  seg($("#d-rule"), RULE_LABEL, "rule", state.d, detect);
+  $("#d-scan").onclick = scan;
+  detect();
+
+  const attacks = META.classes.filter(c => c !== "Benign");
+  fillClasses($("#a-class"), attacks); $("#a-class").value = "Spoofing"; fillWindows($("#a-win"), "Spoofing");
+  $("#a-class").onchange = () => fillWindows($("#a-win"), $("#a-class").value);
+  seg($("#a-model"), models, "model", state.a, () => {});
+  seg($("#a-rule"), RULE_LABEL, "rule", state.a, () => {});
+  $("#a-go").onclick = launch; $("#a-all").onclick = attackAll;
+  scoreChart($("#a-chart"), [], null);
+
+  const RES = await api("/api/results");
+  const CENT = RES.detection.find(d => d.task === "category" && d.detector === "v2_mlp" && d.rule === "fpr1").detection;
+  FED = await api("/api/federated");
+  const f = FED.flower, sn = f.supernodes || {};
+  $("#f-stats").innerHTML = [
+    [`${(sn.azure || 0) + (sn.laptop || 0)}`, `clients (${sn.azure} Azure · ${sn.laptop} laptop)`],
+    [`${f.history.length}`, "communication rounds"],
+    [`${f.communication_MB.toFixed(1)} MB`, `weights exchanged (${f.n_parameters.toLocaleString()} parameters)`],
+    [`${f.test_macro_f1.toFixed(3)}`, `final test macro-F1 · ${(f.wall_clock_seconds / 60).toFixed(1)} min`],
+  ].map(([v, l]) => `<div class="card"><div class="stat">${v}<small>${l}</small></div></div>`).join("");
+  const w = FED.wp4_detection_at_1pct;
+  $("#f-wp4").innerHTML = `<div class="callout">Simulated v2 federation (WP4, 3 seeds), attack detection at 1 % benign FPR: IID ${pct(w.iid)},
+    mild label skew (Dirichlet 1.0) ${pct(w["dir1.0"])}, strong skew (Dirichlet 0.1) ${pct(w["dir0.1"])}. Centralized v2: ${pct(CENT)}.</div>`;
+  topo(false); fedChart(0);
+  $("#f-play").onclick = play;
+
+  results(RES);
+})().catch(e => { document.querySelector("main").insertAdjacentHTML("afterbegin", `<div class="callout bad">Could not reach the demo server: ${esc(e.message)}</div>`); });
+</script>
+</body>
+</html>

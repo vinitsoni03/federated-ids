@@ -1,0 +1,301 @@
+{
+ "task": "category",
+ "features": [
+  "Header_Length",
+  "Protocol Type",
+  "Time_To_Live",
+  "Rate",
+  "fin_flag_number",
+  "syn_flag_number",
+  "rst_flag_number",
+  "psh_flag_number",
+  "ack_flag_number",
+  "ece_flag_number",
+  "cwr_flag_number",
+  "HTTP",
+  "HTTPS",
+  "DNS",
+  "Telnet",
+  "SMTP",
+  "SSH",
+  "IRC",
+  "TCP",
+  "UDP",
+  "DHCP",
+  "ARP",
+  "ICMP",
+  "IGMP",
+  "IPv",
+  "LLC",
+  "Min",
+  "Max",
+  "AVG",
+  "Std",
+  "Tot size",
+  "IAT",
+  "Variance"
+ ],
+ "class_names": [
+  "Benign",
+  "BruteForce",
+  "DDoS",
+  "DoS",
+  "Mirai",
+  "Recon",
+  "Spoofing",
+  "Web"
+ ],
+ "benign": 0,
+ "hidden": [
+  256,
+  128
+ ],
+ "dropout": 0.1,
+ "models": {
+  "frozen": {
+   "file": "frozen.pt",
+   "thresholds": {
+    "fpr5": 0.9140816628932953,
+    "fpr1": 0.9722424484789371
+   },
+   "source": "artifacts/runs/centralized_v2/category/mlp_seed0.pt (WP3 frozen v2)"
+  },
+  "hardened": {
+   "file": "hardened.pt",
+   "thresholds": {
+    "fpr5": 0.9029207155108452,
+    "fpr1": 0.9707097392529249
+   },
+   "source": "artifacts/runs/wp5_advtrain/category/mlp_s0_r2.pt (WP5 round 2)"
+  }
+ },
+ "ttl_choices": [
+  null,
+  63.4,
+  96.5,
+  197.6
+ ],
+ "flower": {
+  "history": [
+   {
+    "round": 1.0,
+    "val_macro_f1": 0.5502555469045987,
+    "test_macro_f1": 0.5718780362330398,
+    "test_benign_fpr": 0.5559,
+    "elapsed_s": 23.1
+   },
+   {
+    "round": 2.0,
+    "val_macro_f1": 0.5852808981517789,
+    "test_macro_f1": 0.596263065784407,
+    "test_benign_fpr": 0.4361,
+    "elapsed_s": 40.7
+   },
+   {
+    "round": 3.0,
+    "val_macro_f1": 0.5990500318524138,
+    "test_macro_f1": 0.6089934411848709,
+    "test_benign_fpr": 0.4096,
+    "elapsed_s": 60.0
+   },
+   {
+    "round": 4.0,
+    "val_macro_f1": 0.6103102627903121,
+    "test_macro_f1": 0.6172740945043913,
+    "test_benign_fpr": 0.4151,
+    "elapsed_s": 81.4
+   },
+   {
+    "round": 5.0,
+    "val_macro_f1": 0.6200732776558356,
+    "test_macro_f1": 0.6274187247704823,
+    "test_benign_fpr": 0.4189,
+    "elapsed_s": 99.7
+   },
+   {
+    "round": 6.0,
+    "val_macro_f1": 0.6273705431992366,
+    "test_macro_f1": 0.631953691629693,
+    "test_benign_fpr": 0.3985,
+    "elapsed_s": 117.1
+   },
+   {
+    "round": 7.0,
+    "val_macro_f1": 0.6297494218227044,
+    "test_macro_f1": 0.6368755032439916,
+    "test_benign_fpr": 0.3909,
+    "elapsed_s": 134.6
+   },
+   {
+    "round": 8.0,
+    "val_macro_f1": 0.6322869345950151,
+    "test_macro_f1": 0.6390139964380925,
+    "test_benign_fpr": 0.3922,
+    "elapsed_s": 152.1
+   },
+   {
+    "round": 9.0,
+    "val_macro_f1": 0.632809605502698,
+    "test_macro_f1": 0.6434297670255038,
+    "test_benign_fpr": 0.3874,
+    "elapsed_s": 169.2
+   },
+   {
+    "round": 10.0,
+    "val_macro_f1": 0.6359896233172717,
+    "test_macro_f1": 0.6442425478993763,
+    "test_benign_fpr": 0.3684,
+    "elapsed_s": 188.5
+   },
+   {
+    "round": 11.0,
+    "val_macro_f1": 0.6394832973957347,
+    "test_macro_f1": 0.6466476530833973,
+    "test_benign_fpr": 0.328,
+    "elapsed_s": 207.8
+   },
+   {
+    "round": 12.0,
+    "val_macro_f1": 0.6420538174543784,
+    "test_macro_f1": 0.6486710843414012,
+    "test_benign_fpr": 0.3161,
+    "elapsed_s": 228.3
+   },
+   {
+    "round": 13.0,
+    "val_macro_f1": 0.6419298029149376,
+    "test_macro_f1": 0.6482994853565094,
+    "test_benign_fpr": 0.3339,
+    "elapsed_s": 245.7
+   },
+   {
+    "round": 14.0,
+    "val_macro_f1": 0.6445367224242274,
+    "test_macro_f1": 0.6496622013821,
+    "test_benign_fpr": 0.3136,
+    "elapsed_s": 263.1
+   },
+   {
+    "round": 15.0,
+    "val_macro_f1": 0.6470413693196316,
+    "test_macro_f1": 0.6556697253858155,
+    "test_benign_fpr": 0.3116,
+    "elapsed_s": 280.5
+   },
+   {
+    "round": 16.0,
+    "val_macro_f1": 0.6478007086146718,
+    "test_macro_f1": 0.6559957868136141,
+    "test_benign_fpr": 0.3221,
+    "elapsed_s": 298.0
+   },
+   {
+    "round": 17.0,
+    "val_macro_f1": 0.650950006323032,
+    "test_macro_f1": 0.6591095788576398,
+    "test_benign_fpr": 0.326,
+    "elapsed_s": 315.4
+   },
+   {
+    "round": 18.0,
+    "val_macro_f1": 0.6526754601538309,
+    "test_macro_f1": 0.6593972789487643,
+    "test_benign_fpr": 0.3146,
+    "elapsed_s": 333.6
+   },
+   {
+    "round": 19.0,
+    "val_macro_f1": 0.6545653582795987,
+    "test_macro_f1": 0.6606039913871391,
+    "test_benign_fpr": 0.3056,
+    "elapsed_s": 353.8
+   },
+   {
+    "round": 20.0,
+    "val_macro_f1": 0.6560770503842497,
+    "test_macro_f1": 0.6623248886748203,
+    "test_benign_fpr": 0.2967,
+    "elapsed_s": 371.3
+   },
+   {
+    "round": 21.0,
+    "val_macro_f1": 0.6564700576076221,
+    "test_macro_f1": 0.6635866500783439,
+    "test_benign_fpr": 0.2889,
+    "elapsed_s": 389.4
+   },
+   {
+    "round": 22.0,
+    "val_macro_f1": 0.6576856014624981,
+    "test_macro_f1": 0.664486315215478,
+    "test_benign_fpr": 0.3082,
+    "elapsed_s": 406.8
+   },
+   {
+    "round": 23.0,
+    "val_macro_f1": 0.6583583189571061,
+    "test_macro_f1": 0.6647892396177489,
+    "test_benign_fpr": 0.2954,
+    "elapsed_s": 424.1
+   },
+   {
+    "round": 24.0,
+    "val_macro_f1": 0.6610815737893903,
+    "test_macro_f1": 0.6684919893784538,
+    "test_benign_fpr": 0.2927,
+    "elapsed_s": 441.5
+   },
+   {
+    "round": 25.0,
+    "val_macro_f1": 0.6604234019068247,
+    "test_macro_f1": 0.6660130732064005,
+    "test_benign_fpr": 0.3026,
+    "elapsed_s": 457.8
+   },
+   {
+    "round": 26.0,
+    "val_macro_f1": 0.6608267080152461,
+    "test_macro_f1": 0.6681550923406502,
+    "test_benign_fpr": 0.2852,
+    "elapsed_s": 475.3
+   },
+   {
+    "round": 27.0,
+    "val_macro_f1": 0.6614889024986078,
+    "test_macro_f1": 0.6673330883278255,
+    "test_benign_fpr": 0.2841,
+    "elapsed_s": 492.7
+   },
+   {
+    "round": 28.0,
+    "val_macro_f1": 0.6610897023000097,
+    "test_macro_f1": 0.6672868466505985,
+    "test_benign_fpr": 0.2833,
+    "elapsed_s": 510.1
+   },
+   {
+    "round": 29.0,
+    "val_macro_f1": 0.6621981601699071,
+    "test_macro_f1": 0.6671045825410502,
+    "test_benign_fpr": 0.2764,
+    "elapsed_s": 527.4
+   },
+   {
+    "round": 30.0,
+    "val_macro_f1": 0.6629909724268949,
+    "test_macro_f1": 0.669187312570472,
+    "test_benign_fpr": 0.2861,
+    "elapsed_s": 544.8
+   }
+  ],
+  "wall_clock_seconds": 544.8,
+  "communication_MB": 30.05,
+  "n_parameters": 13128,
+  "supernodes": {
+   "azure": 5,
+   "laptop": 5
+  },
+  "server_host": "fids-server",
+  "test_macro_f1": 0.669187312570472
+ }
+}

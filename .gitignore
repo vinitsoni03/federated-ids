@@ -51,3 +51,6 @@ data/**
 # Private working notes (contain IPs, account details, unrelated notes) - kept local only
 WORK_LOG.md
 PHASE2_PLAN.md
+
+# Demo bundle (small models + sample windows) is committed so the demo runs from a clone
+!demo/bundle/*.pt
