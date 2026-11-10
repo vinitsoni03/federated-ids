@@ -1,0 +1,73 @@
+{
+  "task": "class34",
+  "features": [
+    "Header_Length",
+    "Protocol Type",
+    "Time_To_Live",
+    "Rate",
+    "fin_flag_number",
+    "syn_flag_number",
+    "rst_flag_number",
+    "psh_flag_number",
+    "ack_flag_number",
+    "ece_flag_number",
+    "cwr_flag_number",
+    "HTTP",
+    "HTTPS",
+    "DNS",
+    "Telnet",
+    "SMTP",
+    "SSH",
+    "IRC",
+    "TCP",
+    "UDP",
+    "DHCP",
+    "ARP",
+    "ICMP",
+    "IGMP",
+    "IPv",
+    "LLC",
+    "Min",
+    "Max",
+    "AVG",
+    "Std",
+    "Tot size",
+    "IAT",
+    "Variance"
+  ],
+  "mlp": {
+    "config_id": "h256-128_lr0.001_sqrt_inverse_do0.1",
+    "hidden": [
+      256,
+      128
+    ],
+    "dropout": 0.1,
+    "lr": 0.001,
+    "class_weighting": "sqrt_inverse"
+  },
+  "mlp_source": [
+    "artifacts\\runs\\wp3_hparam_search\\class34\\h256-128_lr0.001_sqrt_inverse_do0.1_s0\\mlp.pt",
+    "artifacts\\runs\\wp3_hparam_search\\class34\\h256-128_lr0.001_sqrt_inverse_do0.1_s1\\mlp.pt",
+    "artifacts\\runs\\wp3_hparam_search\\class34\\h256-128_lr0.001_sqrt_inverse_do0.1_s2\\mlp.pt"
+  ],
+  "mlp_val_macro_f1_mean": 0.5872517541980322,
+  "hgb_source": "artifacts/runs/wp3_detectors/class34/hgb_s0.joblib",
+  "targets": [
+    0.05,
+    0.01
+  ],
+  "environment": {
+    "python": "3.14.6",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "logical_cpus": 12,
+    "ram_gb": 15.3,
+    "torch": "2.14.1+cu130",
+    "torch_threads": 6,
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "cuda_runtime": "13.0",
+    "numpy": "2.5.3",
+    "sklearn": "1.9.1"
+  }
+}

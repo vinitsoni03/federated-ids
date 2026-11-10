@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name poison_class34_dir1.0_targeted_trimmed_mean_s0 --device cuda --partition dirichlet --alpha 1.0 --attack label_flip_boost --malicious-fraction 0.2 --targets DDoS --aggregator trimmed_mean --seed 0 --task class34
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 2: val macroF1 0.4248 test macroF1 0.4186 FPR 0.6520 (6.4s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 4: val macroF1 0.4527 test macroF1 0.4395 FPR 0.4230 (12.7s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 6: val macroF1 0.4708 test macroF1 0.4560 FPR 0.4148 (18.9s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 8: val macroF1 0.5079 test macroF1 0.4910 FPR 0.4051 (25.1s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 10: val macroF1 0.5036 test macroF1 0.4857 FPR 0.3971 (31.3s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 12: val macroF1 0.5125 test macroF1 0.4973 FPR 0.4028 (37.5s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 14: val macroF1 0.5142 test macroF1 0.4969 FPR 0.3860 (43.6s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 16: val macroF1 0.5171 test macroF1 0.5014 FPR 0.3759 (49.8s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 18: val macroF1 0.5150 test macroF1 0.5008 FPR 0.3802 (56.1s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 20: val macroF1 0.5249 test macroF1 0.5085 FPR 0.3795 (62.3s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 22: val macroF1 0.5205 test macroF1 0.5055 FPR 0.3854 (68.5s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 24: val macroF1 0.5206 test macroF1 0.5082 FPR 0.3697 (74.7s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 26: val macroF1 0.5372 test macroF1 0.5231 FPR 0.3680 (80.8s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 28: val macroF1 0.5259 test macroF1 0.5133 FPR 0.3495 (86.9s)
+  [poison_class34_dir1.0_targeted_trimmed_mean_s0] round 30: val macroF1 0.5223 test macroF1 0.5132 FPR 0.3594 (93.2s)
+{'n': 253328, 'accuracy': 0.6495176214236089, 'balanced_accuracy': 0.5376905558226739, 'macro_f1': 0.5131728078207951, 'weighted_f1': 0.6208739817567347, 'benign_fpr': 0.3594, 'attack_detection_rate': 0.9671759928984744, 'binary_f1': 0.9759861320482807, 'macro_roc_auc_ovr': 0.9669828738641608, 'macro_pr_auc_ovr': 0.5536607681286602} {'DDoS': {'rows': 107571, 'predicted_benign_rate': 0.0014130202377964321, 'recall': 0.7154809381710684}} 93.2

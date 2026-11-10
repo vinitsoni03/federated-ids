@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name poison_category_iid_signflip_f0.3_trimmed_mean_s0 --device cuda --partition iid --attack sign_flip --malicious-fraction 0.3 --scale 5 --aggregator trimmed_mean --seed 0 --task category
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 2: val macroF1 0.1237 test macroF1 0.1131 FPR 0.9989 (6.4s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 4: val macroF1 0.1637 test macroF1 0.1581 FPR 0.9124 (12.6s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 6: val macroF1 0.2846 test macroF1 0.2977 FPR 0.8749 (18.8s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 8: val macroF1 0.3422 test macroF1 0.3612 FPR 0.6257 (24.9s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 10: val macroF1 0.3828 test macroF1 0.4122 FPR 0.8108 (31.1s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 12: val macroF1 0.3738 test macroF1 0.4168 FPR 0.9169 (37.2s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 14: val macroF1 0.3898 test macroF1 0.4353 FPR 0.9148 (43.4s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 16: val macroF1 0.3830 test macroF1 0.4222 FPR 0.9635 (49.5s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 18: val macroF1 0.3821 test macroF1 0.4229 FPR 0.9624 (55.7s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 20: val macroF1 0.3888 test macroF1 0.4221 FPR 0.9721 (61.8s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 22: val macroF1 0.4004 test macroF1 0.4280 FPR 0.9440 (68.0s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 24: val macroF1 0.4298 test macroF1 0.4589 FPR 0.7901 (74.1s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 26: val macroF1 0.4275 test macroF1 0.4534 FPR 0.7731 (80.2s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 28: val macroF1 0.4458 test macroF1 0.4783 FPR 0.7607 (86.3s)
+  [poison_category_iid_signflip_f0.3_trimmed_mean_s0] round 30: val macroF1 0.4408 test macroF1 0.4766 FPR 0.7749 (92.5s)
+{'n': 253328, 'accuracy': 0.6624968420387798, 'balanced_accuracy': 0.475925640633091, 'macro_f1': 0.47661600362438894, 'weighted_f1': 0.67619574854614, 'benign_fpr': 0.7749, 'attack_detection_rate': 0.983890057864282, 'binary_f1': 0.9762092622608235, 'macro_roc_auc_ovr': 0.9105826899716631, 'macro_pr_auc_ovr': 0.5358519469102874} {} 92.5

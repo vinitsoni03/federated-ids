@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_binary_dir1.0_fedprox_s1 --device cuda --partition dirichlet --alpha 1.0 --algorithm fedprox --mu 0.01 --seed 1 --task binary
+  [fl_binary_dir1.0_fedprox_s1] round 2: val macroF1 0.7177 test macroF1 0.7051 FPR 0.5979 (7.8s)
+  [fl_binary_dir1.0_fedprox_s1] round 4: val macroF1 0.7418 test macroF1 0.7262 FPR 0.3645 (15.3s)
+  [fl_binary_dir1.0_fedprox_s1] round 6: val macroF1 0.7456 test macroF1 0.7343 FPR 0.3641 (22.7s)
+  [fl_binary_dir1.0_fedprox_s1] round 8: val macroF1 0.7544 test macroF1 0.7422 FPR 0.3663 (30.2s)
+  [fl_binary_dir1.0_fedprox_s1] round 10: val macroF1 0.7414 test macroF1 0.7414 FPR 0.3114 (37.7s)
+  [fl_binary_dir1.0_fedprox_s1] round 12: val macroF1 0.7590 test macroF1 0.7509 FPR 0.3843 (45.2s)
+  [fl_binary_dir1.0_fedprox_s1] round 14: val macroF1 0.7577 test macroF1 0.7491 FPR 0.3723 (52.6s)
+  [fl_binary_dir1.0_fedprox_s1] round 16: val macroF1 0.7592 test macroF1 0.7525 FPR 0.4124 (60.1s)
+  [fl_binary_dir1.0_fedprox_s1] round 18: val macroF1 0.7594 test macroF1 0.7530 FPR 0.3340 (67.6s)
+  [fl_binary_dir1.0_fedprox_s1] round 20: val macroF1 0.7621 test macroF1 0.7552 FPR 0.3195 (75.0s)
+  [fl_binary_dir1.0_fedprox_s1] round 22: val macroF1 0.7635 test macroF1 0.7611 FPR 0.3104 (82.4s)
+  [fl_binary_dir1.0_fedprox_s1] round 24: val macroF1 0.7650 test macroF1 0.7558 FPR 0.3419 (90.0s)
+  [fl_binary_dir1.0_fedprox_s1] round 26: val macroF1 0.7657 test macroF1 0.7583 FPR 0.3670 (97.4s)
+  [fl_binary_dir1.0_fedprox_s1] round 28: val macroF1 0.7619 test macroF1 0.7574 FPR 0.2840 (104.9s)
+  [fl_binary_dir1.0_fedprox_s1] round 30: val macroF1 0.7632 test macroF1 0.7581 FPR 0.3133 (112.3s)
+{'n': 253328, 'accuracy': 0.9538898187330259, 'balanced_accuracy': 0.8257852314571278, 'macro_f1': 0.7580584360087061, 'weighted_f1': 0.9585425894720895, 'benign_fpr': 0.3133, 'attack_detection_rate': 0.9648704629142556, 'binary_f1': 0.975727338277495, 'macro_roc_auc_ovr': 0.9663368449171489, 'macro_pr_auc_ovr': 0.7629689422225189} {} 112.3

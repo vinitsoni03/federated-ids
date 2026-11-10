@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_binary_iid_fedprox_s2 --device cuda --partition iid --algorithm fedprox --mu 0.01 --seed 2 --task binary
+  [fl_binary_iid_fedprox_s2] round 2: val macroF1 0.7118 test macroF1 0.6940 FPR 0.3031 (8.0s)
+  [fl_binary_iid_fedprox_s2] round 4: val macroF1 0.7184 test macroF1 0.7103 FPR 0.2310 (15.6s)
+  [fl_binary_iid_fedprox_s2] round 6: val macroF1 0.7240 test macroF1 0.7209 FPR 0.2373 (23.3s)
+  [fl_binary_iid_fedprox_s2] round 8: val macroF1 0.7305 test macroF1 0.7269 FPR 0.2208 (30.9s)
+  [fl_binary_iid_fedprox_s2] round 10: val macroF1 0.7392 test macroF1 0.7344 FPR 0.2316 (38.4s)
+  [fl_binary_iid_fedprox_s2] round 12: val macroF1 0.7342 test macroF1 0.7307 FPR 0.2026 (46.2s)
+  [fl_binary_iid_fedprox_s2] round 14: val macroF1 0.7380 test macroF1 0.7336 FPR 0.1993 (53.8s)
+  [fl_binary_iid_fedprox_s2] round 16: val macroF1 0.7410 test macroF1 0.7344 FPR 0.2011 (61.5s)
+  [fl_binary_iid_fedprox_s2] round 18: val macroF1 0.7354 test macroF1 0.7296 FPR 0.1749 (69.1s)
+  [fl_binary_iid_fedprox_s2] round 20: val macroF1 0.7432 test macroF1 0.7375 FPR 0.1923 (76.8s)
+  [fl_binary_iid_fedprox_s2] round 22: val macroF1 0.7433 test macroF1 0.7357 FPR 0.1858 (84.3s)
+  [fl_binary_iid_fedprox_s2] round 24: val macroF1 0.7439 test macroF1 0.7354 FPR 0.1826 (91.9s)
+  [fl_binary_iid_fedprox_s2] round 26: val macroF1 0.7482 test macroF1 0.7398 FPR 0.1803 (99.5s)
+  [fl_binary_iid_fedprox_s2] round 28: val macroF1 0.7480 test macroF1 0.7404 FPR 0.1821 (107.1s)
+  [fl_binary_iid_fedprox_s2] round 30: val macroF1 0.7482 test macroF1 0.7395 FPR 0.1807 (114.8s)
+{'n': 253328, 'accuracy': 0.9383171224657362, 'balanced_accuracy': 0.8812541721462388, 'macro_f1': 0.739474516314605, 'weighted_f1': 0.949109371490151, 'benign_fpr': 0.1807, 'attack_detection_rate': 0.9432083442924777, 'binary_f1': 0.9670784840849141, 'macro_roc_auc_ovr': 0.96853516559952, 'macro_pr_auc_ovr': 0.7707980879323211} {} 114.8

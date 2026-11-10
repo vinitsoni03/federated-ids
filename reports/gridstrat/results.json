@@ -1,0 +1,892 @@
+{
+  "window_s": 10,
+  "guard_s": 20,
+  "normal_test_hours": 0.703,
+  "folds": {
+    "volume": {
+      "anthropic/claude-sonnet-4.6": {
+        "train_windows": 5719,
+        "train_positive": 1836,
+        "n_test": 1713,
+        "positives": 1105,
+        "roc_auc": 0.9957579185520362,
+        "pr_auc": 0.9976673217321461,
+        "precision": 0.9886039886039886,
+        "recall": 0.9420814479638009,
+        "f1": 0.9647822057460612,
+        "session": {
+          "sessions": 115,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Manipulation of Control Commands": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Battery Storage Mismanagement": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "s7_iat_mean": 0.1886,
+          "n_s7": 0.145,
+          "s7_iat_std": 0.1372,
+          "bytes": 0.1233,
+          "n_packets": 0.1034
+        }
+      },
+      "google/gemini-3.1-pro-preview": {
+        "train_windows": 5181,
+        "train_positive": 2719,
+        "n_test": 2251,
+        "positives": 222,
+        "roc_auc": 0.9996270296911006,
+        "pr_auc": 0.9973565404003775,
+        "precision": 1.0,
+        "recall": 0.9369369369369369,
+        "f1": 0.9674418604651163,
+        "session": {
+          "sessions": 54,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "s7_iat_mean": 0.1624,
+          "bytes": 0.1606,
+          "s7_iat_std": 0.1282,
+          "n_packets": 0.106,
+          "size_mean": 0.1032
+        }
+      },
+      "minimax/minimax-m2.5": {
+        "train_windows": 5027,
+        "train_positive": 2249,
+        "n_test": 2405,
+        "positives": 692,
+        "roc_auc": 0.9760113919736527,
+        "pr_auc": 0.9581439815134248,
+        "precision": 0.5040234089246525,
+        "recall": 0.9956647398843931,
+        "f1": 0.6692569208353569,
+        "session": {
+          "sessions": 118,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "True": 1.0,
+            "False": 1.0
+          },
+          "by_target_state": {
+            "Manipulation of Control Commands": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Manipulation of Monitoring Data": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification": 1.0,
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42,
+        "importance_top5": {
+          "s7_iat_mean": 0.1626,
+          "bytes": 0.1496,
+          "n_s7": 0.1456,
+          "n_packets": 0.1438,
+          "s7_iat_std": 0.1068
+        }
+      },
+      "openai/gpt-5.3-codex": {
+        "train_windows": 5989,
+        "train_positive": 2019,
+        "n_test": 1443,
+        "positives": 922,
+        "roc_auc": 0.9034519799651097,
+        "pr_auc": 0.9196366772542691,
+        "precision": 0.8780231335436383,
+        "recall": 0.9056399132321041,
+        "f1": 0.8916177255739456,
+        "session": {
+          "sessions": 149,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Manipulation of Monitoring Data": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification": 1.0,
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "s7_iat_mean": 0.1824,
+          "n_s7": 0.1518,
+          "bytes": 0.1263,
+          "s7_iat_std": 0.1198,
+          "n_packets": 0.1001
+        }
+      }
+    },
+    "binding": {
+      "anthropic/claude-sonnet-4.6": {
+        "train_windows": 5719,
+        "train_positive": 1836,
+        "n_test": 1713,
+        "positives": 1105,
+        "roc_auc": 0.9947137711359848,
+        "pr_auc": 0.9957547461749511,
+        "precision": 0.9933649289099526,
+        "recall": 0.9484162895927601,
+        "f1": 0.9703703703703703,
+        "session": {
+          "sessions": 115,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Manipulation of Monitoring Data": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0,
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "n_ip_multi_mac": 0.7928,
+          "n_arp": 0.2072
+        }
+      },
+      "google/gemini-3.1-pro-preview": {
+        "train_windows": 5181,
+        "train_positive": 2719,
+        "n_test": 2251,
+        "positives": 222,
+        "roc_auc": 0.9914727443066527,
+        "pr_auc": 0.9881224211973527,
+        "precision": 1.0,
+        "recall": 0.972972972972973,
+        "f1": 0.9863013698630136,
+        "session": {
+          "sessions": 54,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "True": 1.0,
+            "False": 1.0
+          },
+          "by_target_state": {
+            "Battery Storage Mismanagement": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Manipulation of Monitoring Data": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "n_ip_multi_mac": 0.7837,
+          "n_arp": 0.2163
+        }
+      },
+      "minimax/minimax-m2.5": {
+        "train_windows": 5027,
+        "train_positive": 2249,
+        "n_test": 2405,
+        "positives": 692,
+        "roc_auc": 0.9848152009961229,
+        "pr_auc": 0.9708188370902917,
+        "precision": 0.45003265839320705,
+        "recall": 0.9956647398843931,
+        "f1": 0.6198830409356725,
+        "session": {
+          "sessions": 118,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "True": 1.0,
+            "False": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Manipulation of Monitoring Data": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification": 1.0,
+            "arp_mitm,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42,
+        "importance_top5": {
+          "n_ip_multi_mac": 0.708,
+          "n_arp": 0.292
+        }
+      },
+      "openai/gpt-5.3-codex": {
+        "train_windows": 5989,
+        "train_positive": 2019,
+        "n_test": 1443,
+        "positives": 922,
+        "roc_auc": 0.9355319529854569,
+        "pr_auc": 0.9398005442238905,
+        "precision": 0.9030172413793104,
+        "recall": 0.9088937093275488,
+        "f1": 0.9059459459459459,
+        "session": {
+          "sessions": 149,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "True": 1.0,
+            "False": 1.0
+          },
+          "by_target_state": {
+            "Battery Storage Mismanagement": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Manipulation of Monitoring Data": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "n_ip_multi_mac": 0.7971,
+          "n_arp": 0.2029
+        }
+      }
+    },
+    "volume+binding": {
+      "anthropic/claude-sonnet-4.6": {
+        "train_windows": 5719,
+        "train_positive": 1836,
+        "n_test": 1713,
+        "positives": 1105,
+        "roc_auc": 0.997241902834008,
+        "pr_auc": 0.9985400905187211,
+        "precision": 0.9915492957746479,
+        "recall": 0.9556561085972851,
+        "f1": 0.9732718894009217,
+        "session": {
+          "sessions": 115,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Manipulation of Control Commands": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "n_ip_multi_mac": 0.3617,
+          "s7_iat_mean": 0.138,
+          "n_s7": 0.0946,
+          "bytes": 0.0841,
+          "s7_iat_std": 0.0758
+        }
+      },
+      "google/gemini-3.1-pro-preview": {
+        "train_windows": 5181,
+        "train_positive": 2719,
+        "n_test": 2251,
+        "positives": 222,
+        "roc_auc": 0.9995004861934385,
+        "pr_auc": 0.9970203640407852,
+        "precision": 1.0,
+        "recall": 0.972972972972973,
+        "f1": 0.9863013698630136,
+        "session": {
+          "sessions": 54,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "True": 1.0,
+            "False": 1.0
+          },
+          "by_target_state": {
+            "Battery Storage Mismanagement": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Manipulation of Control Commands": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "n_ip_multi_mac": 0.3913,
+          "bytes": 0.106,
+          "s7_iat_mean": 0.098,
+          "n_packets": 0.0955,
+          "n_s7": 0.065
+        }
+      },
+      "minimax/minimax-m2.5": {
+        "train_windows": 5027,
+        "train_positive": 2249,
+        "n_test": 2405,
+        "positives": 692,
+        "roc_auc": 0.9907431778072475,
+        "pr_auc": 0.9859289802879518,
+        "precision": 0.59375,
+        "recall": 0.9884393063583815,
+        "f1": 0.7418655097613883,
+        "session": {
+          "sessions": 118,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "True": 1.0,
+            "False": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Battery Storage Mismanagement": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification": 1.0,
+            "arp_mitm,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "n_ip_multi_mac": 0.2419,
+          "bytes": 0.1348,
+          "n_packets": 0.1239,
+          "s7_iat_mean": 0.1151,
+          "n_s7": 0.102
+        }
+      },
+      "openai/gpt-5.3-codex": {
+        "train_windows": 5989,
+        "train_positive": 2019,
+        "n_test": 1443,
+        "positives": 922,
+        "roc_auc": 0.9176693826739002,
+        "pr_auc": 0.9278326369502065,
+        "precision": 0.8844169246646026,
+        "recall": 0.9295010845986985,
+        "f1": 0.9063987308302486,
+        "session": {
+          "sessions": 149,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification": 1.0,
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0,
+        "importance_top5": {
+          "n_ip_multi_mac": 0.381,
+          "s7_iat_mean": 0.1239,
+          "n_s7": 0.0996,
+          "bytes": 0.0864,
+          "n_packets": 0.0777
+        }
+      }
+    },
+    "zeek_only": {
+      "anthropic/claude-sonnet-4.6": {
+        "train_windows": 5719,
+        "train_positive": 1836,
+        "n_test": 1713,
+        "positives": 1105,
+        "roc_auc": 0.7219166765896643,
+        "pr_auc": 0.7797656185380532,
+        "precision": 0.8693982074263764,
+        "recall": 0.6144796380090498,
+        "f1": 0.7200424178154825,
+        "session": {
+          "sessions": 115,
+          "detected_rate": 0.7652173913043478,
+          "by_coordinated": {
+            "True": 0.7176470588235294,
+            "False": 0.9
+          },
+          "by_target_state": {
+            "Compromise of Remote Connections to Control Center": 0.7916666666666666,
+            "Manipulation of Control Commands": 0.75,
+            "Compromise of Maintenance Capabilities": 0.782608695652174,
+            "Manipulation of Monitoring Data": 0.7857142857142857,
+            "Battery Storage Mismanagement": 0.7
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification,s7_data_modification": 0.6923076923076923,
+            "arp_mitm,s7_data_modification": 0.7745098039215687
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42,
+        "importance_top5": {
+          "n_zeek_weird": 1.0
+        }
+      },
+      "google/gemini-3.1-pro-preview": {
+        "train_windows": 5181,
+        "train_positive": 2719,
+        "n_test": 2251,
+        "positives": 222,
+        "roc_auc": 0.9133931861876664,
+        "pr_auc": 0.4242724991727747,
+        "precision": 0.418,
+        "recall": 0.9414414414414415,
+        "f1": 0.5789473684210527,
+        "session": {
+          "sessions": 54,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Manipulation of Control Commands": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42,
+        "importance_top5": {
+          "n_zeek_weird": 1.0
+        }
+      },
+      "minimax/minimax-m2.5": {
+        "train_windows": 5027,
+        "train_positive": 2249,
+        "n_test": 2405,
+        "positives": 692,
+        "roc_auc": 0.609787362197949,
+        "pr_auc": 0.3606643733140107,
+        "precision": 0.40249433106575966,
+        "recall": 0.5130057803468208,
+        "f1": 0.45108005082592123,
+        "session": {
+          "sessions": 118,
+          "detected_rate": 0.6101694915254238,
+          "by_coordinated": {
+            "False": 0.6666666666666666,
+            "True": 0.5909090909090909
+          },
+          "by_target_state": {
+            "Compromise of Maintenance Capabilities": 0.6470588235294118,
+            "Battery Storage Mismanagement": 0.5625,
+            "Compromise of Remote Connections to Control Center": 0.625,
+            "Manipulation of Monitoring Data": 0.6818181818181818,
+            "Manipulation of Control Commands": 0.5652173913043478
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification,s7_data_modification": 0.49206349206349204,
+            "arp_mitm,s7_data_modification": 0.59375,
+            "arp_mitm,modbus_data_modification": 0.9565217391304348
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42,
+        "importance_top5": {
+          "n_zeek_weird": 1.0
+        }
+      },
+      "openai/gpt-5.3-codex": {
+        "train_windows": 5989,
+        "train_positive": 2019,
+        "n_test": 1443,
+        "positives": 922,
+        "roc_auc": 0.7674993026092821,
+        "pr_auc": 0.8141685345582772,
+        "precision": 0.9067669172932331,
+        "recall": 0.6540130151843818,
+        "f1": 0.7599243856332704,
+        "session": {
+          "sessions": 149,
+          "detected_rate": 0.7114093959731543,
+          "by_coordinated": {
+            "True": 0.2692307692307692,
+            "False": 0.8048780487804879
+          },
+          "by_target_state": {
+            "Battery Storage Mismanagement": 0.6774193548387096,
+            "Compromise of Maintenance Capabilities": 0.75,
+            "Compromise of Remote Connections to Control Center": 0.8214285714285714,
+            "Manipulation of Monitoring Data": 0.6857142857142857,
+            "Manipulation of Control Commands": 0.6451612903225806
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification": 0.0,
+            "arp_mitm,s7_data_modification": 0.7210884353741497
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42,
+        "importance_top5": {
+          "n_zeek_weird": 1.0
+        }
+      }
+    }
+  },
+  "rules": {
+    "ip_with_multiple_macs>0": {
+      "anthropic/claude-sonnet-4.6": {
+        "window_recall": 0.9375565610859729,
+        "window_fpr_in_attack_capture": 0.016901408450704224,
+        "session": {
+          "sessions": 115,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "True": 1.0,
+            "False": 1.0
+          },
+          "by_target_state": {
+            "Manipulation of Monitoring Data": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Battery Storage Mismanagement": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0
+      },
+      "google/gemini-3.1-pro-preview": {
+        "window_recall": 0.9864864864864865,
+        "window_fpr_in_attack_capture": 0.0005630630630630631,
+        "session": {
+          "sessions": 54,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Battery Storage Mismanagement": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0
+      },
+      "minimax/minimax-m2.5": {
+        "window_recall": 0.9566473988439307,
+        "window_fpr_in_attack_capture": 0.0006849315068493151,
+        "session": {
+          "sessions": 118,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Battery Storage Mismanagement": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification": 1.0,
+            "arp_mitm,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0
+      },
+      "openai/gpt-5.3-codex": {
+        "window_recall": 0.8937093275488069,
+        "window_fpr_in_attack_capture": 0.332089552238806,
+        "session": {
+          "sessions": 149,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Manipulation of Monitoring Data": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Battery Storage Mismanagement": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 0.0
+      }
+    },
+    "arp_packets>0": {
+      "anthropic/claude-sonnet-4.6": {
+        "window_recall": 0.7276018099547511,
+        "window_fpr_in_attack_capture": 0.7859154929577464,
+        "session": {
+          "sessions": 115,
+          "detected_rate": 0.9478260869565217,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 0.9294117647058824
+          },
+          "by_target_state": {
+            "Manipulation of Monitoring Data": 1.0,
+            "Compromise of Maintenance Capabilities": 0.9130434782608695,
+            "Battery Storage Mismanagement": 0.95,
+            "Manipulation of Control Commands": 0.95,
+            "Compromise of Remote Connections to Control Center": 0.9166666666666666
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 0.9411764705882353,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 358.58
+      },
+      "google/gemini-3.1-pro-preview": {
+        "window_recall": 1.0,
+        "window_fpr_in_attack_capture": 1.0,
+        "session": {
+          "sessions": 54,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Battery Storage Mismanagement": 1.0,
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 358.58
+      },
+      "minimax/minimax-m2.5": {
+        "window_recall": 0.6676300578034682,
+        "window_fpr_in_attack_capture": 0.5082191780821917,
+        "session": {
+          "sessions": 118,
+          "detected_rate": 0.9322033898305084,
+          "by_coordinated": {
+            "False": 0.9,
+            "True": 0.9431818181818182
+          },
+          "by_target_state": {
+            "Manipulation of Monitoring Data": 1.0,
+            "Compromise of Maintenance Capabilities": 0.8823529411764706,
+            "Compromise of Remote Connections to Control Center": 0.9583333333333334,
+            "Battery Storage Mismanagement": 0.875,
+            "Manipulation of Control Commands": 0.9565217391304348
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 0.90625,
+            "arp_mitm,modbus_data_modification": 1.0,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 0.9206349206349206
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 358.58
+      },
+      "openai/gpt-5.3-codex": {
+        "window_recall": 0.7592190889370932,
+        "window_fpr_in_attack_capture": 0.8507462686567164,
+        "session": {
+          "sessions": 149,
+          "detected_rate": 0.9194630872483222,
+          "by_coordinated": {
+            "True": 0.9615384615384616,
+            "False": 0.9105691056910569
+          },
+          "by_target_state": {
+            "Battery Storage Mismanagement": 0.9354838709677419,
+            "Manipulation of Control Commands": 0.9032258064516129,
+            "Manipulation of Monitoring Data": 0.9142857142857143,
+            "Compromise of Remote Connections to Control Center": 0.9642857142857143,
+            "Compromise of Maintenance Capabilities": 0.875
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 0.9183673469387755,
+            "arp_mitm,modbus_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 358.58
+      }
+    },
+    "zeek_weird>0": {
+      "anthropic/claude-sonnet-4.6": {
+        "window_recall": 0.6153846153846154,
+        "window_fpr_in_attack_capture": 0.28450704225352114,
+        "session": {
+          "sessions": 115,
+          "detected_rate": 0.7652173913043478,
+          "by_coordinated": {
+            "True": 0.7176470588235294,
+            "False": 0.9
+          },
+          "by_target_state": {
+            "Battery Storage Mismanagement": 0.7,
+            "Manipulation of Control Commands": 0.75,
+            "Manipulation of Monitoring Data": 0.7857142857142857,
+            "Compromise of Remote Connections to Control Center": 0.7916666666666666,
+            "Compromise of Maintenance Capabilities": 0.782608695652174
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification,s7_data_modification": 0.6923076923076923,
+            "arp_mitm,s7_data_modification": 0.7745098039215687
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42
+      },
+      "google/gemini-3.1-pro-preview": {
+        "window_recall": 0.9864864864864865,
+        "window_fpr_in_attack_capture": 0.16891891891891891,
+        "session": {
+          "sessions": 54,
+          "detected_rate": 1.0,
+          "by_coordinated": {
+            "False": 1.0,
+            "True": 1.0
+          },
+          "by_target_state": {
+            "Compromise of Remote Connections to Control Center": 1.0,
+            "Manipulation of Control Commands": 1.0,
+            "Manipulation of Monitoring Data": 1.0,
+            "Compromise of Maintenance Capabilities": 1.0,
+            "Battery Storage Mismanagement": 1.0
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 1.0
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42
+      },
+      "minimax/minimax-m2.5": {
+        "window_recall": 0.5130057803468208,
+        "window_fpr_in_attack_capture": 0.363013698630137,
+        "session": {
+          "sessions": 118,
+          "detected_rate": 0.6101694915254238,
+          "by_coordinated": {
+            "False": 0.6666666666666666,
+            "True": 0.5909090909090909
+          },
+          "by_target_state": {
+            "Manipulation of Monitoring Data": 0.6818181818181818,
+            "Battery Storage Mismanagement": 0.5625,
+            "Compromise of Remote Connections to Control Center": 0.625,
+            "Compromise of Maintenance Capabilities": 0.6470588235294118,
+            "Manipulation of Control Commands": 0.5652173913043478
+          },
+          "by_step_types": {
+            "arp_mitm,s7_data_modification": 0.59375,
+            "arp_mitm,modbus_data_modification": 0.9565217391304348,
+            "arp_mitm,modbus_data_modification,s7_data_modification": 0.49206349206349204
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42
+      },
+      "openai/gpt-5.3-codex": {
+        "window_recall": 0.6561822125813449,
+        "window_fpr_in_attack_capture": 0.23880597014925373,
+        "session": {
+          "sessions": 149,
+          "detected_rate": 0.7114093959731543,
+          "by_coordinated": {
+            "True": 0.2692307692307692,
+            "False": 0.8048780487804879
+          },
+          "by_target_state": {
+            "Compromise of Maintenance Capabilities": 0.75,
+            "Manipulation of Monitoring Data": 0.6857142857142857,
+            "Compromise of Remote Connections to Control Center": 0.8214285714285714,
+            "Battery Storage Mismanagement": 0.6774193548387096,
+            "Manipulation of Control Commands": 0.6451612903225806
+          },
+          "by_step_types": {
+            "arp_mitm,modbus_data_modification": 0.0,
+            "arp_mitm,s7_data_modification": 0.7210884353741497
+          }
+        },
+        "false_alarm_windows_per_hour_normal_test": 1.42
+      }
+    }
+  },
+  "seconds": 14.4
+}

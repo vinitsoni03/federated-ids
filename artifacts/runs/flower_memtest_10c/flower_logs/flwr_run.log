@@ -1,0 +1,57 @@
+Flower App configuration warnings in 'C:\Users\06ven\Downloads\federated-ids\flower_app\pyproject.toml':
+- Recommended property "license" missing in [project]
+Using SuperLink: local-deployment (127.0.0.1:8000)
+Successfully started run 5218475256087848189
+[92mINFO [0m:      Starting logstream for run_id `5218475256087848189`
+[92mINFO [0m:      Start `flwr-serverapp` process
+[32m[1mSuccessfully installed fids-flower to D:\federated-ids-work\flwr_home\apps\vinit-soni.fids-flower.0.1.0.2ebe615d.[0m
+[93mWARNING [0m:   fraction_evaluate is set to 0.0. Federated evaluation will be skipped.
+[92mINFO [0m:      Starting FedAvg strategy:
+[92mINFO [0m:      	├── Number of rounds: 2
+[92mINFO [0m:      	├── ArrayRecord (0.05 MB)
+[92mINFO [0m:      	├── ConfigRecord (train): {'lr': 0.001}
+[92mINFO [0m:      	├── ConfigRecord (evaluate): (empty!)
+[92mINFO [0m:      	├──> Sampling:
+[92mINFO [0m:      	│	├──Fraction: train (1.00) | evaluate ( 0.00)
+[92mINFO [0m:      	│	├──Minimum nodes: train (10) | evaluate (0)
+[92mINFO [0m:      	│	└──Minimum available nodes: 10
+[92mINFO [0m:      	└──> Keys in records:
+[92mINFO [0m:      		├── Weighted by: 'num-examples'
+[92mINFO [0m:      		├── ArrayRecord key: 'arrays'
+[92mINFO [0m:      		└── ConfigRecord key: 'config'
+[92mINFO [0m:      
+[92mINFO [0m:      Initial global evaluation results: {'val_macro_f1': 0.02639244604962041, 'test_macro_f1': 0.025603598602184974}
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 1/2]
+[92mINFO [0m:      configure_train: Sampled 10 nodes (out of 10)
+[92mINFO [0m:      aggregate_train: Received 10 results and 0 failures
+[92mINFO [0m:      	└──> Aggregated MetricRecord: {'train_loss': 1.2478407234901616}
+[92mINFO [0m:      Global evaluation
+[92mINFO [0m:      	└──> MetricRecord: {'val_macro_f1': 0.549017300547964, 'test_macro_f1': 0.5720195445372434}
+[92mINFO [0m:      
+[92mINFO [0m:      [ROUND 2/2]
+[92mINFO [0m:      configure_train: Sampled 10 nodes (out of 10)
+[92mINFO [0m:      aggregate_train: Received 10 results and 0 failures
+[92mINFO [0m:      	└──> Aggregated MetricRecord: {'train_loss': 0.8775618761484656}
+[92mINFO [0m:      Global evaluation
+[92mINFO [0m:      	└──> MetricRecord: {'val_macro_f1': 0.585332961142395, 'test_macro_f1': 0.5958168737070189}
+[92mINFO [0m:      
+[92mINFO [0m:      Strategy execution finished in 37.83s
+[92mINFO [0m:      
+[92mINFO [0m:      Final results:
+[92mINFO [0m:      
+[92mINFO [0m:      	Global Arrays:
+[92mINFO [0m:      		ArrayRecord (0.051 MB)
+[92mINFO [0m:      	
+[92mINFO [0m:      	Aggregated ClientApp-side Train Metrics:
+[92mINFO [0m:      	{1: {'train_loss': '1.2478e+00'}, 2: {'train_loss': '8.7756e-01'}}
+[92mINFO [0m:      	
+[92mINFO [0m:      	Aggregated ClientApp-side Evaluate Metrics:
+[92mINFO [0m:      	{}
+[92mINFO [0m:      	
+[92mINFO [0m:      	ServerApp-side Evaluate Metrics:
+[92mINFO [0m:      	{ 0: {'test_macro_f1': '2.5604e-02', 'val_macro_f1': '2.6392e-02'},
+[92mINFO [0m:      	  1: {'test_macro_f1': '5.7202e-01', 'val_macro_f1': '5.4902e-01'},
+[92mINFO [0m:      	  2: {'test_macro_f1': '5.9582e-01', 'val_macro_f1': '5.8533e-01'}}
+[92mINFO [0m:      
+[92mINFO [0m:      

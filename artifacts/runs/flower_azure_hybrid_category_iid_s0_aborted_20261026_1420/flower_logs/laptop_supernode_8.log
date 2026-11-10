@@ -1,0 +1,72 @@
+[92mINFO [0m:      Starting Flower SuperNode
+INFO:     Started server process [23296]
+INFO:     Waiting for application startup.
+[92mINFO [0m:      FastAPI lifespan: startup
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:9107 (Press CTRL+C to quit)
+[92mINFO [0m:      SuperNode ID: 17518757725958802733
+[92mINFO [0m:      Starting Flower SuperExec
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Receiving: train message (ID: b16e44426168111e49046afb8357482723a0ecdab02f020e55b83ba568814c1b)
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Sending: train message (ID: a69c76e5c6aaf696ea7b48932a38381f2a05ef9791b413b023ecc39b58cf8a1f)
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Receiving: train message (ID: 4b63089903511a460cec2a07e12b1124105c23a8762e0a1456f99d4860c65a0c)
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Sending: train message (ID: 727aef2c49a6323a1804e9065714f678e8fef96664e2b8abb2e4eaab67e8bf84)
+[92mINFO [0m:      
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Receiving: train message (ID: 153d5f7ea6a39cad2904215646482b33c29ba9361eff32ee201cd67e8d81bb01)
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Sending: train message (ID: 697720cfc9eb3a04651d9ec6d38823e136c41848d83e3caffca0d963e2c7bb41)
+[92mINFO [0m:      
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Receiving: train message (ID: 25f57a4fb05fa8dc524fbc384c1297d1e76daa90bcda30628a6cc823167f2b67)
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Sending: train message (ID: 2d0d3e63f1908869560eafe3e5ffad3792e4f27b9f7972303156a233584c8ee3)
+[92mINFO [0m:      
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Receiving: train message (ID: 536a8bee90d89523459e4f31145060f15812ce35b040dcf2ffc9871d7825a917)
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Sending: train message (ID: ec23d928f375dbaba262c4dea750315eca2cad65aaef5617964d7b1843b683ac)
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Receiving: train message (ID: 65fa288974534a7b160be7ab2718c97863406da5ba04c2a966e8806c1e319db9)
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Sending: train message (ID: 750bb5e60a44d306372224f999a048d9a0c8e3aef9227aedde912a79118b97e4)
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 11881219950251423755]
+[92mINFO [0m:      Receiving: train message (ID: 42c7df38cf0d4c587210dd006b32fcf2c1b31219433ce40dc2830816048ba359)
+[92mINFO [0m:      Received successfully

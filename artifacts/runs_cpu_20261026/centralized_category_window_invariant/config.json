@@ -1,0 +1,99 @@
+{
+  "experiment": {
+    "task": "category",
+    "feature_set": "window_invariant",
+    "model": {
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.1
+    },
+    "train": {
+      "epochs": 30,
+      "lr": 0.001,
+      "batch_size": 512,
+      "class_weighting": "sqrt_inverse",
+      "patience": 5
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "random_forest": {
+      "enabled": true,
+      "n_estimators": 100,
+      "max_depth": null,
+      "min_samples_leaf": 1,
+      "class_weight": "balanced_subsample",
+      "n_jobs": 6,
+      "seed": 0
+    },
+    "full_test": true
+  },
+  "data": {
+    "work_dir": "D:/federated-ids-work",
+    "raw_root": "data/raw/CICIoT2023",
+    "split": {
+      "name": "ciciot_v1",
+      "seed": 20231025,
+      "min_files_for_file_split": 3,
+      "val_frac": 0.15,
+      "test_frac": 0.15,
+      "purge_frac": 0.005,
+      "purge_min_rows": 10,
+      "dedup_within_split": true,
+      "cap_train": 25000,
+      "cap_val": 5000,
+      "cap_test": 10000
+    },
+    "features": {
+      "window_dependent": [
+        "Number",
+        "Tot sum",
+        "ack_count",
+        "syn_count",
+        "fin_count",
+        "rst_count"
+      ],
+      "primary_set": "window_invariant"
+    }
+  },
+  "features": [
+    "Header_Length",
+    "Protocol Type",
+    "Time_To_Live",
+    "Rate",
+    "fin_flag_number",
+    "syn_flag_number",
+    "rst_flag_number",
+    "psh_flag_number",
+    "ack_flag_number",
+    "ece_flag_number",
+    "cwr_flag_number",
+    "HTTP",
+    "HTTPS",
+    "DNS",
+    "Telnet",
+    "SMTP",
+    "SSH",
+    "IRC",
+    "TCP",
+    "UDP",
+    "DHCP",
+    "ARP",
+    "ICMP",
+    "IGMP",
+    "IPv",
+    "LLC",
+    "Min",
+    "Max",
+    "AVG",
+    "Std",
+    "Tot size",
+    "IAT",
+    "Variance"
+  ],
+  "command": "python -m federated_ids.experiments.centralized "
+}

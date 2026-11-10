@@ -1,0 +1,442 @@
+{
+  "rows": 46776700,
+  "unique_vectors": 21056274,
+  "duplicate_rows_total": 25720426,
+  "rows_in_groups_spanning_multiple_files": 27296676,
+  "groups_spanning_multiple_files": 1759788,
+  "rows_in_cross_class34_conflicts": 14321020,
+  "groups_cross_class34_conflicts": 542932,
+  "rows_in_cross_category_conflicts": 13807710,
+  "groups_cross_category_conflicts": 461377,
+  "largest_group_size": 1205,
+  "top_conflicting_class34_pairs_by_shared_vectors": [
+    {
+      "pair": "DDoS-SYN_Flood <-> DDoS-SynonymousIP_Flood",
+      "shared_vectors": 174712
+    },
+    {
+      "pair": "DDoS-TCP_Flood <-> DoS-TCP_Flood",
+      "shared_vectors": 174396
+    },
+    {
+      "pair": "DDoS-SYN_Flood <-> DoS-SYN_Flood",
+      "shared_vectors": 151303
+    },
+    {
+      "pair": "DDoS-UDP_Flood <-> DoS-UDP_Flood",
+      "shared_vectors": 117099
+    },
+    {
+      "pair": "DDoS-SynonymousIP_Flood <-> DoS-SYN_Flood",
+      "shared_vectors": 111880
+    },
+    {
+      "pair": "Recon-OSScan <-> Recon-PortScan",
+      "shared_vectors": 1194
+    },
+    {
+      "pair": "Benign <-> Spoofing-ARP",
+      "shared_vectors": 555
+    },
+    {
+      "pair": "Spoofing-ARP <-> Spoofing-DNS",
+      "shared_vectors": 413
+    },
+    {
+      "pair": "Benign <-> Spoofing-DNS",
+      "shared_vectors": 362
+    },
+    {
+      "pair": "Recon-VulnerabilityScan <-> Spoofing-ARP",
+      "shared_vectors": 247
+    },
+    {
+      "pair": "Recon-HostDiscovery <-> Spoofing-ARP",
+      "shared_vectors": 245
+    },
+    {
+      "pair": "Benign <-> Recon-VulnerabilityScan",
+      "shared_vectors": 243
+    },
+    {
+      "pair": "Benign <-> Recon-HostDiscovery",
+      "shared_vectors": 176
+    },
+    {
+      "pair": "Recon-HostDiscovery <-> Spoofing-DNS",
+      "shared_vectors": 160
+    },
+    {
+      "pair": "Recon-HostDiscovery <-> Recon-VulnerabilityScan",
+      "shared_vectors": 109
+    },
+    {
+      "pair": "Recon-OSScan <-> Spoofing-ARP",
+      "shared_vectors": 104
+    },
+    {
+      "pair": "Recon-VulnerabilityScan <-> Spoofing-DNS",
+      "shared_vectors": 102
+    },
+    {
+      "pair": "Recon-OSScan <-> Recon-VulnerabilityScan",
+      "shared_vectors": 99
+    },
+    {
+      "pair": "DDoS-PSHACK_Flood <-> DoS-SYN_Flood",
+      "shared_vectors": 80
+    },
+    {
+      "pair": "Benign <-> Recon-OSScan",
+      "shared_vectors": 78
+    },
+    {
+      "pair": "Spoofing-ARP <-> Web-BrowserHijacking",
+      "shared_vectors": 76
+    },
+    {
+      "pair": "Recon-PortScan <-> Recon-VulnerabilityScan",
+      "shared_vectors": 67
+    },
+    {
+      "pair": "Recon-PortScan <-> Spoofing-ARP",
+      "shared_vectors": 65
+    },
+    {
+      "pair": "Benign <-> Web-BrowserHijacking",
+      "shared_vectors": 63
+    },
+    {
+      "pair": "Recon-HostDiscovery <-> Recon-OSScan",
+      "shared_vectors": 60
+    },
+    {
+      "pair": "Recon-HostDiscovery <-> Web-BrowserHijacking",
+      "shared_vectors": 57
+    },
+    {
+      "pair": "Spoofing-DNS <-> Web-BrowserHijacking",
+      "shared_vectors": 54
+    },
+    {
+      "pair": "Recon-HostDiscovery <-> Recon-PortScan",
+      "shared_vectors": 37
+    },
+    {
+      "pair": "Benign <-> Recon-PortScan",
+      "shared_vectors": 30
+    },
+    {
+      "pair": "Recon-OSScan <-> Spoofing-DNS",
+      "shared_vectors": 28
+    }
+  ],
+  "per_class34": [
+    {
+      "class34": "Benign",
+      "rows": 1098191,
+      "unique_vectors": 1093940,
+      "duplicate_rows": 4251,
+      "duplicate_fraction": 0.003871,
+      "rows_whose_vector_also_in_other_class34": 2833,
+      "rows_whose_vector_also_in_other_category": 2833
+    },
+    {
+      "class34": "BruteForce-Dictionary",
+      "rows": 13064,
+      "unique_vectors": 13062,
+      "duplicate_rows": 2,
+      "duplicate_fraction": 0.000153,
+      "rows_whose_vector_also_in_other_class34": 20,
+      "rows_whose_vector_also_in_other_category": 20
+    },
+    {
+      "class34": "DDoS-ACK_Fragmentation",
+      "rows": 285075,
+      "unique_vectors": 283756,
+      "duplicate_rows": 1319,
+      "duplicate_fraction": 0.004627,
+      "rows_whose_vector_also_in_other_class34": 4,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "DDoS-HTTP_Flood",
+      "rows": 28790,
+      "unique_vectors": 28790,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0,
+      "rows_whose_vector_also_in_other_class34": 8,
+      "rows_whose_vector_also_in_other_category": 8
+    },
+    {
+      "class34": "DDoS-ICMP_Flood",
+      "rows": 7200501,
+      "unique_vectors": 1978358,
+      "duplicate_rows": 5222143,
+      "duplicate_fraction": 0.725247,
+      "rows_whose_vector_also_in_other_class34": 0,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "DDoS-ICMP_Fragmentation",
+      "rows": 452490,
+      "unique_vectors": 450333,
+      "duplicate_rows": 2157,
+      "duplicate_fraction": 0.004767,
+      "rows_whose_vector_also_in_other_class34": 0,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "DDoS-PSHACK_Flood",
+      "rows": 4094772,
+      "unique_vectors": 1705094,
+      "duplicate_rows": 2389678,
+      "duplicate_fraction": 0.583592,
+      "rows_whose_vector_also_in_other_class34": 108,
+      "rows_whose_vector_also_in_other_category": 89
+    },
+    {
+      "class34": "DDoS-RSTFIN_Flood",
+      "rows": 4045279,
+      "unique_vectors": 1302706,
+      "duplicate_rows": 2742573,
+      "duplicate_fraction": 0.677969,
+      "rows_whose_vector_also_in_other_class34": 5,
+      "rows_whose_vector_also_in_other_category": 3
+    },
+    {
+      "class34": "DDoS-SYN_Flood",
+      "rows": 4059179,
+      "unique_vectors": 1835458,
+      "duplicate_rows": 2223721,
+      "duplicate_fraction": 0.547825,
+      "rows_whose_vector_also_in_other_class34": 2383049,
+      "rows_whose_vector_also_in_other_category": 2187101
+    },
+    {
+      "class34": "DDoS-SlowLoris",
+      "rows": 23426,
+      "unique_vectors": 23426,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0,
+      "rows_whose_vector_also_in_other_class34": 0,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "DDoS-SynonymousIP_Flood",
+      "rows": 3598133,
+      "unique_vectors": 1214691,
+      "duplicate_rows": 2383442,
+      "duplicate_fraction": 0.662411,
+      "rows_whose_vector_also_in_other_class34": 2441789,
+      "rows_whose_vector_also_in_other_category": 2131223
+    },
+    {
+      "class34": "DDoS-TCP_Flood",
+      "rows": 4497649,
+      "unique_vectors": 1620909,
+      "duplicate_rows": 2876740,
+      "duplicate_fraction": 0.63961,
+      "rows_whose_vector_also_in_other_class34": 2872993,
+      "rows_whose_vector_also_in_other_category": 2872993
+    },
+    {
+      "class34": "DDoS-UDP_Flood",
+      "rows": 5412231,
+      "unique_vectors": 2042013,
+      "duplicate_rows": 3370218,
+      "duplicate_fraction": 0.622704,
+      "rows_whose_vector_also_in_other_class34": 2839182,
+      "rows_whose_vector_also_in_other_category": 2839180
+    },
+    {
+      "class34": "DDoS-UDP_Fragmentation",
+      "rows": 286925,
+      "unique_vectors": 285309,
+      "duplicate_rows": 1616,
+      "duplicate_fraction": 0.005632,
+      "rows_whose_vector_also_in_other_class34": 0,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "DoS-HTTP_Flood",
+      "rows": 71861,
+      "unique_vectors": 71489,
+      "duplicate_rows": 372,
+      "duplicate_fraction": 0.005177,
+      "rows_whose_vector_also_in_other_class34": 54,
+      "rows_whose_vector_also_in_other_category": 18
+    },
+    {
+      "class34": "DoS-SYN_Flood",
+      "rows": 2028836,
+      "unique_vectors": 1185281,
+      "duplicate_rows": 843555,
+      "duplicate_fraction": 0.415783,
+      "rows_whose_vector_also_in_other_class34": 990183,
+      "rows_whose_vector_also_in_other_category": 990158
+    },
+    {
+      "class34": "DoS-TCP_Flood",
+      "rows": 2671430,
+      "unique_vectors": 1164079,
+      "duplicate_rows": 1507351,
+      "duplicate_fraction": 0.564249,
+      "rows_whose_vector_also_in_other_class34": 1645351,
+      "rows_whose_vector_also_in_other_category": 1645350
+    },
+    {
+      "class34": "DoS-UDP_Flood",
+      "rows": 3072993,
+      "unique_vectors": 1771476,
+      "duplicate_rows": 1301517,
+      "duplicate_fraction": 0.423534,
+      "rows_whose_vector_also_in_other_class34": 1112719,
+      "rows_whose_vector_also_in_other_category": 1112719
+    },
+    {
+      "class34": "Mirai-greeth_flood",
+      "rows": 991834,
+      "unique_vectors": 936306,
+      "duplicate_rows": 55528,
+      "duplicate_fraction": 0.055985,
+      "rows_whose_vector_also_in_other_class34": 0,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "Mirai-greip_flood",
+      "rows": 751646,
+      "unique_vectors": 724410,
+      "duplicate_rows": 27236,
+      "duplicate_fraction": 0.036235,
+      "rows_whose_vector_also_in_other_class34": 0,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "Mirai-udpplain",
+      "rows": 890574,
+      "unique_vectors": 799346,
+      "duplicate_rows": 91228,
+      "duplicate_fraction": 0.102437,
+      "rows_whose_vector_also_in_other_class34": 0,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "Recon-HostDiscovery",
+      "rows": 134378,
+      "unique_vectors": 133532,
+      "duplicate_rows": 846,
+      "duplicate_fraction": 0.006296,
+      "rows_whose_vector_also_in_other_class34": 1151,
+      "rows_whose_vector_also_in_other_category": 973
+    },
+    {
+      "class34": "Recon-OSScan",
+      "rows": 98259,
+      "unique_vectors": 96503,
+      "duplicate_rows": 1756,
+      "duplicate_fraction": 0.017871,
+      "rows_whose_vector_also_in_other_class34": 2769,
+      "rows_whose_vector_also_in_other_category": 228
+    },
+    {
+      "class34": "Recon-PingSweep",
+      "rows": 2262,
+      "unique_vectors": 2262,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0,
+      "rows_whose_vector_also_in_other_class34": 5,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "Recon-PortScan",
+      "rows": 82284,
+      "unique_vectors": 80244,
+      "duplicate_rows": 2040,
+      "duplicate_fraction": 0.024792,
+      "rows_whose_vector_also_in_other_class34": 2838,
+      "rows_whose_vector_also_in_other_category": 154
+    },
+    {
+      "class34": "Recon-VulnerabilityScan",
+      "rows": 373351,
+      "unique_vectors": 372000,
+      "duplicate_rows": 1351,
+      "duplicate_fraction": 0.003619,
+      "rows_whose_vector_also_in_other_class34": 1493,
+      "rows_whose_vector_also_in_other_category": 1283
+    },
+    {
+      "class34": "Spoofing-ARP",
+      "rows": 307560,
+      "unique_vectors": 280920,
+      "duplicate_rows": 26640,
+      "duplicate_fraction": 0.086617,
+      "rows_whose_vector_also_in_other_class34": 22743,
+      "rows_whose_vector_also_in_other_category": 21849
+    },
+    {
+      "class34": "Spoofing-DNS",
+      "rows": 178898,
+      "unique_vectors": 174211,
+      "duplicate_rows": 4687,
+      "duplicate_fraction": 0.026199,
+      "rows_whose_vector_also_in_other_class34": 1531,
+      "rows_whose_vector_also_in_other_category": 1336
+    },
+    {
+      "class34": "Web-Backdoor_Malware",
+      "rows": 3218,
+      "unique_vectors": 3215,
+      "duplicate_rows": 3,
+      "duplicate_fraction": 0.000932,
+      "rows_whose_vector_also_in_other_class34": 24,
+      "rows_whose_vector_also_in_other_category": 24
+    },
+    {
+      "class34": "Web-BrowserHijacking",
+      "rows": 5859,
+      "unique_vectors": 5788,
+      "duplicate_rows": 71,
+      "duplicate_fraction": 0.012118,
+      "rows_whose_vector_also_in_other_class34": 153,
+      "rows_whose_vector_also_in_other_category": 153
+    },
+    {
+      "class34": "Web-CommandInjection",
+      "rows": 5409,
+      "unique_vectors": 5388,
+      "duplicate_rows": 21,
+      "duplicate_fraction": 0.003882,
+      "rows_whose_vector_also_in_other_class34": 5,
+      "rows_whose_vector_also_in_other_category": 5
+    },
+    {
+      "class34": "Web-SqlInjection",
+      "rows": 5245,
+      "unique_vectors": 5245,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0,
+      "rows_whose_vector_also_in_other_class34": 1,
+      "rows_whose_vector_also_in_other_category": 1
+    },
+    {
+      "class34": "Web-Uploading_Attack",
+      "rows": 1252,
+      "unique_vectors": 1252,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0,
+      "rows_whose_vector_also_in_other_class34": 0,
+      "rows_whose_vector_also_in_other_category": 0
+    },
+    {
+      "class34": "Web-XSS",
+      "rows": 3846,
+      "unique_vectors": 3846,
+      "duplicate_rows": 0,
+      "duplicate_fraction": 0.0,
+      "rows_whose_vector_also_in_other_class34": 9,
+      "rows_whose_vector_also_in_other_category": 9
+    }
+  ]
+}

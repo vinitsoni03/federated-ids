@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name poison_category_iid_signflip_f0.1_trimmed_mean_s0 --device cuda --partition iid --attack sign_flip --malicious-fraction 0.1 --scale 5 --aggregator trimmed_mean --seed 0 --task category
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 2: val macroF1 0.5836 test macroF1 0.5958 FPR 0.4388 (6.5s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 4: val macroF1 0.6082 test macroF1 0.6164 FPR 0.4205 (12.7s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 6: val macroF1 0.6248 test macroF1 0.6302 FPR 0.3942 (18.8s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 8: val macroF1 0.6309 test macroF1 0.6366 FPR 0.3895 (24.9s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 10: val macroF1 0.6343 test macroF1 0.6410 FPR 0.3717 (31.0s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 12: val macroF1 0.6400 test macroF1 0.6461 FPR 0.3307 (37.1s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 14: val macroF1 0.6425 test macroF1 0.6467 FPR 0.3179 (43.2s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 16: val macroF1 0.6458 test macroF1 0.6525 FPR 0.3075 (49.3s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 18: val macroF1 0.6503 test macroF1 0.6573 FPR 0.3070 (55.5s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 20: val macroF1 0.6487 test macroF1 0.6607 FPR 0.3066 (61.6s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 22: val macroF1 0.6561 test macroF1 0.6656 FPR 0.3057 (67.7s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 24: val macroF1 0.6614 test macroF1 0.6655 FPR 0.2960 (73.7s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 26: val macroF1 0.6592 test macroF1 0.6653 FPR 0.3042 (79.8s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 28: val macroF1 0.6600 test macroF1 0.6658 FPR 0.2742 (85.9s)
+  [poison_category_iid_signflip_f0.1_trimmed_mean_s0] round 30: val macroF1 0.6629 test macroF1 0.6700 FPR 0.3046 (92.0s)
+{'n': 253328, 'accuracy': 0.8015300322112044, 'balanced_accuracy': 0.6842926904569997, 'macro_f1': 0.6699603377711274, 'weighted_f1': 0.8066355432876475, 'benign_fpr': 0.3046, 'attack_detection_rate': 0.9669540702261967, 'binary_f1': 0.9769817361173108, 'macro_roc_auc_ovr': 0.9659133390176793, 'macro_pr_auc_ovr': 0.7089900184211722} {} 92.0

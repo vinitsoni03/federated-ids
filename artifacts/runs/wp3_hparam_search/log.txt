@@ -1,0 +1,204 @@
+=== search start 2026-11-01 17:14:01 device cuda tasks ['category'] seeds [0]
+=== search start 2026-11-01 17:14:18 device cuda tasks ['category'] seeds [0]
+[category] 24 runs to do
+[category] data loaded in 2s: train 664187 val 132923
+[category] h128-64_lr0.001_sqrt_inverse_do0.1 seed 0
+[category] h128-64_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.6871 FPR 0.2946 best epoch 27/32 (100s)
+[category] h128-64_lr0.001_sqrt_inverse_do0.3 seed 0
+[category] h128-64_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.6792 FPR 0.2544 best epoch 24/29 (91s)
+limit 2 reached
+=== search start 2026-11-01 17:17:57 device cuda tasks ['category', 'class34', 'binary'] seeds [0]
+[category] 22 runs to do
+[category] data loaded in 1s: train 664187 val 132923
+[category] h128-64_lr0.001_inverse_do0.1 seed 0
+[category] h128-64_lr0.001_inverse_do0.1 seed 0: val macroF1 0.6517 FPR 0.2232 best epoch 12/17 (54s)
+[category] h128-64_lr0.001_inverse_do0.3 seed 0
+[category] h128-64_lr0.001_inverse_do0.3 seed 0: val macroF1 0.6371 FPR 0.2168 best epoch 12/17 (54s)
+[category] h128-64_lr0.0003_sqrt_inverse_do0.1 seed 0
+[category] h128-64_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.6822 FPR 0.2654 best epoch 30/35 (107s)
+[category] h128-64_lr0.0003_sqrt_inverse_do0.3 seed 0
+[category] h128-64_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.6696 FPR 0.2830 best epoch 18/23 (72s)
+[category] h128-64_lr0.0003_inverse_do0.1 seed 0
+[category] h128-64_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.6470 FPR 0.2306 best epoch 29/34 (103s)
+[category] h128-64_lr0.0003_inverse_do0.3 seed 0
+[category] h128-64_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.6387 FPR 0.2200 best epoch 31/36 (112s)
+[category] h256-128_lr0.001_sqrt_inverse_do0.1 seed 0
+[category] h256-128_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.6942 FPR 0.2694 best epoch 27/32 (102s)
+[category] h256-128_lr0.001_sqrt_inverse_do0.3 seed 0
+[category] h256-128_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.6793 FPR 0.2856 best epoch 17/17 (56s)
+[category] h256-128_lr0.001_inverse_do0.1 seed 0
+[category] h256-128_lr0.001_inverse_do0.1 seed 0: val macroF1 0.6581 FPR 0.2744 best epoch 13/18 (57s)
+[category] h256-128_lr0.001_inverse_do0.3 seed 0
+[category] h256-128_lr0.001_inverse_do0.3 seed 0: val macroF1 0.6474 FPR 0.2250 best epoch 12/17 (54s)
+[category] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 0
+[category] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.6834 FPR 0.2576 best epoch 23/28 (88s)
+[category] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 0
+[category] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.6874 FPR 0.2434 best epoch 37/42 (132s)
+[category] h256-128_lr0.0003_inverse_do0.1 seed 0
+[category] h256-128_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.6589 FPR 0.2246 best epoch 29/34 (107s)
+[category] h256-128_lr0.0003_inverse_do0.3 seed 0
+[category] h256-128_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.6404 FPR 0.2368 best epoch 12/17 (54s)
+[category] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 0
+[category] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.6879 FPR 0.2560 best epoch 12/17 (65s)
+[category] h256-128-64_lr0.001_sqrt_inverse_do0.3 seed 0
+[category] h256-128-64_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.6828 FPR 0.2272 best epoch 22/27 (102s)
+[category] h256-128-64_lr0.001_inverse_do0.1 seed 0
+[category] h256-128-64_lr0.001_inverse_do0.1 seed 0: val macroF1 0.6575 FPR 0.2812 best epoch 13/18 (64s)
+[category] h256-128-64_lr0.001_inverse_do0.3 seed 0
+[category] h256-128-64_lr0.001_inverse_do0.3 seed 0: val macroF1 0.6506 FPR 0.2258 best epoch 12/17 (58s)
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 0
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.6912 FPR 0.2534 best epoch 27/32 (109s)
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 0
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.6928 FPR 0.2262 best epoch 41/46 (158s)
+[category] h256-128-64_lr0.0003_inverse_do0.1 seed 0
+[category] h256-128-64_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.6497 FPR 0.2304 best epoch 12/17 (58s)
+[category] h256-128-64_lr0.0003_inverse_do0.3 seed 0
+[category] h256-128-64_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.6551 FPR 0.2186 best epoch 29/34 (117s)
+[class34] 24 runs to do
+[class34] data loaded in 1s: train 664187 val 132923
+[class34] h128-64_lr0.001_sqrt_inverse_do0.1 seed 0
+[class34] h128-64_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.5757 FPR 0.2112 best epoch 22/27 (76s)
+[class34] h128-64_lr0.001_sqrt_inverse_do0.3 seed 0
+[class34] h128-64_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.5289 FPR 0.2076 best epoch 23/28 (79s)
+[class34] h128-64_lr0.001_inverse_do0.1 seed 0
+[class34] h128-64_lr0.001_inverse_do0.1 seed 0: val macroF1 0.5508 FPR 0.3224 best epoch 13/18 (49s)
+[class34] h128-64_lr0.001_inverse_do0.3 seed 0
+[class34] h128-64_lr0.001_inverse_do0.3 seed 0: val macroF1 0.5190 FPR 0.3784 best epoch 12/17 (46s)
+[class34] h128-64_lr0.0003_sqrt_inverse_do0.1 seed 0
+[class34] h128-64_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.5567 FPR 0.2438 best epoch 31/36 (98s)
+[class34] h128-64_lr0.0003_sqrt_inverse_do0.3 seed 0
+[class34] h128-64_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.5298 FPR 0.2518 best epoch 24/29 (78s)
+[class34] h128-64_lr0.0003_inverse_do0.1 seed 0
+[class34] h128-64_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.5396 FPR 0.3650 best epoch 13/18 (49s)
+[class34] h128-64_lr0.0003_inverse_do0.3 seed 0
+[class34] h128-64_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.5182 FPR 0.3464 best epoch 21/26 (72s)
+[class34] h256-128_lr0.001_sqrt_inverse_do0.1 seed 0
+[class34] h256-128_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.5880 FPR 0.2426 best epoch 12/17 (47s)
+[class34] h256-128_lr0.001_sqrt_inverse_do0.3 seed 0
+[class34] h256-128_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.5555 FPR 0.1932 best epoch 18/23 (64s)
+[class34] h256-128_lr0.001_inverse_do0.1 seed 0
+[class34] h256-128_lr0.001_inverse_do0.1 seed 0: val macroF1 0.5477 FPR 0.3384 best epoch 4/9 (25s)
+[class34] h256-128_lr0.001_inverse_do0.3 seed 0
+[class34] h256-128_lr0.001_inverse_do0.3 seed 0: val macroF1 0.5430 FPR 0.2910 best epoch 18/23 (63s)
+[class34] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 0
+[class34] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.5636 FPR 0.2462 best epoch 15/20 (55s)
+[class34] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 0
+[class34] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.5472 FPR 0.2110 best epoch 20/25 (69s)
+[class34] h256-128_lr0.0003_inverse_do0.1 seed 0
+[class34] h256-128_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.5483 FPR 0.3414 best epoch 13/18 (50s)
+[class34] h256-128_lr0.0003_inverse_do0.3 seed 0
+[class34] h256-128_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.5323 FPR 0.3566 best epoch 15/20 (56s)
+[class34] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 0
+[class34] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.5890 FPR 0.1930 best epoch 34/39 (131s)
+[class34] h256-128-64_lr0.001_sqrt_inverse_do0.3 seed 0
+[class34] h256-128-64_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.5390 FPR 0.1950 best epoch 23/28 (96s)
+[class34] h256-128-64_lr0.001_inverse_do0.1 seed 0
+[class34] h256-128-64_lr0.001_inverse_do0.1 seed 0: val macroF1 0.5440 FPR 0.3120 best epoch 10/15 (50s)
+[class34] h256-128-64_lr0.001_inverse_do0.3 seed 0
+[class34] h256-128-64_lr0.001_inverse_do0.3 seed 0: val macroF1 0.5238 FPR 0.2986 best epoch 13/18 (60s)
+[class34] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 0
+[class34] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.5528 FPR 0.2042 best epoch 18/23 (77s)
+[class34] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 0
+[class34] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.5296 FPR 0.1990 best epoch 21/26 (86s)
+[class34] h256-128-64_lr0.0003_inverse_do0.1 seed 0
+[class34] h256-128-64_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.5448 FPR 0.3392 best epoch 13/18 (60s)
+[class34] h256-128-64_lr0.0003_inverse_do0.3 seed 0
+[class34] h256-128-64_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.5106 FPR 0.3460 best epoch 13/18 (61s)
+[binary] 24 runs to do
+[binary] data loaded in 1s: train 664187 val 132923
+[binary] h128-64_lr0.001_sqrt_inverse_do0.1 seed 0
+[binary] h128-64_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.7555 FPR 0.1846 best epoch 4/9 (25s)
+[binary] h128-64_lr0.001_sqrt_inverse_do0.3 seed 0
+[binary] h128-64_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.7659 FPR 0.2234 best epoch 13/18 (50s)
+[binary] h128-64_lr0.001_inverse_do0.1 seed 0
+[binary] h128-64_lr0.001_inverse_do0.1 seed 0: val macroF1 0.6584 FPR 0.0382 best epoch 12/17 (46s)
+[binary] h128-64_lr0.001_inverse_do0.3 seed 0
+[binary] h128-64_lr0.001_inverse_do0.3 seed 0: val macroF1 0.6491 FPR 0.0294 best epoch 13/18 (50s)
+[binary] h128-64_lr0.0003_sqrt_inverse_do0.1 seed 0
+[binary] h128-64_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.7613 FPR 0.2110 best epoch 13/18 (51s)
+[binary] h128-64_lr0.0003_sqrt_inverse_do0.3 seed 0
+[binary] h128-64_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.7609 FPR 0.1968 best epoch 13/18 (60s)
+[binary] h128-64_lr0.0003_inverse_do0.1 seed 0
+[binary] h128-64_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.6512 FPR 0.0388 best epoch 12/17 (55s)
+[binary] h128-64_lr0.0003_inverse_do0.3 seed 0
+[binary] h128-64_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.6421 FPR 0.0332 best epoch 12/17 (53s)
+[binary] h256-128_lr0.001_sqrt_inverse_do0.1 seed 0
+[binary] h256-128_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.7606 FPR 0.1940 best epoch 7/12 (35s)
+[binary] h256-128_lr0.001_sqrt_inverse_do0.3 seed 0
+[binary] h256-128_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.7601 FPR 0.2118 best epoch 7/12 (35s)
+[binary] h256-128_lr0.001_inverse_do0.1 seed 0
+[binary] h256-128_lr0.001_inverse_do0.1 seed 0: val macroF1 0.6615 FPR 0.0444 best epoch 12/17 (49s)
+[binary] h256-128_lr0.001_inverse_do0.3 seed 0
+[binary] h256-128_lr0.001_inverse_do0.3 seed 0: val macroF1 0.6551 FPR 0.0442 best epoch 12/17 (48s)
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 0
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.7653 FPR 0.2018 best epoch 13/18 (51s)
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 0
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.7617 FPR 0.2004 best epoch 13/18 (58s)
+[binary] h256-128_lr0.0003_inverse_do0.1 seed 0
+[binary] h256-128_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.6594 FPR 0.0442 best epoch 12/17 (55s)
+[binary] h256-128_lr0.0003_inverse_do0.3 seed 0
+[binary] h256-128_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.6543 FPR 0.0438 best epoch 12/17 (54s)
+[binary] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 0
+[binary] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 0: val macroF1 0.7602 FPR 0.2068 best epoch 4/9 (30s)
+[binary] h256-128-64_lr0.001_sqrt_inverse_do0.3 seed 0
+[binary] h256-128-64_lr0.001_sqrt_inverse_do0.3 seed 0: val macroF1 0.7554 FPR 0.1956 best epoch 7/12 (40s)
+[binary] h256-128-64_lr0.001_inverse_do0.1 seed 0
+[binary] h256-128-64_lr0.001_inverse_do0.1 seed 0: val macroF1 0.6511 FPR 0.0304 best epoch 4/9 (30s)
+[binary] h256-128-64_lr0.001_inverse_do0.3 seed 0
+[binary] h256-128-64_lr0.001_inverse_do0.3 seed 0: val macroF1 0.6591 FPR 0.0514 best epoch 12/17 (58s)
+[binary] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 0
+[binary] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 0: val macroF1 0.7578 FPR 0.1940 best epoch 4/9 (31s)
+[binary] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 0
+[binary] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 0: val macroF1 0.7589 FPR 0.1874 best epoch 13/18 (61s)
+[binary] h256-128-64_lr0.0003_inverse_do0.1 seed 0
+[binary] h256-128-64_lr0.0003_inverse_do0.1 seed 0: val macroF1 0.6587 FPR 0.0444 best epoch 12/17 (57s)
+[binary] h256-128-64_lr0.0003_inverse_do0.3 seed 0
+[binary] h256-128-64_lr0.0003_inverse_do0.3 seed 0: val macroF1 0.6555 FPR 0.0448 best epoch 12/17 (57s)
+=== search done 2026-11-01 18:36:33, 70 new runs
+=== search start 2026-11-01 18:36:59 device cuda tasks ['category', 'class34', 'binary'] seeds [1, 2]
+[category] top-3 seed-0 configs: ['h256-128_lr0.001_sqrt_inverse_do0.1', 'h256-128-64_lr0.0003_sqrt_inverse_do0.3', 'h256-128-64_lr0.0003_sqrt_inverse_do0.1']
+[category] 6 runs to do
+[category] data loaded in 1s: train 664187 val 132923
+[category] h256-128_lr0.001_sqrt_inverse_do0.1 seed 1
+[category] h256-128_lr0.001_sqrt_inverse_do0.1 seed 1: val macroF1 0.6905 FPR 0.2532 best epoch 24/29 (81s)
+[category] h256-128_lr0.001_sqrt_inverse_do0.1 seed 2
+[category] h256-128_lr0.001_sqrt_inverse_do0.1 seed 2: val macroF1 0.6880 FPR 0.2472 best epoch 11/16 (44s)
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 1
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 1: val macroF1 0.6855 FPR 0.2400 best epoch 20/25 (84s)
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 2
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.1 seed 2: val macroF1 0.6869 FPR 0.2854 best epoch 23/28 (94s)
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 1
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 1: val macroF1 0.6811 FPR 0.2580 best epoch 20/25 (86s)
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 2
+[category] h256-128-64_lr0.0003_sqrt_inverse_do0.3 seed 2: val macroF1 0.6838 FPR 0.2318 best epoch 32/37 (137s)
+[class34] top-3 seed-0 configs: ['h256-128-64_lr0.001_sqrt_inverse_do0.1', 'h256-128_lr0.001_sqrt_inverse_do0.1', 'h128-64_lr0.001_sqrt_inverse_do0.1']
+[class34] 6 runs to do
+[class34] data loaded in 1s: train 664187 val 132923
+[class34] h128-64_lr0.001_sqrt_inverse_do0.1 seed 1
+[class34] h128-64_lr0.001_sqrt_inverse_do0.1 seed 1: val macroF1 0.5444 FPR 0.2532 best epoch 5/10 (28s)
+[class34] h128-64_lr0.001_sqrt_inverse_do0.1 seed 2
+[class34] h128-64_lr0.001_sqrt_inverse_do0.1 seed 2: val macroF1 0.5862 FPR 0.2330 best epoch 36/41 (115s)
+[class34] h256-128_lr0.001_sqrt_inverse_do0.1 seed 1
+[class34] h256-128_lr0.001_sqrt_inverse_do0.1 seed 1: val macroF1 0.5890 FPR 0.1932 best epoch 20/25 (70s)
+[class34] h256-128_lr0.001_sqrt_inverse_do0.1 seed 2
+[class34] h256-128_lr0.001_sqrt_inverse_do0.1 seed 2: val macroF1 0.5847 FPR 0.2366 best epoch 10/15 (51s)
+[class34] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 1
+[class34] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 1: val macroF1 0.5687 FPR 0.2094 best epoch 15/20 (77s)
+[class34] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 2
+[class34] h256-128-64_lr0.001_sqrt_inverse_do0.1 seed 2: val macroF1 0.5597 FPR 0.2212 best epoch 11/16 (62s)
+[binary] top-3 seed-0 configs: ['h128-64_lr0.001_sqrt_inverse_do0.3', 'h256-128_lr0.0003_sqrt_inverse_do0.1', 'h256-128_lr0.0003_sqrt_inverse_do0.3']
+[binary] 6 runs to do
+[binary] data loaded in 2s: train 664187 val 132923
+[binary] h128-64_lr0.001_sqrt_inverse_do0.3 seed 1
+[binary] h128-64_lr0.001_sqrt_inverse_do0.3 seed 1: val macroF1 0.7550 FPR 0.1958 best epoch 4/9 (29s)
+[binary] h128-64_lr0.001_sqrt_inverse_do0.3 seed 2
+[binary] h128-64_lr0.001_sqrt_inverse_do0.3 seed 2: val macroF1 0.7609 FPR 0.1992 best epoch 23/25 (79s)
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 1
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 1: val macroF1 0.7644 FPR 0.1944 best epoch 13/18 (57s)
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 2
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.1 seed 2: val macroF1 0.7614 FPR 0.1854 best epoch 12/17 (55s)
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 1
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 1: val macroF1 0.7619 FPR 0.1900 best epoch 13/18 (59s)
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 2
+[binary] h256-128_lr0.0003_sqrt_inverse_do0.3 seed 2: val macroF1 0.7641 FPR 0.1958 best epoch 12/17 (54s)
+=== search done 2026-11-01 18:58:34, 18 new runs

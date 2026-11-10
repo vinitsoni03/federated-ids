@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_class34_dir0.1_fedprox_s1 --device cuda --partition dirichlet --alpha 0.1 --algorithm fedprox --mu 0.01 --seed 1 --task class34
+  [fl_class34_dir0.1_fedprox_s1] round 2: val macroF1 0.3030 test macroF1 0.3179 FPR 0.2221 (8.1s)
+  [fl_class34_dir0.1_fedprox_s1] round 4: val macroF1 0.3595 test macroF1 0.3767 FPR 0.1839 (15.8s)
+  [fl_class34_dir0.1_fedprox_s1] round 6: val macroF1 0.3738 test macroF1 0.3900 FPR 0.2242 (23.5s)
+  [fl_class34_dir0.1_fedprox_s1] round 8: val macroF1 0.3886 test macroF1 0.3966 FPR 0.2130 (31.2s)
+  [fl_class34_dir0.1_fedprox_s1] round 10: val macroF1 0.4027 test macroF1 0.4090 FPR 0.2437 (38.9s)
+  [fl_class34_dir0.1_fedprox_s1] round 12: val macroF1 0.4023 test macroF1 0.4046 FPR 0.2420 (46.6s)
+  [fl_class34_dir0.1_fedprox_s1] round 14: val macroF1 0.4142 test macroF1 0.4208 FPR 0.2759 (54.4s)
+  [fl_class34_dir0.1_fedprox_s1] round 16: val macroF1 0.4227 test macroF1 0.4294 FPR 0.2609 (62.1s)
+  [fl_class34_dir0.1_fedprox_s1] round 18: val macroF1 0.4276 test macroF1 0.4348 FPR 0.2860 (69.9s)
+  [fl_class34_dir0.1_fedprox_s1] round 20: val macroF1 0.4343 test macroF1 0.4389 FPR 0.2563 (77.6s)
+  [fl_class34_dir0.1_fedprox_s1] round 22: val macroF1 0.4354 test macroF1 0.4401 FPR 0.2266 (85.4s)
+  [fl_class34_dir0.1_fedprox_s1] round 24: val macroF1 0.4359 test macroF1 0.4376 FPR 0.2369 (93.4s)
+  [fl_class34_dir0.1_fedprox_s1] round 26: val macroF1 0.4398 test macroF1 0.4414 FPR 0.2093 (101.2s)
+  [fl_class34_dir0.1_fedprox_s1] round 28: val macroF1 0.4389 test macroF1 0.4414 FPR 0.1897 (109.0s)
+  [fl_class34_dir0.1_fedprox_s1] round 30: val macroF1 0.4417 test macroF1 0.4462 FPR 0.2041 (116.8s)
+{'n': 253328, 'accuracy': 0.5910637592370366, 'balanced_accuracy': 0.4951131832771902, 'macro_f1': 0.4461657530740122, 'weighted_f1': 0.5431979869933653, 'benign_fpr': 0.2041, 'attack_detection_rate': 0.9222161033666492, 'binary_f1': 0.9553653915746003, 'macro_roc_auc_ovr': 0.9588763230785159, 'macro_pr_auc_ovr': 0.5220295013009242} {} 116.8

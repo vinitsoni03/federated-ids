@@ -1,0 +1,222 @@
+{
+  "test": {
+    "n": 253328,
+    "accuracy": 0.9579833259647571,
+    "balanced_accuracy": 0.759306575486586,
+    "macro_f1": 0.7416791620295966,
+    "weighted_f1": 0.9593979080939209,
+    "per_class": {
+      "Benign": {
+        "precision": 0.4720389023966655,
+        "recall": 0.5436,
+        "f1": 0.5052983825989961,
+        "support": 10000
+      },
+      "Attack": {
+        "precision": 0.9811258332919789,
+        "recall": 0.975013150973172,
+        "f1": 0.978059941460197,
+        "support": 243328
+      }
+    },
+    "confusion_matrix": [
+      [
+        5436,
+        4564
+      ],
+      [
+        6080,
+        237248
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.4564,
+    "attack_detection_rate": 0.975013150973172,
+    "binary_f1": 0.978059941460197,
+    "macro_roc_auc_ovr": 0.9590660491188848,
+    "macro_pr_auc_ovr": 0.7421288367746209,
+    "binary_roc_auc": 0.9590660445982377,
+    "binary_pr_auc": 0.9982361230205083
+  },
+  "test_unseen": {
+    "n": 222317,
+    "accuracy": 0.9522483660718704,
+    "balanced_accuracy": 0.7574615982346524,
+    "macro_f1": 0.7400207969326742,
+    "weighted_f1": 0.9538480103089287,
+    "per_class": {
+      "Benign": {
+        "precision": 0.471827919533223,
+        "recall": 0.5434848028889557,
+        "f1": 0.5051277270184599,
+        "support": 9969
+      },
+      "Attack": {
+        "precision": 0.9784142975041976,
+        "recall": 0.9714383935803492,
+        "f1": 0.9749138668468885,
+        "support": 212348
+      }
+    },
+    "confusion_matrix": [
+      [
+        5418,
+        4551
+      ],
+      [
+        6065,
+        206283
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.4565151971110442,
+    "attack_detection_rate": 0.9714383935803492,
+    "binary_f1": 0.9749138668468885,
+    "macro_roc_auc_ovr": 0.9533909974746568,
+    "macro_pr_auc_ovr": 0.7417460510338171,
+    "binary_roc_auc": 0.9533909934593461,
+    "binary_pr_auc": 0.9976911744729497
+  },
+  "val": {
+    "n": 132923,
+    "accuracy": 0.9612632877681063,
+    "balanced_accuracy": 0.761266679955911,
+    "macro_f1": 0.7470134178332559,
+    "weighted_f1": 0.9623124332513392,
+    "per_class": {
+      "Benign": {
+        "precision": 0.4866940525093767,
+        "recall": 0.545,
+        "f1": 0.514199452778564,
+        "support": 5000
+      },
+      "Attack": {
+        "precision": 0.9821321981715937,
+        "recall": 0.977533359911822,
+        "f1": 0.9798273828879478,
+        "support": 127923
+      }
+    },
+    "confusion_matrix": [
+      [
+        2725,
+        2275
+      ],
+      [
+        2874,
+        125049
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.455,
+    "attack_detection_rate": 0.977533359911822,
+    "binary_f1": 0.9798273828879478,
+    "macro_roc_auc_ovr": 0.9623696919240481,
+    "macro_pr_auc_ovr": 0.745805827728077,
+    "binary_roc_auc": 0.962369685670286,
+    "binary_pr_auc": 0.9984676181339714
+  },
+  "targets": {},
+  "malicious_clients": [
+    3,
+    6
+  ],
+  "partition": {
+    "client_sizes": [
+      166089,
+      24191,
+      18207,
+      79483,
+      37257,
+      25358,
+      96649,
+      94328,
+      19545,
+      103080
+    ],
+    "label_histogram": [
+      [
+        679,
+        165410
+      ],
+      [
+        3496,
+        20695
+      ],
+      [
+        1080,
+        17127
+      ],
+      [
+        5726,
+        73757
+      ],
+      [
+        2920,
+        34337
+      ],
+      [
+        1235,
+        24123
+      ],
+      [
+        5273,
+        91376
+      ],
+      [
+        1256,
+        93072
+      ],
+      [
+        78,
+        19467
+      ],
+      [
+        3257,
+        99823
+      ]
+    ],
+    "classes_per_client": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "tv_distance_to_global": [
+      0.0336,
+      0.1069,
+      0.0217,
+      0.0344,
+      0.0407,
+      0.0111,
+      0.0169,
+      0.0243,
+      0.0336,
+      0.006
+    ],
+    "mean_tv_distance": 0.032923929972891494
+  },
+  "wall_clock_seconds": 88.4,
+  "communication": {
+    "n_parameters": 12738,
+    "bytes_per_model_float32": 50952,
+    "total_MB": 29.15,
+    "rounds": 30
+  },
+  "peak_rss_mb": 1546.2
+}

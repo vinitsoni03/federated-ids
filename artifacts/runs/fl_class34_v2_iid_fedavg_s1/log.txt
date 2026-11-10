@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_class34_v2_iid_fedavg_s1 --device cuda --partition iid --algorithm fedavg --seed 1 --hidden 256 128 --dropout 0.1 --lr 0.001 --task class34
+  [fl_class34_v2_iid_fedavg_s1] round 2: val macroF1 0.4883 test macroF1 0.4701 FPR 0.3766 (6.5s)
+  [fl_class34_v2_iid_fedavg_s1] round 4: val macroF1 0.5062 test macroF1 0.4882 FPR 0.3620 (12.7s)
+  [fl_class34_v2_iid_fedavg_s1] round 6: val macroF1 0.5192 test macroF1 0.4986 FPR 0.3230 (18.6s)
+  [fl_class34_v2_iid_fedavg_s1] round 8: val macroF1 0.5210 test macroF1 0.5011 FPR 0.3107 (24.6s)
+  [fl_class34_v2_iid_fedavg_s1] round 10: val macroF1 0.5218 test macroF1 0.5056 FPR 0.2960 (30.6s)
+  [fl_class34_v2_iid_fedavg_s1] round 12: val macroF1 0.5308 test macroF1 0.5087 FPR 0.3141 (36.8s)
+  [fl_class34_v2_iid_fedavg_s1] round 14: val macroF1 0.5311 test macroF1 0.5125 FPR 0.3025 (42.8s)
+  [fl_class34_v2_iid_fedavg_s1] round 16: val macroF1 0.5318 test macroF1 0.5191 FPR 0.2845 (48.8s)
+  [fl_class34_v2_iid_fedavg_s1] round 18: val macroF1 0.5389 test macroF1 0.5206 FPR 0.2901 (54.7s)
+  [fl_class34_v2_iid_fedavg_s1] round 20: val macroF1 0.5410 test macroF1 0.5250 FPR 0.2363 (60.6s)
+  [fl_class34_v2_iid_fedavg_s1] round 22: val macroF1 0.5335 test macroF1 0.5219 FPR 0.2637 (66.6s)
+  [fl_class34_v2_iid_fedavg_s1] round 24: val macroF1 0.5412 test macroF1 0.5290 FPR 0.2385 (72.9s)
+  [fl_class34_v2_iid_fedavg_s1] round 26: val macroF1 0.5365 test macroF1 0.5282 FPR 0.2496 (79.0s)
+  [fl_class34_v2_iid_fedavg_s1] round 28: val macroF1 0.5421 test macroF1 0.5314 FPR 0.2529 (84.9s)
+  [fl_class34_v2_iid_fedavg_s1] round 30: val macroF1 0.5398 test macroF1 0.5355 FPR 0.2497 (90.9s)
+{'n': 253328, 'accuracy': 0.6652561106549612, 'balanced_accuracy': 0.5502222040277386, 'macro_f1': 0.5355366106760552, 'weighted_f1': 0.6516424656088299, 'benign_fpr': 0.2497, 'attack_detection_rate': 0.9588456733298264, 'binary_f1': 0.9738885793057964, 'macro_roc_auc_ovr': 0.9703667335760809, 'macro_pr_auc_ovr': 0.5752011241106898} {} 90.9

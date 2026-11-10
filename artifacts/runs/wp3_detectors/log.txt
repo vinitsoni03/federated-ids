@@ -1,0 +1,44 @@
+=== start 2026-11-01 18:58:42 tasks ['category', 'class34', 'binary'] detectors ['v1_mlp', 'v2_mlp', 'rf', 'hgb', 'two_stage'] device cuda
+[category] train 664187 val 132923, 8 classes
+[category] v1_mlp s0: argmax F1 0.6871 FPR 0.2946 | fpr5 det 0.9020 F1 0.6438 | fpr1 det 0.8583 F1 0.6019
+[category] v1_mlp s1: argmax F1 0.6880 FPR 0.2504 | fpr5 det 0.8994 F1 0.6414 | fpr1 det 0.8603 F1 0.6058
+[category] v1_mlp s2: argmax F1 0.6824 FPR 0.2558 | fpr5 det 0.9015 F1 0.6366 | fpr1 det 0.8584 F1 0.5979
+[category] v2 config h256-128_lr0.001_sqrt_inverse_do0.1 seeds [0, 1, 2] (mean val macro-F1 0.6909)
+[category] v2_mlp s0: argmax F1 0.6942 FPR 0.2694 | fpr5 det 0.8992 F1 0.6466 | fpr1 det 0.8629 F1 0.6132
+[category] v2_mlp s1: argmax F1 0.6905 FPR 0.2532 | fpr5 det 0.9011 F1 0.6421 | fpr1 det 0.8639 F1 0.6085
+[category] v2_mlp s2: argmax F1 0.6880 FPR 0.2472 | fpr5 det 0.9002 F1 0.6409 | fpr1 det 0.8566 F1 0.6018
+[category] rf s0: argmax F1 0.6894 FPR 0.4670 | fpr5 det 0.9048 F1 0.6381 | fpr1 det 0.8415 F1 0.5638
+[category] hgb s0: argmax F1 0.6803 FPR 0.2102 | fpr5 det 0.9053 F1 0.6513 | fpr1 det 0.8650 F1 0.6209
+[category] two_stage s0: training stage 2 (7 attack classes, config h256-128_lr0.001_sqrt_inverse_do0.1)
+[category] two_stage s0: argmax F1 0.6696 FPR 0.0972 | fpr5 det 0.8967 F1 0.6313 | fpr1 det 0.8426 F1 0.5785
+[category] two_stage s1: training stage 2 (7 attack classes, config h256-128_lr0.001_sqrt_inverse_do0.1)
+[category] two_stage s1: argmax F1 0.6674 FPR 0.0888 | fpr5 det 0.8952 F1 0.6322 | fpr1 det 0.8406 F1 0.5808
+[category] two_stage s2: training stage 2 (7 attack classes, config h256-128_lr0.001_sqrt_inverse_do0.1)
+[category] two_stage s2: argmax F1 0.6671 FPR 0.0824 | fpr5 det 0.8973 F1 0.6363 | fpr1 det 0.8429 F1 0.5834
+[class34] train 664187 val 132923, 34 classes
+[class34] v1_mlp s0: argmax F1 0.5757 FPR 0.2112 | fpr5 det 0.8963 F1 0.5594 | fpr1 det 0.8572 F1 0.5449
+[class34] v1_mlp s1: argmax F1 0.5444 FPR 0.2532 | fpr5 det 0.8931 F1 0.5311 | fpr1 det 0.8465 F1 0.5162
+[class34] v1_mlp s2: argmax F1 0.5824 FPR 0.2216 | fpr5 det 0.8983 F1 0.5670 | fpr1 det 0.8553 F1 0.5484
+[class34] v2 config h256-128_lr0.001_sqrt_inverse_do0.1 seeds [0, 1, 2] (mean val macro-F1 0.5873)
+[class34] v2_mlp s0: argmax F1 0.5880 FPR 0.2426 | fpr5 det 0.8981 F1 0.5712 | fpr1 det 0.8555 F1 0.5527
+[class34] v2_mlp s1: argmax F1 0.5890 FPR 0.1932 | fpr5 det 0.8981 F1 0.5726 | fpr1 det 0.8553 F1 0.5551
+[class34] v2_mlp s2: argmax F1 0.5847 FPR 0.2366 | fpr5 det 0.9007 F1 0.5691 | fpr1 det 0.8564 F1 0.5511
+[class34] rf s0: argmax F1 0.5947 FPR 0.2760 | fpr5 det 0.9098 F1 0.5808 | fpr1 det 0.8560 F1 0.5599
+[class34] hgb s0: argmax F1 0.5919 FPR 0.3074 | fpr5 det 0.9024 F1 0.5837 | fpr1 det 0.8510 F1 0.5666
+[class34] two_stage s0: training stage 2 (33 attack classes, config h256-128_lr0.001_sqrt_inverse_do0.1)
+[class34] two_stage s0: argmax F1 0.5751 FPR 0.0430 | fpr5 det 0.8967 F1 0.5702 | fpr1 det 0.8426 F1 0.5480
+[class34] two_stage s1: training stage 2 (33 attack classes, config h256-128_lr0.001_sqrt_inverse_do0.1)
+[class34] two_stage s1: argmax F1 0.5720 FPR 0.0404 | fpr5 det 0.8952 F1 0.5676 | fpr1 det 0.8406 F1 0.5466
+[class34] two_stage s2: training stage 2 (33 attack classes, config h256-128_lr0.001_sqrt_inverse_do0.1)
+[class34] two_stage s2: argmax F1 0.5789 FPR 0.0436 | fpr5 det 0.8973 F1 0.5747 | fpr1 det 0.8429 F1 0.5525
+[binary] train 664187 val 132923, 2 classes
+[binary] v1_mlp s0: argmax F1 0.7555 FPR 0.1846 | fpr5 det 0.8907 F1 0.6708 | fpr1 det 0.8357 F1 0.6150
+[binary] v1_mlp s1: argmax F1 0.7516 FPR 0.1930 | fpr5 det 0.8908 F1 0.6710 | fpr1 det 0.8362 F1 0.6155
+[binary] v1_mlp s2: argmax F1 0.7634 FPR 0.1826 | fpr5 det 0.8954 F1 0.6773 | fpr1 det 0.8424 F1 0.6215
+[binary] v2 config h256-128_lr0.0003_sqrt_inverse_do0.1 seeds [0, 1, 2] (mean val macro-F1 0.7637)
+[binary] v2_mlp s0: argmax F1 0.7653 FPR 0.2018 | fpr5 det 0.8967 F1 0.6792 | fpr1 det 0.8426 F1 0.6218
+[binary] v2_mlp s1: argmax F1 0.7644 FPR 0.1944 | fpr5 det 0.8952 F1 0.6769 | fpr1 det 0.8406 F1 0.6197
+[binary] v2_mlp s2: argmax F1 0.7614 FPR 0.1854 | fpr5 det 0.8973 F1 0.6799 | fpr1 det 0.8429 F1 0.6220
+[binary] rf s0: argmax F1 0.7491 FPR 0.5846 | fpr5 det 0.9060 F1 0.6946 | fpr1 det 0.8231 F1 0.6040
+[binary] hgb s0: argmax F1 0.6786 FPR 0.0274 | fpr5 det 0.9163 F1 0.7099 | fpr1 det 0.8663 F1 0.6471
+=== done 2026-11-01 19:08:45

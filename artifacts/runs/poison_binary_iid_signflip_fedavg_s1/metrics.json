@@ -1,0 +1,222 @@
+{
+  "test": {
+    "n": 253328,
+    "accuracy": 0.039474515252952695,
+    "balanced_accuracy": 0.5,
+    "macro_f1": 0.0379754526673958,
+    "weighted_f1": 0.002998125171113797,
+    "per_class": {
+      "Benign": {
+        "precision": 0.039474515252952695,
+        "recall": 1.0,
+        "f1": 0.0759509053347916,
+        "support": 10000
+      },
+      "Attack": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 243328
+      }
+    },
+    "confusion_matrix": [
+      [
+        10000,
+        0
+      ],
+      [
+        243328,
+        0
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.0,
+    "attack_detection_rate": 0.0,
+    "binary_f1": 0.0,
+    "macro_roc_auc_ovr": 0.5,
+    "macro_pr_auc_ovr": 0.5,
+    "binary_roc_auc": 0.5,
+    "binary_pr_auc": 0.9605254847470474
+  },
+  "test_unseen": {
+    "n": 222317,
+    "accuracy": 0.04484137515349703,
+    "balanced_accuracy": 0.5,
+    "macro_f1": 0.04291692138140051,
+    "weighted_f1": 0.003848907544193037,
+    "per_class": {
+      "Benign": {
+        "precision": 0.04484137515349703,
+        "recall": 1.0,
+        "f1": 0.08583384276280102,
+        "support": 9969
+      },
+      "Attack": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 212348
+      }
+    },
+    "confusion_matrix": [
+      [
+        9969,
+        0
+      ],
+      [
+        212348,
+        0
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.0,
+    "attack_detection_rate": 0.0,
+    "binary_f1": 0.0,
+    "macro_roc_auc_ovr": 0.5,
+    "macro_pr_auc_ovr": 0.5,
+    "binary_roc_auc": 0.5,
+    "binary_pr_auc": 0.9551586248465029
+  },
+  "val": {
+    "n": 132923,
+    "accuracy": 0.037615762509121825,
+    "balanced_accuracy": 0.5,
+    "macro_f1": 0.036252111685505684,
+    "weighted_f1": 0.0027273016472322835,
+    "per_class": {
+      "Benign": {
+        "precision": 0.037615762509121825,
+        "recall": 1.0,
+        "f1": 0.07250422337101137,
+        "support": 5000
+      },
+      "Attack": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 127923
+      }
+    },
+    "confusion_matrix": [
+      [
+        5000,
+        0
+      ],
+      [
+        127923,
+        0
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.0,
+    "attack_detection_rate": 0.0,
+    "binary_f1": 0.0,
+    "macro_roc_auc_ovr": 0.5,
+    "macro_pr_auc_ovr": 0.5,
+    "binary_roc_auc": 0.5,
+    "binary_pr_auc": 0.9623842374908782
+  },
+  "targets": {},
+  "malicious_clients": [
+    2,
+    9
+  ],
+  "partition": {
+    "client_sizes": [
+      66419,
+      66419,
+      66419,
+      66419,
+      66419,
+      66419,
+      66419,
+      66418,
+      66418,
+      66418
+    ],
+    "label_histogram": [
+      [
+        2543,
+        63876
+      ],
+      [
+        2496,
+        63923
+      ],
+      [
+        2462,
+        63957
+      ],
+      [
+        2521,
+        63898
+      ],
+      [
+        2452,
+        63967
+      ],
+      [
+        2513,
+        63906
+      ],
+      [
+        2553,
+        63866
+      ],
+      [
+        2436,
+        63982
+      ],
+      [
+        2472,
+        63946
+      ],
+      [
+        2552,
+        63866
+      ]
+    ],
+    "classes_per_client": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "tv_distance_to_global": [
+      0.0006,
+      0.0001,
+      0.0006,
+      0.0003,
+      0.0007,
+      0.0002,
+      0.0008,
+      0.001,
+      0.0004,
+      0.0008
+    ],
+    "mean_tv_distance": 0.0005479825466933764
+  },
+  "wall_clock_seconds": 93.0,
+  "communication": {
+    "n_parameters": 12738,
+    "bytes_per_model_float32": 50952,
+    "total_MB": 29.15,
+    "rounds": 30
+  },
+  "peak_rss_mb": 1504.0
+}

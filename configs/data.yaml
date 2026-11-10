@@ -1,0 +1,28 @@
+# Data locations and the fixed holdout split for CICIoT2023.
+# Large intermediates live outside the repo (C: had <1 GB free on 2026-10-25); override with
+# the FIDS_WORK_DIR environment variable.
+work_dir: D:/federated-ids-work
+raw_root: data/raw/CICIoT2023
+
+split:
+  name: ciciot_v1
+  seed: 20231025
+  # classes with >= min_files_for_file_split files: whole files go to one split
+  min_files_for_file_split: 3
+  val_frac: 0.15
+  test_frac: 0.15
+  # classes with fewer files: contiguous row blocks per file (rows are time-ordered; see
+  # reports/dataset_audit.md), with this fraction of rows purged at each block boundary
+  purge_frac: 0.005
+  purge_min_rows: 10
+  dedup_within_split: true
+  # per-class34 caps on the sampled working sets (after within-split de-duplication)
+  cap_train: 25000
+  cap_val: 5000
+  cap_test: 10000
+
+features:
+  # Number, Tot sum and the *_count columns depend on the feature-extraction window, which the
+  # dataset authors set per attack family (100 packets for DDoS/DoS/Mirai, 10 otherwise).
+  window_dependent: [Number, Tot sum, ack_count, syn_count, fin_count, rst_count]
+  primary_set: window_invariant   # window_invariant | all39

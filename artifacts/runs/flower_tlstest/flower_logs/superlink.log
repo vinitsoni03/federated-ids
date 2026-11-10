@@ -1,0 +1,103 @@
+[93mWARNING [0m:   SuperNode authentication is disabled. The SuperLink will accept connections from any SuperNode.
+[92mINFO [0m:      Starting Flower SuperLink
+[92mINFO [0m:      Starting the SuperLink Runtime HTTP API on 127.0.0.1:8000.
+[92mINFO [0m:      Starting the SuperLink Control HTTP API on 127.0.0.1:8000.
+[92mINFO [0m:      Starting the SuperLink Fleet HTTP API on 127.0.0.1:8000.
+2026-10-26T07:39:23.257Z INFO [uvicorn.error] Started server process [13628]
+2026-10-26T07:39:23.257Z INFO [uvicorn.error] Waiting for application startup.
+[92mINFO [0m:      FastAPI lifespan: startup
+[92mINFO [0m:      SuperLinkLifespan: start
+2026-10-26T07:39:23.266Z INFO [uvicorn.error] Application startup complete.
+2026-10-26T07:39:23.267Z INFO [uvicorn.error] Uvicorn running on https://127.0.0.1:8000 (Press CTRL+C to quit)
+[92mINFO [0m:      Starting Flower SuperExec
+2026-10-26T07:39:32.474Z INFO [uvicorn.access] 127.0.0.1:54980 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T07:39:32.478Z INFO [uvicorn.access] 127.0.0.1:54985 - "POST /v1/fleet/register-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=18123133866511764506
+2026-10-26T07:39:32.518Z INFO [uvicorn.access] 127.0.0.1:54980 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=9558840643125475156
+2026-10-26T07:39:32.523Z INFO [uvicorn.access] 127.0.0.1:54985 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T07:39:32.618Z INFO [uvicorn.access] 127.0.0.1:54990 - "POST /v1/fleet/register-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=3014360943911893188
+2026-10-26T07:39:32.801Z INFO [uvicorn.access] 127.0.0.1:54993 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T07:39:32.818Z INFO [uvicorn.access] 127.0.0.1:54990 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T07:39:32.892Z INFO [uvicorn.access] 127.0.0.1:54995 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T07:39:32.893Z INFO [uvicorn.access] 127.0.0.1:54996 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T07:39:32.894Z INFO [uvicorn.access] 127.0.0.1:54994 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T07:39:32.962Z INFO [uvicorn.access] 127.0.0.1:54997 - "POST /v1/fleet/register-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=273414312797341882
+2026-10-26T07:39:33.041Z INFO [uvicorn.access] 127.0.0.1:54998 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T07:39:33.091Z INFO [uvicorn.access] 127.0.0.1:54993 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T07:39:33.117Z INFO [uvicorn.access] 127.0.0.1:54999 - "POST /v1/fleet/register-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=610550457207116467
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=3413275206600165969
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=9104829264563166656
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=4120847901726833184
+2026-10-26T07:39:33.184Z INFO [uvicorn.access] 127.0.0.1:54996 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T07:39:33.185Z INFO [uvicorn.access] 127.0.0.1:54995 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T07:39:33.198Z INFO [uvicorn.access] 127.0.0.1:54994 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T07:39:33.206Z INFO [uvicorn.access] 127.0.0.1:54997 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=18352044776535532322
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=17986611368893827697
+2026-10-26T07:39:33.310Z INFO [uvicorn.access] 127.0.0.1:54998 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T07:39:33.340Z INFO [uvicorn.access] 127.0.0.1:54999 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      ControlServicer.StartRun
+[92mINFO [0m:      Created run 18002876763799088849 in federation @none/default
+2026-10-26T07:39:38.664Z INFO [uvicorn.access] 127.0.0.1:55040 - "POST /v1/control/start-run HTTP/1.1" 200
+[92mINFO [0m:      ControlServicer.StreamLogs
+2026-10-26T07:39:38.673Z INFO [uvicorn.access] 127.0.0.1:55040 - "POST /v1/control/stream-logs HTTP/1.1" 200
+[92mINFO [0m:      Started task 1274593265951001543 of run 18002876763799088849
+2026-10-26T07:39:41.668Z INFO [uvicorn.access] 127.0.0.1:55043 - "POST /v1/runtime/pull-task-input HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+2026-10-26T07:39:47.816Z INFO [uvicorn.access] 127.0.0.1:54980 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+2026-10-26T07:39:47.830Z INFO [uvicorn.access] 127.0.0.1:54985 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T07:39:47.831Z INFO [uvicorn.access] 127.0.0.1:54980 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T07:39:47.846Z INFO [uvicorn.access] 127.0.0.1:54985 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+2026-10-26T07:39:48.228Z INFO [uvicorn.access] 127.0.0.1:54990 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T07:39:48.237Z INFO [uvicorn.access] 127.0.0.1:54990 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+2026-10-26T07:39:48.395Z INFO [uvicorn.access] 127.0.0.1:54993 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T07:39:48.404Z INFO [uvicorn.access] 127.0.0.1:54993 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+2026-10-26T07:39:48.546Z INFO [uvicorn.access] 127.0.0.1:54996 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+2026-10-26T07:39:48.571Z INFO [uvicorn.access] 127.0.0.1:54997 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T07:39:48.575Z INFO [uvicorn.access] 127.0.0.1:54996 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=18002876763799088849
+2026-10-26T07:39:48.591Z INFO [uvicorn.access] 127.0.0.1:54995 - "POST /v1/fleet/get-run HTTP/1.1" 200
+2026-10-26T07:39:48.592Z INFO [uvicorn.access] 127.0.0.1:54998 - "POST /v1/fleet/get-run HTTP/1.1" 200
+2026-10-26T07:39:48.594Z INFO [uvicorn.access] 127.0.0.1:54994 - "POST /v1/fleet/get-run HTTP/1.1" 200
+2026-10-26T07:39:48.595Z INFO [uvicorn.access] 127.0.0.1:54999 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T07:39:48.609Z INFO [uvicorn.access] 127.0.0.1:54997 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T07:39:48.633Z INFO [uvicorn.access] 127.0.0.1:54995 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+2026-10-26T07:39:48.638Z INFO [uvicorn.access] 127.0.0.1:54998 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+2026-10-26T07:39:48.641Z INFO [uvicorn.access] 127.0.0.1:54994 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+2026-10-26T07:39:48.641Z INFO [uvicorn.access] 127.0.0.1:54999 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3014360943911893188
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=273414312797341882
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9558840643125475156
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18123133866511764506
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=610550457207116467
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3413275206600165969
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=4120847901726833184
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18352044776535532322
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=9104829264563166656
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17986611368893827697
+[92mINFO [0m:      Finished task 1274593265951001543 of run 18002876763799088849
+2026-10-26T07:40:10.683Z INFO [uvicorn.access] 127.0.0.1:55042 - "POST /v1/runtime/push-task-output HTTP/1.1" 200
+[92mINFO [0m:      All logs for run ID `18002876763799088849` returned
+[92mINFO [0m:      SuperExec terminated gracefully.

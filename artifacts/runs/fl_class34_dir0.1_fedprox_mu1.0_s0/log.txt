@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_class34_dir0.1_fedprox_mu1.0_s0 --device cuda --partition dirichlet --alpha 0.1 --algorithm fedprox --mu 1.0 --seed 0 --task class34
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 2: val macroF1 0.1712 test macroF1 0.1718 FPR 1.0000 (8.1s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 4: val macroF1 0.1772 test macroF1 0.1809 FPR 1.0000 (15.7s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 6: val macroF1 0.1936 test macroF1 0.2082 FPR 1.0000 (23.3s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 8: val macroF1 0.2345 test macroF1 0.2455 FPR 1.0000 (31.0s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 10: val macroF1 0.2630 test macroF1 0.2770 FPR 1.0000 (38.6s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 12: val macroF1 0.2755 test macroF1 0.2914 FPR 1.0000 (46.3s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 14: val macroF1 0.2840 test macroF1 0.2996 FPR 1.0000 (54.0s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 16: val macroF1 0.2911 test macroF1 0.3087 FPR 1.0000 (61.6s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 18: val macroF1 0.2919 test macroF1 0.3109 FPR 1.0000 (69.1s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 20: val macroF1 0.3088 test macroF1 0.3239 FPR 1.0000 (76.7s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 22: val macroF1 0.3080 test macroF1 0.3225 FPR 1.0000 (84.4s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 24: val macroF1 0.3210 test macroF1 0.3360 FPR 1.0000 (92.0s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 26: val macroF1 0.3249 test macroF1 0.3357 FPR 1.0000 (99.7s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 28: val macroF1 0.3247 test macroF1 0.3396 FPR 1.0000 (107.3s)
+  [fl_class34_dir0.1_fedprox_mu1.0_s0] round 30: val macroF1 0.3305 test macroF1 0.3461 FPR 1.0000 (115.0s)
+{'n': 253328, 'accuracy': 0.5147713636076549, 'balanced_accuracy': 0.4139092554040886, 'macro_f1': 0.3461242762784341, 'weighted_f1': 0.42989538710645653, 'benign_fpr': 1.0, 'attack_detection_rate': 1.0, 'binary_f1': 0.9798653393898392, 'macro_roc_auc_ovr': 0.9400013989167137, 'macro_pr_auc_ovr': 0.43547940984701555} {} 115.0

@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name poison_binary_iid_targeted_f0.3_median_s0 --device cuda --partition iid --attack label_flip_boost --malicious-fraction 0.3 --targets DDoS --aggregator median --seed 0 --task binary
+  [poison_binary_iid_targeted_f0.3_median_s0] round 2: val macroF1 0.6975 test macroF1 0.6926 FPR 0.2186 (6.6s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 4: val macroF1 0.7160 test macroF1 0.7134 FPR 0.2156 (12.7s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 6: val macroF1 0.7205 test macroF1 0.7189 FPR 0.2060 (18.9s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 8: val macroF1 0.7289 test macroF1 0.7279 FPR 0.2105 (25.2s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 10: val macroF1 0.7316 test macroF1 0.7265 FPR 0.2148 (31.4s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 12: val macroF1 0.7371 test macroF1 0.7326 FPR 0.2132 (37.6s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 14: val macroF1 0.7355 test macroF1 0.7302 FPR 0.1816 (43.9s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 16: val macroF1 0.7457 test macroF1 0.7400 FPR 0.2169 (50.1s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 18: val macroF1 0.7472 test macroF1 0.7412 FPR 0.2114 (56.4s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 20: val macroF1 0.7531 test macroF1 0.7458 FPR 0.2232 (62.5s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 22: val macroF1 0.7471 test macroF1 0.7405 FPR 0.1986 (68.8s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 24: val macroF1 0.7491 test macroF1 0.7404 FPR 0.1891 (75.0s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 26: val macroF1 0.7541 test macroF1 0.7458 FPR 0.2032 (81.2s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 28: val macroF1 0.7520 test macroF1 0.7426 FPR 0.1906 (87.5s)
+  [poison_binary_iid_targeted_f0.3_median_s0] round 30: val macroF1 0.7524 test macroF1 0.7427 FPR 0.1917 (93.7s)
+{'n': 253328, 'accuracy': 0.9404250615802437, 'balanced_accuracy': 0.8770774888216728, 'macro_f1': 0.7427167851379253, 'weighted_f1': 0.9504480263039238, 'benign_fpr': 0.1917, 'attack_detection_rate': 0.9458549776433456, 'binary_f1': 0.9682539682539683, 'macro_roc_auc_ovr': 0.9680397480972186, 'macro_pr_auc_ovr': 0.7706073858273386} {'DDoS': {'rows': 107571, 'predicted_benign_rate': 0.002612228202768404, 'recall': 0.9973877717972316}} 93.7

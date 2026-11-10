@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_binary_dir0.1_fedprox_s1 --device cuda --partition dirichlet --alpha 0.1 --algorithm fedprox --mu 0.01 --seed 1 --task binary
+  [fl_binary_dir0.1_fedprox_s1] round 2: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (7.5s)
+  [fl_binary_dir0.1_fedprox_s1] round 4: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (14.6s)
+  [fl_binary_dir0.1_fedprox_s1] round 6: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (21.6s)
+  [fl_binary_dir0.1_fedprox_s1] round 8: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (28.6s)
+  [fl_binary_dir0.1_fedprox_s1] round 10: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (35.6s)
+  [fl_binary_dir0.1_fedprox_s1] round 12: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (42.7s)
+  [fl_binary_dir0.1_fedprox_s1] round 14: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (49.8s)
+  [fl_binary_dir0.1_fedprox_s1] round 16: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (56.8s)
+  [fl_binary_dir0.1_fedprox_s1] round 18: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (63.8s)
+  [fl_binary_dir0.1_fedprox_s1] round 20: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (70.9s)
+  [fl_binary_dir0.1_fedprox_s1] round 22: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (78.0s)
+  [fl_binary_dir0.1_fedprox_s1] round 24: val macroF1 0.4904 test macroF1 0.4899 FPR 1.0000 (85.0s)
+  [fl_binary_dir0.1_fedprox_s1] round 26: val macroF1 0.5465 test macroF1 0.5390 FPR 0.9470 (92.0s)
+  [fl_binary_dir0.1_fedprox_s1] round 28: val macroF1 0.5090 test macroF1 0.5057 FPR 0.9839 (99.0s)
+  [fl_binary_dir0.1_fedprox_s1] round 30: val macroF1 0.5072 test macroF1 0.5080 FPR 0.9801 (106.0s)
+{'n': 253328, 'accuracy': 0.9590570327796375, 'balanced_accuracy': 0.5087766866123093, 'macro_f1': 0.5080192027991457, 'weighted_f1': 0.9418938010135446, 'benign_fpr': 0.9801, 'attack_detection_rate': 0.9976533732246187, 'binary_f1': 0.9790839023485236, 'macro_roc_auc_ovr': 0.9167036557650579, 'macro_pr_auc_ovr': 0.6400908424076348} {} 106.0

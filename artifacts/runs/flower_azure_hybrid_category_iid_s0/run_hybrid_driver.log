@@ -1,0 +1,13 @@
+[hybrid] starting SuperLink on fids-server
+[hybrid] starting Azure SuperNodes (0 1 2 3 4) on fids-clients
+[hybrid] opening SSH tunnel localhost:18000 -> 10.20.1.4:8000
+[hybrid] starting laptop SuperNodes (5 6 7 8 9)
+[hybrid] flwr run (30 rounds, 10 clients)
+[hybrid] flwr run finished in 561s
+config.json
+flower_logs
+global_model.pt
+history.csv
+metrics.json
+run_hybrid_driver.log
+[hybrid] stopped all Flower processes and the tunnel

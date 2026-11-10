@@ -1,0 +1,30 @@
+[92mINFO [0m:      Starting Flower SuperNode
+[93mWARNING [0m:   Option `--insecure` was set. Starting insecure channel to 127.0.0.1:8000.
+INFO:     Started server process [25952]
+INFO:     Waiting for application startup.
+[92mINFO [0m:      FastAPI lifespan: startup
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:9098 (Press CTRL+C to quit)
+[92mINFO [0m:      SuperNode ID: 5302533785844534366
+[92mINFO [0m:      Starting Flower SuperExec
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 5218475256087848189]
+[92mINFO [0m:      Receiving: train message (ID: f16bcd9c6588b376f595cdaac860fa10a1758738aa53243dced224ba1e6fb14c)
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 5218475256087848189]
+[92mINFO [0m:      Sending: train message (ID: 9746ba6394b82b33116f0a3e67f1b9b54058a565364cbf8fa79c4c004649b7a7)
+[92mINFO [0m:      
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 5218475256087848189]
+[92mINFO [0m:      Receiving: train message (ID: 6ebb2eae62b5005aae6ccedc1e9f5ccef0c439409eb8bded4c94a431cd96fee5)
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 5218475256087848189]
+[92mINFO [0m:      Sending: train message (ID: 80ca93f3c5c2bf3d39b78caa82131253b1c64e11647b86be3897428ffd872f2a)
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      SuperExec terminated gracefully.

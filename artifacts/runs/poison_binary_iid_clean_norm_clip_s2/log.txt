@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name poison_binary_iid_clean_norm_clip_s2 --device cuda --partition iid --aggregator norm_clip --seed 2 --task binary
+  [poison_binary_iid_clean_norm_clip_s2] round 2: val macroF1 0.7142 test macroF1 0.6989 FPR 0.2786 (6.4s)
+  [poison_binary_iid_clean_norm_clip_s2] round 4: val macroF1 0.7185 test macroF1 0.7127 FPR 0.2155 (12.7s)
+  [poison_binary_iid_clean_norm_clip_s2] round 6: val macroF1 0.7275 test macroF1 0.7245 FPR 0.2240 (18.9s)
+  [poison_binary_iid_clean_norm_clip_s2] round 8: val macroF1 0.7362 test macroF1 0.7334 FPR 0.2165 (25.0s)
+  [poison_binary_iid_clean_norm_clip_s2] round 10: val macroF1 0.7432 test macroF1 0.7388 FPR 0.2231 (31.3s)
+  [poison_binary_iid_clean_norm_clip_s2] round 12: val macroF1 0.7396 test macroF1 0.7358 FPR 0.1983 (37.5s)
+  [poison_binary_iid_clean_norm_clip_s2] round 14: val macroF1 0.7437 test macroF1 0.7386 FPR 0.1999 (43.7s)
+  [poison_binary_iid_clean_norm_clip_s2] round 16: val macroF1 0.7464 test macroF1 0.7392 FPR 0.2024 (49.9s)
+  [poison_binary_iid_clean_norm_clip_s2] round 18: val macroF1 0.7414 test macroF1 0.7330 FPR 0.1828 (56.0s)
+  [poison_binary_iid_clean_norm_clip_s2] round 20: val macroF1 0.7474 test macroF1 0.7396 FPR 0.1965 (62.2s)
+  [poison_binary_iid_clean_norm_clip_s2] round 22: val macroF1 0.7480 test macroF1 0.7387 FPR 0.1920 (68.4s)
+  [poison_binary_iid_clean_norm_clip_s2] round 24: val macroF1 0.7473 test macroF1 0.7377 FPR 0.1896 (74.4s)
+  [poison_binary_iid_clean_norm_clip_s2] round 26: val macroF1 0.7507 test macroF1 0.7414 FPR 0.1887 (80.6s)
+  [poison_binary_iid_clean_norm_clip_s2] round 28: val macroF1 0.7504 test macroF1 0.7413 FPR 0.1908 (86.7s)
+  [poison_binary_iid_clean_norm_clip_s2] round 30: val macroF1 0.7504 test macroF1 0.7415 FPR 0.1879 (92.8s)
+{'n': 253328, 'accuracy': 0.9396632034358618, 'balanced_accuracy': 0.8785028208837454, 'macro_f1': 0.7415036281583098, 'weighted_f1': 0.9499615583766617, 'benign_fpr': 0.1879, 'attack_detection_rate': 0.9449056417674908, 'binary_f1': 0.9678297893835148, 'macro_roc_auc_ovr': 0.9684779832160704, 'macro_pr_auc_ovr': 0.7704547536694099} {} 92.8

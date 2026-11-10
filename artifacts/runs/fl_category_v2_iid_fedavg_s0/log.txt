@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_category_v2_iid_fedavg_s0 --device cuda --partition iid --algorithm fedavg --seed 0 --hidden 256 128 --dropout 0.1 --lr 0.001 --task category
+  [fl_category_v2_iid_fedavg_s0] round 2: val macroF1 0.6035 test macroF1 0.6107 FPR 0.3847 (6.7s)
+  [fl_category_v2_iid_fedavg_s0] round 4: val macroF1 0.6260 test macroF1 0.6299 FPR 0.3835 (13.7s)
+  [fl_category_v2_iid_fedavg_s0] round 6: val macroF1 0.6354 test macroF1 0.6413 FPR 0.3565 (20.1s)
+  [fl_category_v2_iid_fedavg_s0] round 8: val macroF1 0.6434 test macroF1 0.6491 FPR 0.3319 (26.7s)
+  [fl_category_v2_iid_fedavg_s0] round 10: val macroF1 0.6497 test macroF1 0.6525 FPR 0.3158 (34.1s)
+  [fl_category_v2_iid_fedavg_s0] round 12: val macroF1 0.6554 test macroF1 0.6579 FPR 0.2798 (40.9s)
+  [fl_category_v2_iid_fedavg_s0] round 14: val macroF1 0.6581 test macroF1 0.6574 FPR 0.2742 (47.3s)
+  [fl_category_v2_iid_fedavg_s0] round 16: val macroF1 0.6579 test macroF1 0.6644 FPR 0.2923 (53.8s)
+  [fl_category_v2_iid_fedavg_s0] round 18: val macroF1 0.6597 test macroF1 0.6657 FPR 0.2762 (60.3s)
+  [fl_category_v2_iid_fedavg_s0] round 20: val macroF1 0.6611 test macroF1 0.6694 FPR 0.2835 (66.7s)
+  [fl_category_v2_iid_fedavg_s0] round 22: val macroF1 0.6611 test macroF1 0.6717 FPR 0.2818 (73.3s)
+  [fl_category_v2_iid_fedavg_s0] round 24: val macroF1 0.6708 test macroF1 0.6729 FPR 0.2724 (79.9s)
+  [fl_category_v2_iid_fedavg_s0] round 26: val macroF1 0.6699 test macroF1 0.6770 FPR 0.2723 (86.2s)
+  [fl_category_v2_iid_fedavg_s0] round 28: val macroF1 0.6699 test macroF1 0.6743 FPR 0.2495 (93.1s)
+  [fl_category_v2_iid_fedavg_s0] round 30: val macroF1 0.6725 test macroF1 0.6768 FPR 0.2694 (99.6s)
+{'n': 253328, 'accuracy': 0.8052445840965073, 'balanced_accuracy': 0.6952115149862323, 'macro_f1': 0.6767678032938196, 'weighted_f1': 0.8112425177168153, 'benign_fpr': 0.2694, 'attack_detection_rate': 0.9654211599158338, 'binary_f1': 0.9769033717584045, 'macro_roc_auc_ovr': 0.9677357522525002, 'macro_pr_auc_ovr': 0.719093079557806} {} 99.6

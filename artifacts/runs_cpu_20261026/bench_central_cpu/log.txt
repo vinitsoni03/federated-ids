@@ -1,0 +1,7 @@
+device cpu
+run bench_central_cpu: train 664187 val 132923 test 253328, 33 features
+  seed 0 epoch 1: loss 0.8022 val macroF1 0.6314
+  seed 0 epoch 2: loss 0.6514 val macroF1 0.6541
+  seed 0 epoch 3: loss 0.6056 val macroF1 0.6613
+seed 0: test macroF1 0.6655 unseen 0.6698 FPR 0.2563 (13s)
+wrote C:\Users\06ven\Downloads\federated-ids\artifacts\runs\bench_central_cpu

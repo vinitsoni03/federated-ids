@@ -1,0 +1,7 @@
+device cuda
+run bench_central_cuda: train 664187 val 132923 test 253328, 33 features
+  seed 0 epoch 1: loss 0.8032 val macroF1 0.6297
+  seed 0 epoch 2: loss 0.6506 val macroF1 0.6549
+  seed 0 epoch 3: loss 0.6050 val macroF1 0.6612
+seed 0: test macroF1 0.6613 unseen 0.6662 FPR 0.2634 (9s)
+wrote C:\Users\06ven\Downloads\federated-ids\artifacts\runs\bench_central_cuda

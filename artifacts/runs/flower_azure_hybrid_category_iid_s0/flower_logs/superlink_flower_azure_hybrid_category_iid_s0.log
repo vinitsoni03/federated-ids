@@ -1,0 +1,392 @@
+[93mWARNING [0m:   SuperNode authentication is disabled. The SuperLink will accept connections from any SuperNode.
+[92mINFO [0m:      Starting Flower SuperLink
+[92mINFO [0m:      Starting the SuperLink Runtime HTTP API on 0.0.0.0:8000.
+[92mINFO [0m:      Starting the SuperLink Control HTTP API on 0.0.0.0:8000.
+[92mINFO [0m:      Starting the SuperLink Fleet HTTP API on 0.0.0.0:8000.
+2026-10-26T10:16:27.800Z INFO [uvicorn.error] Started server process [1590]
+2026-10-26T10:16:27.800Z INFO [uvicorn.error] Waiting for application startup.
+[92mINFO [0m:      FastAPI lifespan: startup
+[92mINFO [0m:      SuperLinkLifespan: start
+2026-10-26T10:16:27.804Z INFO [uvicorn.error] Application startup complete.
+2026-10-26T10:16:27.804Z INFO [uvicorn.error] Uvicorn running on https://0.0.0.0:8000 (Press CTRL+C to quit)
+[92mINFO [0m:      Starting Flower SuperExec
+2026-10-26T10:16:38.008Z INFO [uvicorn.access] 10.20.1.5:33818 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T10:16:38.008Z INFO [uvicorn.access] 10.20.1.5:33806 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T10:16:38.009Z INFO [uvicorn.access] 10.20.1.5:33816 - "POST /v1/fleet/register-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=7689323958927912041
+2026-10-26T10:16:38.017Z INFO [uvicorn.access] 10.20.1.5:33816 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=12493231109352601489
+2026-10-26T10:16:38.022Z INFO [uvicorn.access] 10.20.1.5:33806 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=3703567709121824230
+2026-10-26T10:16:38.023Z INFO [uvicorn.access] 10.20.1.5:33818 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T10:16:40.610Z INFO [uvicorn.access] 10.20.1.5:33856 - "POST /v1/fleet/register-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=11951825369698241529
+2026-10-26T10:16:40.624Z INFO [uvicorn.access] 10.20.1.5:33856 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T10:16:41.336Z INFO [uvicorn.access] 10.20.1.5:33874 - "POST /v1/fleet/register-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=17974434612298731710
+2026-10-26T10:16:41.352Z INFO [uvicorn.access] 10.20.1.5:33874 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T10:16:50.744Z INFO [uvicorn.access] 127.0.0.1:40212 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T10:16:50.798Z INFO [uvicorn.access] 127.0.0.1:40226 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T10:16:50.798Z INFO [uvicorn.access] 127.0.0.1:40246 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T10:16:50.799Z INFO [uvicorn.access] 127.0.0.1:40232 - "POST /v1/fleet/register-node HTTP/1.1" 200
+2026-10-26T10:16:50.846Z INFO [uvicorn.access] 127.0.0.1:40256 - "POST /v1/fleet/register-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=8830034335869237013
+2026-10-26T10:16:50.847Z INFO [uvicorn.access] 127.0.0.1:40212 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=18255409409514213511
+2026-10-26T10:16:50.902Z INFO [uvicorn.access] 127.0.0.1:40246 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=8306862373050403789
+2026-10-26T10:16:50.903Z INFO [uvicorn.access] 127.0.0.1:40232 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+2026-10-26T10:16:50.903Z INFO [uvicorn.access] 127.0.0.1:40226 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.ActivateNode] Activated node_id=13103654352986532622
+2026-10-26T10:16:50.955Z INFO [uvicorn.access] 127.0.0.1:40256 - "POST /v1/fleet/activate-node HTTP/1.1" 200
+[92mINFO [0m:      ControlServicer.StartRun
+[92mINFO [0m:      Created run 6434191044390027123 in federation @none/default
+2026-10-26T10:16:58.215Z INFO [uvicorn.access] 127.0.0.1:39126 - "POST /v1/control/start-run HTTP/1.1" 200
+[92mINFO [0m:      ControlServicer.StreamLogs
+2026-10-26T10:16:58.290Z INFO [uvicorn.access] 127.0.0.1:39126 - "POST /v1/control/stream-logs HTTP/1.1" 200
+[92mINFO [0m:      Started task 18313177901720694908 of run 6434191044390027123
+2026-10-26T10:16:59.996Z INFO [uvicorn.access] 127.0.0.1:39136 - "POST /v1/runtime/pull-task-input HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:07.739Z INFO [uvicorn.access] 10.20.1.5:33856 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:07.749Z INFO [uvicorn.access] 10.20.1.5:33856 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:08.117Z INFO [uvicorn.access] 10.20.1.5:33818 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:08.123Z INFO [uvicorn.access] 10.20.1.5:33818 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:08.165Z INFO [uvicorn.access] 10.20.1.5:33816 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:08.167Z INFO [uvicorn.access] 10.20.1.5:33806 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:08.179Z INFO [uvicorn.access] 10.20.1.5:33816 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:08.180Z INFO [uvicorn.access] 10.20.1.5:33806 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:08.430Z INFO [uvicorn.access] 10.20.1.5:33874 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:08.435Z INFO [uvicorn.access] 10.20.1.5:33874 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:09.674Z INFO [uvicorn.access] 127.0.0.1:40246 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:09.745Z INFO [uvicorn.access] 127.0.0.1:40226 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:09.800Z INFO [uvicorn.access] 127.0.0.1:40246 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:09.867Z INFO [uvicorn.access] 127.0.0.1:40226 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:09.874Z INFO [uvicorn.access] 127.0.0.1:40232 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:09.924Z INFO [uvicorn.access] 127.0.0.1:40212 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:09.983Z INFO [uvicorn.access] 127.0.0.1:40232 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetRun] Requesting `Run` for run_id=6434191044390027123
+2026-10-26T10:17:09.996Z INFO [uvicorn.access] 127.0.0.1:40256 - "POST /v1/fleet/get-run HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:10.038Z INFO [uvicorn.access] 127.0.0.1:40212 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.GetFab] Requesting FAB for fab_hash=2ebe615dbcb6a87cbcbd602762325d1821d167e41d463f3e7f39fbe017fceca6
+2026-10-26T10:17:10.097Z INFO [uvicorn.access] 127.0.0.1:40256 - "POST /v1/fleet/get-fab HTTP/1.1" 200
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8954721729196413004
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=18255409409514213511
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8306862373050403789
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=13103654352986532622
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=8830034335869237013
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=7689323958927912041
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=11951825369698241529
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=3703567709121824230
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=12493231109352601489
+[92mINFO [0m:      [Fleet.PushMessages] Push replies from node_id=17974434612298731710
+[92mINFO [0m:      Finished task 18313177901720694908 of run 6434191044390027123
+2026-10-26T10:26:14.644Z INFO [uvicorn.access] 127.0.0.1:53836 - "POST /v1/runtime/push-task-output HTTP/1.1" 200
+[92mINFO [0m:      All logs for run ID `6434191044390027123` returned

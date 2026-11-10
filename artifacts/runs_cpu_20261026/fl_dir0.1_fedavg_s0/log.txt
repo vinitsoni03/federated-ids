@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_dir0.1_fedavg_s0 --partition dirichlet --alpha 0.1 --algorithm fedavg --seed 0
+  [fl_dir0.1_fedavg_s0] round 2: val macroF1 0.1665 test macroF1 0.1614 FPR 1.0000 (8.4s)
+  [fl_dir0.1_fedavg_s0] round 4: val macroF1 0.1818 test macroF1 0.1797 FPR 0.9983 (15.2s)
+  [fl_dir0.1_fedavg_s0] round 6: val macroF1 0.1957 test macroF1 0.1867 FPR 0.9597 (22.0s)
+  [fl_dir0.1_fedavg_s0] round 8: val macroF1 0.2087 test macroF1 0.1990 FPR 0.9206 (28.9s)
+  [fl_dir0.1_fedavg_s0] round 10: val macroF1 0.2735 test macroF1 0.2609 FPR 0.6850 (35.8s)
+  [fl_dir0.1_fedavg_s0] round 12: val macroF1 0.2669 test macroF1 0.2603 FPR 0.6635 (42.6s)
+  [fl_dir0.1_fedavg_s0] round 14: val macroF1 0.2731 test macroF1 0.2664 FPR 0.7046 (49.5s)
+  [fl_dir0.1_fedavg_s0] round 16: val macroF1 0.3046 test macroF1 0.2903 FPR 0.6402 (56.4s)
+  [fl_dir0.1_fedavg_s0] round 18: val macroF1 0.3002 test macroF1 0.2891 FPR 0.6110 (63.2s)
+  [fl_dir0.1_fedavg_s0] round 20: val macroF1 0.3684 test macroF1 0.3569 FPR 0.5047 (70.2s)
+  [fl_dir0.1_fedavg_s0] round 22: val macroF1 0.2992 test macroF1 0.2853 FPR 0.6947 (77.4s)
+  [fl_dir0.1_fedavg_s0] round 24: val macroF1 0.3450 test macroF1 0.3233 FPR 0.7277 (84.3s)
+  [fl_dir0.1_fedavg_s0] round 26: val macroF1 0.3580 test macroF1 0.3405 FPR 0.7302 (91.4s)
+  [fl_dir0.1_fedavg_s0] round 28: val macroF1 0.3944 test macroF1 0.3769 FPR 0.6117 (98.4s)
+  [fl_dir0.1_fedavg_s0] round 30: val macroF1 0.3610 test macroF1 0.3457 FPR 0.6162 (105.5s)
+{'n': 253328, 'accuracy': 0.5761344975683699, 'balanced_accuracy': 0.3789375484619242, 'macro_f1': 0.3456964568120584, 'weighted_f1': 0.5622505150836766, 'benign_fpr': 0.6162, 'attack_detection_rate': 0.9757282351394003, 'binary_f1': 0.9752152339642481, 'macro_roc_auc_ovr': 0.8415146900598607, 'macro_pr_auc_ovr': 0.4581874340428531} {} 105.5

@@ -1,0 +1,224 @@
+{
+  "task": "category",
+  "config_id": "h128-64_lr0.001_inverse_do0.3",
+  "seed": 0,
+  "hidden": [
+    128,
+    64
+  ],
+  "lr": 0.001,
+  "class_weighting": "inverse",
+  "dropout": 0.3,
+  "best_epoch": 12,
+  "epochs_run": 17,
+  "hit_epoch_cap": false,
+  "n_parameters": 13128,
+  "train_seconds": 53.5,
+  "features": [
+    "Header_Length",
+    "Protocol Type",
+    "Time_To_Live",
+    "Rate",
+    "fin_flag_number",
+    "syn_flag_number",
+    "rst_flag_number",
+    "psh_flag_number",
+    "ack_flag_number",
+    "ece_flag_number",
+    "cwr_flag_number",
+    "HTTP",
+    "HTTPS",
+    "DNS",
+    "Telnet",
+    "SMTP",
+    "SSH",
+    "IRC",
+    "TCP",
+    "UDP",
+    "DHCP",
+    "ARP",
+    "ICMP",
+    "IGMP",
+    "IPv",
+    "LLC",
+    "Min",
+    "Max",
+    "AVG",
+    "Std",
+    "Tot size",
+    "IAT",
+    "Variance"
+  ],
+  "run_config": {
+    "model": {
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.3
+    },
+    "train": {
+      "epochs": 50,
+      "batch_size": 512,
+      "patience": 5,
+      "lr": 0.001,
+      "class_weighting": "inverse"
+    }
+  },
+  "val": {
+    "n": 132923,
+    "accuracy": 0.7356063284758846,
+    "balanced_accuracy": 0.694311176983949,
+    "macro_f1": 0.6371012104757374,
+    "weighted_f1": 0.7541184709470382,
+    "per_class": {
+      "Benign": {
+        "precision": 0.3889937419290752,
+        "recall": 0.7832,
+        "f1": 0.5198115085949426,
+        "support": 5000
+      },
+      "BruteForce": {
+        "precision": 0.25894503873109553,
+        "recall": 0.38381629305631493,
+        "f1": 0.3092511013215859,
+        "support": 1829
+      },
+      "DDoS": {
+        "precision": 0.9408182459440395,
+        "recall": 0.6981731255779867,
+        "f1": 0.8015344397592171,
+        "support": 57311
+      },
+      "DoS": {
+        "precision": 0.5095915476331012,
+        "recall": 0.86335,
+        "f1": 0.6408952564768763,
+        "support": 20000
+      },
+      "Mirai": {
+        "precision": 0.9991933857632587,
+        "recall": 0.991,
+        "f1": 0.9950798272918968,
+        "support": 15000
+      },
+      "Recon": {
+        "precision": 0.9189384800965018,
+        "recall": 0.5624077172950094,
+        "f1": 0.6977681433761793,
+        "support": 20318
+      },
+      "Spoofing": {
+        "precision": 0.8280401170079398,
+        "recall": 0.7926,
+        "f1": 0.8099325567136726,
+        "support": 10000
+      },
+      "Web": {
+        "precision": 0.2428800934715934,
+        "recall": 0.47994227994227995,
+        "f1": 0.32253685027152834,
+        "support": 3465
+      }
+    },
+    "confusion_matrix": [
+      [
+        3916,
+        320,
+        0,
+        0,
+        0,
+        78,
+        133,
+        553
+      ],
+      [
+        477,
+        702,
+        0,
+        0,
+        0,
+        68,
+        104,
+        478
+      ],
+      [
+        281,
+        13,
+        40013,
+        16420,
+        8,
+        235,
+        102,
+        239
+      ],
+      [
+        44,
+        1,
+        2460,
+        17267,
+        1,
+        175,
+        37,
+        15
+      ],
+      [
+        13,
+        2,
+        37,
+        8,
+        14865,
+        4,
+        59,
+        12
+      ],
+      [
+        3829,
+        1362,
+        7,
+        142,
+        0,
+        11427,
+        480,
+        3071
+      ],
+      [
+        1039,
+        87,
+        4,
+        39,
+        3,
+        86,
+        7926,
+        816
+      ],
+      [
+        468,
+        224,
+        9,
+        8,
+        0,
+        362,
+        731,
+        1663
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "BruteForce",
+      "DDoS",
+      "DoS",
+      "Mirai",
+      "Recon",
+      "Spoofing",
+      "Web"
+    ],
+    "benign_fpr": 0.2168,
+    "attack_detection_rate": 0.951916387201676,
+    "binary_f1": 0.9711498969211936,
+    "macro_roc_auc_ovr": 0.9640888221949524,
+    "macro_pr_auc_ovr": 0.7038028830041161,
+    "binary_roc_auc": 0.9678694863316213,
+    "binary_pr_auc": 0.9987135103345272
+  }
+}

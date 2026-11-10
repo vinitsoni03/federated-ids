@@ -1,0 +1,32 @@
+run centralized_class34_window_invariant: train 664187 val 132923 test 253328, 33 features
+  seed 0 epoch 1: loss 1.2438 val macroF1 0.4973
+  seed 0 epoch 2: loss 1.0097 val macroF1 0.5151
+  seed 0 epoch 3: loss 0.9660 val macroF1 0.5326
+  seed 0 epoch 4: loss 0.9354 val macroF1 0.5305
+  seed 0 epoch 5: loss 0.9154 val macroF1 0.5311
+  seed 0 epoch 6: loss 0.9027 val macroF1 0.5301
+  seed 0 epoch 7: loss 0.8918 val macroF1 0.5458
+  seed 0 epoch 8: loss 0.8857 val macroF1 0.5419
+  seed 0 epoch 9: loss 0.8790 val macroF1 0.5417
+  seed 0 epoch 10: loss 0.8743 val macroF1 0.5455
+  seed 0 epoch 11: loss 0.8701 val macroF1 0.5400
+  seed 0 epoch 12: loss 0.8671 val macroF1 0.5492
+  seed 0 epoch 13: loss 0.8640 val macroF1 0.5545
+  seed 0 epoch 14: loss 0.8613 val macroF1 0.5535
+  seed 0 epoch 15: loss 0.8583 val macroF1 0.5520
+  seed 0 epoch 16: loss 0.8564 val macroF1 0.5535
+  seed 0 epoch 17: loss 0.8536 val macroF1 0.5558
+  seed 0 epoch 18: loss 0.8506 val macroF1 0.5751
+  seed 0 epoch 19: loss 0.8463 val macroF1 0.5657
+  seed 0 epoch 20: loss 0.8414 val macroF1 0.5724
+  seed 0 epoch 21: loss 0.8369 val macroF1 0.5713
+  seed 0 epoch 22: loss 0.8322 val macroF1 0.5748
+  seed 0 epoch 23: loss 0.8276 val macroF1 0.5765
+  seed 0 epoch 24: loss 0.8244 val macroF1 0.5726
+  seed 0 epoch 25: loss 0.8212 val macroF1 0.5700
+  seed 0 epoch 26: loss 0.8188 val macroF1 0.5713
+  seed 0 epoch 27: loss 0.8174 val macroF1 0.5721
+  seed 0 epoch 28: loss 0.8151 val macroF1 0.5688
+seed 0: test macroF1 0.5673 unseen 0.5684 FPR 0.2246 (107s)
+RF: test macroF1 0.5914 unseen 0.5928 (45s)
+wrote C:\Users\06ven\Downloads\federated-ids\artifacts\runs\centralized_class34_window_invariant

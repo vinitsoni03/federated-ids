@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name poison_class34_iid_signflip_f0.1_median_s0 --device cuda --partition iid --attack sign_flip --malicious-fraction 0.1 --scale 5 --aggregator median --seed 0 --task class34
+  [poison_class34_iid_signflip_f0.1_median_s0] round 2: val macroF1 0.4647 test macroF1 0.4496 FPR 0.4202 (6.6s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 4: val macroF1 0.4832 test macroF1 0.4695 FPR 0.3873 (12.8s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 6: val macroF1 0.4969 test macroF1 0.4850 FPR 0.3783 (19.0s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 8: val macroF1 0.5056 test macroF1 0.4867 FPR 0.3772 (25.2s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 10: val macroF1 0.5117 test macroF1 0.4930 FPR 0.3488 (31.4s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 12: val macroF1 0.5116 test macroF1 0.4971 FPR 0.3315 (37.7s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 14: val macroF1 0.5173 test macroF1 0.4991 FPR 0.3377 (43.8s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 16: val macroF1 0.5168 test macroF1 0.5009 FPR 0.3235 (50.0s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 18: val macroF1 0.5201 test macroF1 0.5088 FPR 0.3238 (56.2s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 20: val macroF1 0.5263 test macroF1 0.5065 FPR 0.3237 (62.4s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 22: val macroF1 0.5244 test macroF1 0.5067 FPR 0.3195 (68.7s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 24: val macroF1 0.5275 test macroF1 0.5147 FPR 0.3060 (75.0s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 26: val macroF1 0.5298 test macroF1 0.5137 FPR 0.3057 (81.2s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 28: val macroF1 0.5279 test macroF1 0.5144 FPR 0.2737 (87.3s)
+  [poison_class34_iid_signflip_f0.1_median_s0] round 30: val macroF1 0.5348 test macroF1 0.5204 FPR 0.3019 (93.4s)
+{'n': 253328, 'accuracy': 0.6544795679909051, 'balanced_accuracy': 0.5383310578007465, 'macro_f1': 0.5203705635415703, 'weighted_f1': 0.6370171460188152, 'benign_fpr': 0.3019, 'attack_detection_rate': 0.9606251643871646, 'binary_f1': 0.9737551396184914, 'macro_roc_auc_ovr': 0.9685778400304758, 'macro_pr_auc_ovr': 0.557377028820038} {} 93.4

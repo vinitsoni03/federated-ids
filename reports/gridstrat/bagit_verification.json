@@ -1,0 +1,1016 @@
+{
+  "created_utc": "2026-10-25T18:24:35+00:00",
+  "archive": "C:\\Users\\06ven\\Downloads\\10.35097-bx5337kcykte438h.tar",
+  "archive_bytes": 6496524288,
+  "skip_extract": [
+    "data/dataset/merged_datasets.duckdb"
+  ],
+  "bag_root": "10.35097-bx5337kcykte438h",
+  "payload_files_in_manifest": 14,
+  "all_payload_md5_ok": true,
+  "files": [
+    {
+      "path": "data/dataset/20260225_normal.zip",
+      "bytes": 169357758,
+      "md5_expected": "af4bcad0a11b3d0916f220a7d0c5ef86",
+      "md5_actual": "af4bcad0a11b3d0916f220a7d0c5ef86",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/20260228_openai.zip",
+      "bytes": 348588416,
+      "md5_expected": "3fc00056b4cd1338794489cf937928f0",
+      "md5_actual": "3fc00056b4cd1338794489cf937928f0",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/20260301_google.zip",
+      "bytes": 613994403,
+      "md5_expected": "dd8d4dccc38a8cc172a1f0135864d028",
+      "md5_actual": "dd8d4dccc38a8cc172a1f0135864d028",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/20260301_sonnet.zip",
+      "bytes": 146707409,
+      "md5_expected": "5c09a96ed07e437f62d568be5378b1fd",
+      "md5_actual": "5c09a96ed07e437f62d568be5378b1fd",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/20260302_minimax.zip",
+      "bytes": 395953692,
+      "md5_expected": "396ee662eb56950deb8641f7b1287e10",
+      "md5_actual": "396ee662eb56950deb8641f7b1287e10",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/20260303_sonnet.zip",
+      "bytes": 279689370,
+      "md5_expected": "3d26bf30ea0bd00925a8018676e5a37d",
+      "md5_actual": "3d26bf30ea0bd00925a8018676e5a37d",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/README.md",
+      "bytes": 3823,
+      "md5_expected": "30befdb26673a7edeb8606266ab855d8",
+      "md5_actual": "30befdb26673a7edeb8606266ab855d8",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/impact_assessment.duckdb",
+      "bytes": 2371584,
+      "md5_expected": "d3df939e10d618587616513484197b95",
+      "md5_actual": "d3df939e10d618587616513484197b95",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/merged_datasets.duckdb",
+      "bytes": 4539822080,
+      "md5_expected": "ed316e040181168acc040c45d358509e",
+      "md5_actual": "ed316e040181168acc040c45d358509e",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/modbus.json",
+      "bytes": 2210,
+      "md5_expected": "f2e8c18dbad84642ddd0643e37c13aa9",
+      "md5_actual": "f2e8c18dbad84642ddd0643e37c13aa9",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/network.json",
+      "bytes": 354,
+      "md5_expected": "e1fa2cb59d3d903cb9723c31fb09ca3a",
+      "md5_actual": "e1fa2cb59d3d903cb9723c31fb09ca3a",
+      "ok": true
+    },
+    {
+      "path": "data/dataset/s7_connections.json",
+      "bytes": 3536,
+      "md5_expected": "ff8329efec31497c50d8d0e84175cfb8",
+      "md5_actual": "ff8329efec31497c50d8d0e84175cfb8",
+      "ok": true
+    },
+    {
+      "path": "data/descriptive-md/dataset.desc_md.xml",
+      "bytes": 8409,
+      "md5_expected": "a26a9ad68fb51a52c9449215db56e052",
+      "md5_actual": "a26a9ad68fb51a52c9449215db56e052",
+      "ok": true
+    },
+    {
+      "path": "data/technical-md/dataset.tech_md.xml",
+      "bytes": 672,
+      "md5_expected": "9bba356c18c7001f673764b5ad34e535",
+      "md5_actual": "9bba356c18c7001f673764b5ad34e535",
+      "ok": true
+    }
+  ],
+  "extracted": [
+    "data/readme.txt",
+    "data/descriptive-md/dataset.desc_md.xml",
+    "data/technical-md/dataset.tech_md.xml",
+    "data/dataset/20260302_minimax.zip",
+    "data/dataset/network.json",
+    "data/dataset/modbus.json",
+    "data/dataset/20260301_sonnet.zip",
+    "data/dataset/20260228_openai.zip",
+    "data/dataset/20260303_sonnet.zip",
+    "data/dataset/s7_connections.json",
+    "data/dataset/20260301_google.zip",
+    "data/dataset/impact_assessment.duckdb",
+    "data/dataset/README.md",
+    "data/dataset/20260225_normal.zip",
+    "bagit.txt",
+    "manifest-md5.txt",
+    "bag-info.txt",
+    "tagmanifest-md5.txt"
+  ],
+  "unzipped": [
+    {
+      "zip": "20260225_normal.zip",
+      "out_dir": "D:\\federated-ids-work\\raw\\GridStratLLM\\10.35097-bx5337kcykte438h\\data\\dataset\\unzipped\\20260225_normal",
+      "crc_ok": true,
+      "first_bad_member": null,
+      "members": [
+        {
+          "name": "20260225_normal/attack_worker.parquet",
+          "bytes": 647,
+          "crc32": "7666f18e"
+        },
+        {
+          "name": "20260225_normal/logs.parquet",
+          "bytes": 90184,
+          "crc32": "5e97c094"
+        },
+        {
+          "name": "20260225_normal/process_data.parquet",
+          "bytes": 1447243,
+          "crc32": "4ada9b22"
+        },
+        {
+          "name": "20260225_normal/attack_exec_steps.parquet",
+          "bytes": 1413,
+          "crc32": "dba2715a"
+        },
+        {
+          "name": "20260225_normal/attack_datamod_history.parquet",
+          "bytes": 1797,
+          "crc32": "9af44e7e"
+        },
+        {
+          "name": "20260225_normal/attack_session_llm.parquet",
+          "bytes": 1781,
+          "crc32": "7e7e9f24"
+        },
+        {
+          "name": "20260225_normal/Zeek/stats.log",
+          "bytes": 9906,
+          "crc32": "2d355156"
+        },
+        {
+          "name": "20260225_normal/Zeek/iso_cotp.log",
+          "bytes": 5570317,
+          "crc32": "cf609c3c"
+        },
+        {
+          "name": "20260225_normal/Zeek/conn.log",
+          "bytes": 761956,
+          "crc32": "3f9cdccb"
+        },
+        {
+          "name": "20260225_normal/Zeek/known_hosts.log",
+          "bytes": 94,
+          "crc32": "47dbc5e6"
+        },
+        {
+          "name": "20260225_normal/Zeek/modbus.log",
+          "bytes": 13781709,
+          "crc32": "543594b6"
+        },
+        {
+          "name": "20260225_normal/Zeek/capture_loss.log",
+          "bytes": 845,
+          "crc32": "15b06993"
+        },
+        {
+          "name": "20260225_normal/Zeek/loaded_scripts.log",
+          "bytes": 43921,
+          "crc32": "ad5b5e3e"
+        },
+        {
+          "name": "20260225_normal/Zeek/s7comm.log",
+          "bytes": 8849172,
+          "crc32": "81be47f1"
+        },
+        {
+          "name": "20260225_normal/Zeek/packet_filter.log",
+          "bytes": 90,
+          "crc32": "5beb5f01"
+        },
+        {
+          "name": "20260225_normal/Zeek/telemetry.log",
+          "bytes": 3134983,
+          "crc32": "140c1d7d"
+        },
+        {
+          "name": "20260225_normal/Zeek/known_services.log",
+          "bytes": 419,
+          "crc32": "95c6b5af"
+        },
+        {
+          "name": "20260225_normal/Zeek/weird.log",
+          "bytes": 609,
+          "crc32": "6d8a2bb6"
+        },
+        {
+          "name": "20260225_normal/Zeek/syslog.log",
+          "bytes": 737165,
+          "crc32": "21f3caf3"
+        },
+        {
+          "name": "20260225_normal/Zeek/dns.log",
+          "bytes": 59196,
+          "crc32": "caf65d01"
+        },
+        {
+          "name": "20260225_normal/packet_metadata.parquet",
+          "bytes": 109347319,
+          "crc32": "1a49c96e"
+        },
+        {
+          "name": "20260225_normal/attack_session_offline.parquet",
+          "bytes": 1013,
+          "crc32": "e0de0631"
+        },
+        {
+          "name": "20260225_normal/packets.pcap",
+          "bytes": 278052020,
+          "crc32": "a7a4e548"
+        },
+        {
+          "name": "20260225_normal/commercial_nsm/sub_events.parquet",
+          "bytes": 17004,
+          "crc32": "214fdda5"
+        },
+        {
+          "name": "20260225_normal/commercial_nsm/events.parquet",
+          "bytes": 11659,
+          "crc32": "52efeeca"
+        },
+        {
+          "name": "20260225_normal/commercial_nsm/event_types.json",
+          "bytes": 3745,
+          "crc32": "226792ba"
+        },
+        {
+          "name": "20260225_normal/commercial_nsm/event_pcap.zip",
+          "bytes": 592127,
+          "crc32": "6d6ea302"
+        }
+      ]
+    },
+    {
+      "zip": "20260228_openai.zip",
+      "out_dir": "D:\\federated-ids-work\\raw\\GridStratLLM\\10.35097-bx5337kcykte438h\\data\\dataset\\unzipped\\20260228_openai",
+      "crc_ok": true,
+      "first_bad_member": null,
+      "members": [
+        {
+          "name": "20260228_openai/attack_worker.parquet",
+          "bytes": 1688,
+          "crc32": "903f21d1"
+        },
+        {
+          "name": "20260228_openai/logs.parquet",
+          "bytes": 186170,
+          "crc32": "86bb87c6"
+        },
+        {
+          "name": "20260228_openai/process_data.parquet",
+          "bytes": 3848330,
+          "crc32": "1b7e767b"
+        },
+        {
+          "name": "20260228_openai/attack_exec_steps.parquet",
+          "bytes": 1679261,
+          "crc32": "4a2aabb9"
+        },
+        {
+          "name": "20260228_openai/attack_datamod_history.parquet",
+          "bytes": 21088490,
+          "crc32": "93f9e89d"
+        },
+        {
+          "name": "20260228_openai/attack_session_llm.parquet",
+          "bytes": 90579,
+          "crc32": "8c83dea2"
+        },
+        {
+          "name": "20260228_openai/Zeek/notice.log",
+          "bytes": 3196,
+          "crc32": "a9a1325f"
+        },
+        {
+          "name": "20260228_openai/Zeek/stats.log",
+          "bytes": 24046,
+          "crc32": "1d72ddd0"
+        },
+        {
+          "name": "20260228_openai/Zeek/iso_cotp.log",
+          "bytes": 4674791,
+          "crc32": "1947b0d2"
+        },
+        {
+          "name": "20260228_openai/Zeek/conn.log",
+          "bytes": 2176142,
+          "crc32": "6a20b1f3"
+        },
+        {
+          "name": "20260228_openai/Zeek/known_hosts.log",
+          "bytes": 94,
+          "crc32": "8e93392d"
+        },
+        {
+          "name": "20260228_openai/Zeek/modbus.log",
+          "bytes": 23574689,
+          "crc32": "0b908105"
+        },
+        {
+          "name": "20260228_openai/Zeek/capture_loss.log",
+          "bytes": 2108,
+          "crc32": "52c84277"
+        },
+        {
+          "name": "20260228_openai/Zeek/loaded_scripts.log",
+          "bytes": 43921,
+          "crc32": "ad5b5e3e"
+        },
+        {
+          "name": "20260228_openai/Zeek/s7comm.log",
+          "bytes": 6534185,
+          "crc32": "46509c00"
+        },
+        {
+          "name": "20260228_openai/Zeek/packet_filter.log",
+          "bytes": 90,
+          "crc32": "d0d12df7"
+        },
+        {
+          "name": "20260228_openai/Zeek/telemetry.log",
+          "bytes": 8073707,
+          "crc32": "5a3488fe"
+        },
+        {
+          "name": "20260228_openai/Zeek/known_services.log",
+          "bytes": 418,
+          "crc32": "ed37e4c8"
+        },
+        {
+          "name": "20260228_openai/Zeek/weird.log",
+          "bytes": 339117,
+          "crc32": "651e6b3f"
+        },
+        {
+          "name": "20260228_openai/Zeek/syslog.log",
+          "bytes": 888283,
+          "crc32": "fc187aca"
+        },
+        {
+          "name": "20260228_openai/Zeek/dns.log",
+          "bytes": 83033,
+          "crc32": "5768ff02"
+        },
+        {
+          "name": "20260228_openai/packet_metadata.parquet",
+          "bytes": 211377813,
+          "crc32": "ac14006c"
+        },
+        {
+          "name": "20260228_openai/attack_session_offline.parquet",
+          "bytes": 1013,
+          "crc32": "e0de0631"
+        },
+        {
+          "name": "20260228_openai/packets.pcap",
+          "bytes": 554176602,
+          "crc32": "bfad1dd3"
+        },
+        {
+          "name": "20260228_openai/commercial_nsm/sub_events.parquet",
+          "bytes": 23984,
+          "crc32": "75f03e55"
+        },
+        {
+          "name": "20260228_openai/commercial_nsm/events.parquet",
+          "bytes": 13934,
+          "crc32": "344d75ee"
+        },
+        {
+          "name": "20260228_openai/commercial_nsm/event_types.json",
+          "bytes": 4652,
+          "crc32": "5c25cdd0"
+        },
+        {
+          "name": "20260228_openai/commercial_nsm/event_pcap.zip",
+          "bytes": 3549784,
+          "crc32": "91ea5e13"
+        }
+      ]
+    },
+    {
+      "zip": "20260301_google.zip",
+      "out_dir": "D:\\federated-ids-work\\raw\\GridStratLLM\\10.35097-bx5337kcykte438h\\data\\dataset\\unzipped\\20260301_google",
+      "crc_ok": true,
+      "first_bad_member": null,
+      "members": [
+        {
+          "name": "20260301_google/attack_worker.parquet",
+          "bytes": 1688,
+          "crc32": "54fdfb8a"
+        },
+        {
+          "name": "20260301_google/logs.parquet",
+          "bytes": 253927,
+          "crc32": "f45d21fe"
+        },
+        {
+          "name": "20260301_google/process_data.parquet",
+          "bytes": 5024516,
+          "crc32": "1ff1b56c"
+        },
+        {
+          "name": "20260301_google/attack_exec_steps.parquet",
+          "bytes": 436402,
+          "crc32": "217233cd"
+        },
+        {
+          "name": "20260301_google/attack_datamod_history.parquet",
+          "bytes": 6066493,
+          "crc32": "a0baaa18"
+        },
+        {
+          "name": "20260301_google/attack_session_llm.parquet",
+          "bytes": 46791,
+          "crc32": "1a15bf53"
+        },
+        {
+          "name": "20260301_google/Zeek/notice.log",
+          "bytes": 1600,
+          "crc32": "f59144e2"
+        },
+        {
+          "name": "20260301_google/Zeek/stats.log",
+          "bytes": 32364,
+          "crc32": "babba9e9"
+        },
+        {
+          "name": "20260301_google/Zeek/iso_cotp.log",
+          "bytes": 7551666,
+          "crc32": "03793bd4"
+        },
+        {
+          "name": "20260301_google/Zeek/conn.log",
+          "bytes": 3346270,
+          "crc32": "0dc2f3bb"
+        },
+        {
+          "name": "20260301_google/Zeek/known_hosts.log",
+          "bytes": 94,
+          "crc32": "9fe17737"
+        },
+        {
+          "name": "20260301_google/Zeek/modbus.log",
+          "bytes": 48605204,
+          "crc32": "bf411b5c"
+        },
+        {
+          "name": "20260301_google/Zeek/capture_loss.log",
+          "bytes": 2761,
+          "crc32": "fb50fa80"
+        },
+        {
+          "name": "20260301_google/Zeek/loaded_scripts.log",
+          "bytes": 43921,
+          "crc32": "ad5b5e3e"
+        },
+        {
+          "name": "20260301_google/Zeek/s7comm.log",
+          "bytes": 11217559,
+          "crc32": "4e99ac7f"
+        },
+        {
+          "name": "20260301_google/Zeek/packet_filter.log",
+          "bytes": 90,
+          "crc32": "f5854868"
+        },
+        {
+          "name": "20260301_google/Zeek/telemetry.log",
+          "bytes": 11302722,
+          "crc32": "a8c8dd9c"
+        },
+        {
+          "name": "20260301_google/Zeek/known_services.log",
+          "bytes": 419,
+          "crc32": "e96bf27b"
+        },
+        {
+          "name": "20260301_google/Zeek/weird.log",
+          "bytes": 288294,
+          "crc32": "7290a228"
+        },
+        {
+          "name": "20260301_google/Zeek/syslog.log",
+          "bytes": 2172826,
+          "crc32": "4928e899"
+        },
+        {
+          "name": "20260301_google/Zeek/dns.log",
+          "bytes": 166017,
+          "crc32": "6b83f323"
+        },
+        {
+          "name": "20260301_google/packet_metadata.parquet",
+          "bytes": 392369490,
+          "crc32": "5c9c90f0"
+        },
+        {
+          "name": "20260301_google/attack_session_offline.parquet",
+          "bytes": 1013,
+          "crc32": "e0de0631"
+        },
+        {
+          "name": "20260301_google/packets.pcap",
+          "bytes": 1003353082,
+          "crc32": "a21d4b95"
+        },
+        {
+          "name": "20260301_google/commercial_nsm/sub_events.parquet",
+          "bytes": 21953,
+          "crc32": "8e6ccd1f"
+        },
+        {
+          "name": "20260301_google/commercial_nsm/events.parquet",
+          "bytes": 14292,
+          "crc32": "b74f0923"
+        },
+        {
+          "name": "20260301_google/commercial_nsm/event_types.json",
+          "bytes": 3715,
+          "crc32": "9cb276ba"
+        },
+        {
+          "name": "20260301_google/commercial_nsm/event_pcap.zip",
+          "bytes": 3298666,
+          "crc32": "e02ab8e9"
+        }
+      ]
+    },
+    {
+      "zip": "20260301_sonnet.zip",
+      "out_dir": "D:\\federated-ids-work\\raw\\GridStratLLM\\10.35097-bx5337kcykte438h\\data\\dataset\\unzipped\\20260301_sonnet",
+      "crc_ok": true,
+      "first_bad_member": null,
+      "members": [
+        {
+          "name": "20260301_sonnet/attack_worker.parquet",
+          "bytes": 1688,
+          "crc32": "0e841fc6"
+        },
+        {
+          "name": "20260301_sonnet/logs.parquet",
+          "bytes": 99160,
+          "crc32": "9fc925f0"
+        },
+        {
+          "name": "20260301_sonnet/process_data.parquet",
+          "bytes": 2125253,
+          "crc32": "1a4a3ea6"
+        },
+        {
+          "name": "20260301_sonnet/attack_exec_steps.parquet",
+          "bytes": 2079326,
+          "crc32": "f060a846"
+        },
+        {
+          "name": "20260301_sonnet/attack_datamod_history.parquet",
+          "bytes": 17946186,
+          "crc32": "b74b414b"
+        },
+        {
+          "name": "20260301_sonnet/attack_session_llm.parquet",
+          "bytes": 92459,
+          "crc32": "68b057e5"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/notice.log",
+          "bytes": 1800,
+          "crc32": "dbb3fcae"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/stats.log",
+          "bytes": 13657,
+          "crc32": "2b80d9fc"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/iso_cotp.log",
+          "bytes": 5326036,
+          "crc32": "7dad48e4"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/conn.log",
+          "bytes": 714878,
+          "crc32": "fa842aa2"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/known_hosts.log",
+          "bytes": 94,
+          "crc32": "7e7af9b7"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/modbus.log",
+          "bytes": 7654888,
+          "crc32": "d1f9d3f4"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/capture_loss.log",
+          "bytes": 1274,
+          "crc32": "6d35f726"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/loaded_scripts.log",
+          "bytes": 43921,
+          "crc32": "ad5b5e3e"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/s7comm.log",
+          "bytes": 8250055,
+          "crc32": "c49ca1b6"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/packet_filter.log",
+          "bytes": 90,
+          "crc32": "a41ebc50"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/telemetry.log",
+          "bytes": 4461138,
+          "crc32": "be886ae2"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/known_services.log",
+          "bytes": 419,
+          "crc32": "2a3bd3a6"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/weird.log",
+          "bytes": 92598,
+          "crc32": "207e8aa9"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/syslog.log",
+          "bytes": 458166,
+          "crc32": "3f7dfd28"
+        },
+        {
+          "name": "20260301_sonnet/Zeek/dns.log",
+          "bytes": 27677,
+          "crc32": "89e05d7b"
+        },
+        {
+          "name": "20260301_sonnet/packet_metadata.parquet",
+          "bytes": 81105544,
+          "crc32": "e5d2b1e2"
+        },
+        {
+          "name": "20260301_sonnet/attack_session_offline.parquet",
+          "bytes": 1013,
+          "crc32": "e0de0631"
+        },
+        {
+          "name": "20260301_sonnet/packets.pcap",
+          "bytes": 215575954,
+          "crc32": "bc7470e2"
+        },
+        {
+          "name": "20260301_sonnet/commercial_nsm/sub_events.parquet",
+          "bytes": 28501,
+          "crc32": "92ef9e73"
+        },
+        {
+          "name": "20260301_sonnet/commercial_nsm/events.parquet",
+          "bytes": 15176,
+          "crc32": "291dd299"
+        },
+        {
+          "name": "20260301_sonnet/commercial_nsm/event_types.json",
+          "bytes": 4344,
+          "crc32": "554e7883"
+        },
+        {
+          "name": "20260301_sonnet/commercial_nsm/event_pcap.zip",
+          "bytes": 5175869,
+          "crc32": "ba03db96"
+        }
+      ]
+    },
+    {
+      "zip": "20260302_minimax.zip",
+      "out_dir": "D:\\federated-ids-work\\raw\\GridStratLLM\\10.35097-bx5337kcykte438h\\data\\dataset\\unzipped\\20260302_minimax",
+      "crc_ok": true,
+      "first_bad_member": null,
+      "members": [
+        {
+          "name": "20260302_minimax/attack_worker.parquet",
+          "bytes": 1688,
+          "crc32": "abfaf667"
+        },
+        {
+          "name": "20260302_minimax/logs.parquet",
+          "bytes": 293931,
+          "crc32": "e2f9fa1e"
+        },
+        {
+          "name": "20260302_minimax/process_data.parquet",
+          "bytes": 5607994,
+          "crc32": "a394df30"
+        },
+        {
+          "name": "20260302_minimax/attack_exec_steps.parquet",
+          "bytes": 2547891,
+          "crc32": "9860ecbb"
+        },
+        {
+          "name": "20260302_minimax/attack_datamod_history.parquet",
+          "bytes": 26874893,
+          "crc32": "b89880b7"
+        },
+        {
+          "name": "20260302_minimax/attack_session_llm.parquet",
+          "bytes": 593305,
+          "crc32": "3ce9bc60"
+        },
+        {
+          "name": "20260302_minimax/Zeek/notice.log",
+          "bytes": 5195,
+          "crc32": "fed164a2"
+        },
+        {
+          "name": "20260302_minimax/Zeek/stats.log",
+          "bytes": 35921,
+          "crc32": "2b1119e3"
+        },
+        {
+          "name": "20260302_minimax/Zeek/iso_cotp.log",
+          "bytes": 4833174,
+          "crc32": "8b32d9fd"
+        },
+        {
+          "name": "20260302_minimax/Zeek/conn.log",
+          "bytes": 2486847,
+          "crc32": "6ab09aa6"
+        },
+        {
+          "name": "20260302_minimax/Zeek/known_hosts.log",
+          "bytes": 94,
+          "crc32": "c1dca21b"
+        },
+        {
+          "name": "20260302_minimax/Zeek/modbus.log",
+          "bytes": 25918594,
+          "crc32": "543f9ea9"
+        },
+        {
+          "name": "20260302_minimax/Zeek/capture_loss.log",
+          "bytes": 3034,
+          "crc32": "a44d1851"
+        },
+        {
+          "name": "20260302_minimax/Zeek/loaded_scripts.log",
+          "bytes": 43921,
+          "crc32": "ad5b5e3e"
+        },
+        {
+          "name": "20260302_minimax/Zeek/s7comm.log",
+          "bytes": 6617320,
+          "crc32": "975aaf1c"
+        },
+        {
+          "name": "20260302_minimax/Zeek/packet_filter.log",
+          "bytes": 90,
+          "crc32": "4c5b0963"
+        },
+        {
+          "name": "20260302_minimax/Zeek/telemetry.log",
+          "bytes": 12388812,
+          "crc32": "135a020a"
+        },
+        {
+          "name": "20260302_minimax/Zeek/known_services.log",
+          "bytes": 515,
+          "crc32": "97e46863"
+        },
+        {
+          "name": "20260302_minimax/Zeek/weird.log",
+          "bytes": 404311,
+          "crc32": "9db416a6"
+        },
+        {
+          "name": "20260302_minimax/Zeek/syslog.log",
+          "bytes": 1168849,
+          "crc32": "42acd9b3"
+        },
+        {
+          "name": "20260302_minimax/Zeek/dns.log",
+          "bytes": 103557,
+          "crc32": "129a2337"
+        },
+        {
+          "name": "20260302_minimax/packet_metadata.parquet",
+          "bytes": 234213134,
+          "crc32": "660cfc9d"
+        },
+        {
+          "name": "20260302_minimax/attack_session_offline.parquet",
+          "bytes": 1013,
+          "crc32": "e0de0631"
+        },
+        {
+          "name": "20260302_minimax/packets.pcap",
+          "bytes": 616671813,
+          "crc32": "a5c478cb"
+        },
+        {
+          "name": "20260302_minimax/commercial_nsm/sub_events.parquet",
+          "bytes": 27958,
+          "crc32": "dde1e9f6"
+        },
+        {
+          "name": "20260302_minimax/commercial_nsm/events.parquet",
+          "bytes": 15135,
+          "crc32": "5348831a"
+        },
+        {
+          "name": "20260302_minimax/commercial_nsm/event_types.json",
+          "bytes": 4025,
+          "crc32": "c3c9859d"
+        },
+        {
+          "name": "20260302_minimax/commercial_nsm/event_pcap.zip",
+          "bytes": 8062085,
+          "crc32": "19d8012f"
+        }
+      ]
+    },
+    {
+      "zip": "20260303_sonnet.zip",
+      "out_dir": "D:\\federated-ids-work\\raw\\GridStratLLM\\10.35097-bx5337kcykte438h\\data\\dataset\\unzipped\\20260303_sonnet",
+      "crc_ok": true,
+      "first_bad_member": null,
+      "members": [
+        {
+          "name": "20260303_sonnet/attack_worker.parquet",
+          "bytes": 1688,
+          "crc32": "79e27d2d"
+        },
+        {
+          "name": "20260303_sonnet/logs.parquet",
+          "bytes": 77556,
+          "crc32": "434bbbd5"
+        },
+        {
+          "name": "20260303_sonnet/process_data.parquet",
+          "bytes": 1814492,
+          "crc32": "b0916081"
+        },
+        {
+          "name": "20260303_sonnet/attack_exec_steps.parquet",
+          "bytes": 1289995,
+          "crc32": "97149c54"
+        },
+        {
+          "name": "20260303_sonnet/attack_datamod_history.parquet",
+          "bytes": 21455583,
+          "crc32": "ea944c3f"
+        },
+        {
+          "name": "20260303_sonnet/attack_session_llm.parquet",
+          "bytes": 320949,
+          "crc32": "7a1c7260"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/notice.log",
+          "bytes": 1598,
+          "crc32": "a7808608"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/stats.log",
+          "bytes": 12073,
+          "crc32": "344069f8"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/iso_cotp.log",
+          "bytes": 1051441,
+          "crc32": "d287c201"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/conn.log",
+          "bytes": 1590032,
+          "crc32": "45f664ec"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/known_hosts.log",
+          "bytes": 94,
+          "crc32": "02e5cdf0"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/modbus.log",
+          "bytes": 16853653,
+          "crc32": "8aa7699d"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/capture_loss.log",
+          "bytes": 1064,
+          "crc32": "73ad62a8"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/loaded_scripts.log",
+          "bytes": 43921,
+          "crc32": "ad5b5e3e"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/s7comm.log",
+          "bytes": 1009770,
+          "crc32": "8a90e350"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/packet_filter.log",
+          "bytes": 90,
+          "crc32": "f08dac6a"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/telemetry.log",
+          "bytes": 4006954,
+          "crc32": "1a9b6b63"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/known_services.log",
+          "bytes": 419,
+          "crc32": "3b20cfe3"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/weird.log",
+          "bytes": 235246,
+          "crc32": "4d748d15"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/syslog.log",
+          "bytes": 606781,
+          "crc32": "8c55723a"
+        },
+        {
+          "name": "20260303_sonnet/Zeek/dns.log",
+          "bytes": 55366,
+          "crc32": "d91ed64b"
+        },
+        {
+          "name": "20260303_sonnet/packet_metadata.parquet",
+          "bytes": 169016424,
+          "crc32": "33457c5a"
+        },
+        {
+          "name": "20260303_sonnet/attack_session_offline.parquet",
+          "bytes": 1013,
+          "crc32": "e0de0631"
+        },
+        {
+          "name": "20260303_sonnet/packets.pcap",
+          "bytes": 454088300,
+          "crc32": "ad1ed328"
+        },
+        {
+          "name": "20260303_sonnet/commercial_nsm/sub_events.parquet",
+          "bytes": 27677,
+          "crc32": "a0981fcc"
+        },
+        {
+          "name": "20260303_sonnet/commercial_nsm/events.parquet",
+          "bytes": 14802,
+          "crc32": "ba018103"
+        },
+        {
+          "name": "20260303_sonnet/commercial_nsm/event_types.json",
+          "bytes": 4344,
+          "crc32": "554e7883"
+        },
+        {
+          "name": "20260303_sonnet/commercial_nsm/event_pcap.zip",
+          "bytes": 4388833,
+          "crc32": "3ba4945c"
+        }
+      ]
+    }
+  ]
+}

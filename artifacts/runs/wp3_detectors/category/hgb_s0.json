@@ -1,0 +1,77 @@
+{
+  "task": "category",
+  "detector": "hgb",
+  "seed": 0,
+  "split": "val",
+  "operating_points": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.6803050779674827,
+      "benign_fpr": 0.2102,
+      "attack_detection_rate": 0.9628604707519367,
+      "binary_f1": 0.9769895219436359,
+      "per_class_f1": {
+        "Benign": 0.5764963503649635,
+        "BruteForce": 0.37542533081285445,
+        "DDoS": 0.8389975839689232,
+        "DoS": 0.6521481542013116,
+        "Mirai": 0.994968846833039,
+        "Recon": 0.7289190057540088,
+        "Spoofing": 0.8935947164272985,
+        "Web": 0.38189063537746293
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.8776234866998691,
+      "macro_f1": 0.6512703430125313,
+      "benign_fpr": 0.05,
+      "attack_detection_rate": 0.9052867740750296,
+      "binary_f1": 0.9493155176653824,
+      "per_class_f1": {
+        "Benign": 0.4344644653800421,
+        "BruteForce": 0.40098199672667756,
+        "DDoS": 0.838460152998834,
+        "DoS": 0.6517882689556509,
+        "Mirai": 0.9948683772075975,
+        "Recon": 0.6220199821940845,
+        "Spoofing": 0.8825858235262216,
+        "Web": 0.38499367711114235
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.9569707935767298,
+      "macro_f1": 0.6209495170566209,
+      "benign_fpr": 0.01,
+      "attack_detection_rate": 0.8649812777999265,
+      "binary_f1": 0.9274088105136113,
+      "per_class_f1": {
+        "Benign": 0.3636764381750055,
+        "BruteForce": 0.382183908045977,
+        "DDoS": 0.8369960414273645,
+        "DoS": 0.6512655767223916,
+        "Mirai": 0.9949008498583569,
+        "Recon": 0.5704723723200279,
+        "Spoofing": 0.8691134573487515,
+        "Web": 0.2989874925550923
+      }
+    }
+  ],
+  "train_seconds": 28.0,
+  "n_iter": 95,
+  "params": {
+    "max_iter": 300,
+    "learning_rate": 0.1,
+    "max_leaf_nodes": 31,
+    "early_stopping": true,
+    "validation_fraction": 0.1,
+    "n_iter_no_change": 10,
+    "class_weight": "balanced",
+    "random_state": 0
+  }
+}

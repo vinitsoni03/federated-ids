@@ -1,0 +1,70 @@
+{
+  "task": "category",
+  "detector": "two_stage",
+  "seed": 2,
+  "split": "val",
+  "operating_points": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.6671096489126971,
+      "benign_fpr": 0.0824,
+      "attack_detection_rate": 0.9303018221899111,
+      "binary_f1": 0.9622870357642455,
+      "per_class_f1": {
+        "Benign": 0.49589277993947256,
+        "BruteForce": 0.41464325737766156,
+        "DDoS": 0.8633125836499681,
+        "DoS": 0.6487272727272727,
+        "Mirai": 0.9958949370890765,
+        "Recon": 0.7509865935234683,
+        "Spoofing": 0.8232463252602396,
+        "Web": 0.34417344173441733
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.7556052207946777,
+      "macro_f1": 0.6362594179953085,
+      "benign_fpr": 0.05,
+      "attack_detection_rate": 0.8972506898681238,
+      "binary_f1": 0.9448697685139451,
+      "per_class_f1": {
+        "Benign": 0.4149558836376343,
+        "BruteForce": 0.3920653442240373,
+        "DDoS": 0.8625952826118223,
+        "DoS": 0.648297228154998,
+        "Mirai": 0.9957943925233644,
+        "Recon": 0.6718654806872182,
+        "Spoofing": 0.7858983496902242,
+        "Web": 0.31860338243316966
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.9132710099220276,
+      "macro_f1": 0.5834110916898897,
+      "benign_fpr": 0.01,
+      "attack_detection_rate": 0.8428742290283999,
+      "binary_f1": 0.9145447759928074,
+      "per_class_f1": {
+        "Benign": 0.32945091514143093,
+        "BruteForce": 0.3456998313659359,
+        "DDoS": 0.8590990275848382,
+        "DoS": 0.6468279152857109,
+        "Mirai": 0.9958600427350427,
+        "Recon": 0.5870974241864526,
+        "Spoofing": 0.7115048664836536,
+        "Web": 0.1917487107360525
+      }
+    }
+  ],
+  "stage1_config": "h256-128_lr0.0003_sqrt_inverse_do0.1",
+  "stage1_model": "artifacts\\runs\\wp3_hparam_search\\binary\\h256-128_lr0.0003_sqrt_inverse_do0.1_s2\\mlp.pt",
+  "stage2_config": "h256-128_lr0.001_sqrt_inverse_do0.1",
+  "stage2_model": "artifacts\\runs\\wp3_detectors\\category\\two_stage_stage2_s2.pt",
+  "stage2_train_seconds": 51.6
+}

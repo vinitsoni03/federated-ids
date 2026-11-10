@@ -1,0 +1,75 @@
+{
+  "task": "category",
+  "detector": "rf",
+  "seed": 0,
+  "split": "val",
+  "operating_points": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.68935382405549,
+      "benign_fpr": 0.467,
+      "attack_detection_rate": 0.987820798449067,
+      "binary_f1": 0.9848298866430523,
+      "per_class_f1": {
+        "Benign": 0.5779030684159168,
+        "BruteForce": 0.41281427412814276,
+        "DDoS": 0.8764858229919772,
+        "DoS": 0.5928759528759528,
+        "Mirai": 0.996490993550112,
+        "Recon": 0.8146187608901828,
+        "Spoofing": 0.8779180623550631,
+        "Web": 0.36572365723657235
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.92,
+      "macro_f1": 0.6381462647619017,
+      "benign_fpr": 0.0458,
+      "attack_detection_rate": 0.9048411935304832,
+      "binary_f1": 0.9491517084730753,
+      "per_class_f1": {
+        "Benign": 0.43483412322274884,
+        "BruteForce": 0.36174816096927737,
+        "DDoS": 0.875042249712702,
+        "DoS": 0.5923151616035511,
+        "Mirai": 0.996490993550112,
+        "Recon": 0.6907370081500307,
+        "Spoofing": 0.876904915217858,
+        "Web": 0.27709750566893426
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.98,
+      "macro_f1": 0.5638004476852623,
+      "benign_fpr": 0.006,
+      "attack_detection_rate": 0.8415140357871532,
+      "binary_f1": 0.9138207655283062,
+      "per_class_f1": {
+        "Benign": 0.32866023012828993,
+        "BruteForce": 0.2214765100671141,
+        "DDoS": 0.8671827047671009,
+        "DoS": 0.5889861211749624,
+        "Mirai": 0.9962218730148116,
+        "Recon": 0.5764332297606447,
+        "Spoofing": 0.8323912792709655,
+        "Web": 0.09905163329820864
+      }
+    }
+  ],
+  "train_seconds": 33.9,
+  "params": {
+    "enabled": true,
+    "n_estimators": 100,
+    "max_depth": null,
+    "min_samples_leaf": 1,
+    "class_weight": "balanced_subsample",
+    "n_jobs": 6,
+    "seed": 0
+  }
+}

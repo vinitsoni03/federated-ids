@@ -1,0 +1,33 @@
+run centralized_category_all39: train 664187 val 132923 test 253328, 39 features
+  seed 0 epoch 1: loss 0.7126 val macroF1 0.6462
+  seed 0 epoch 2: loss 0.6055 val macroF1 0.6672
+  seed 0 epoch 3: loss 0.5675 val macroF1 0.6719
+  seed 0 epoch 4: loss 0.5522 val macroF1 0.6759
+  seed 0 epoch 5: loss 0.5435 val macroF1 0.6790
+  seed 0 epoch 6: loss 0.5371 val macroF1 0.6746
+  seed 0 epoch 7: loss 0.5319 val macroF1 0.6790
+  seed 0 epoch 8: loss 0.5291 val macroF1 0.6791
+  seed 0 epoch 9: loss 0.5253 val macroF1 0.6796
+  seed 0 epoch 10: loss 0.5229 val macroF1 0.6834
+  seed 0 epoch 11: loss 0.5205 val macroF1 0.6831
+  seed 0 epoch 12: loss 0.5195 val macroF1 0.6862
+  seed 0 epoch 13: loss 0.5177 val macroF1 0.6843
+  seed 0 epoch 14: loss 0.5160 val macroF1 0.6849
+  seed 0 epoch 15: loss 0.5142 val macroF1 0.6880
+  seed 0 epoch 16: loss 0.5132 val macroF1 0.6858
+  seed 0 epoch 17: loss 0.5125 val macroF1 0.6840
+  seed 0 epoch 18: loss 0.5114 val macroF1 0.6874
+  seed 0 epoch 19: loss 0.5100 val macroF1 0.6886
+  seed 0 epoch 20: loss 0.5093 val macroF1 0.6886
+  seed 0 epoch 21: loss 0.5087 val macroF1 0.6897
+  seed 0 epoch 22: loss 0.5078 val macroF1 0.6906
+  seed 0 epoch 23: loss 0.5070 val macroF1 0.6897
+  seed 0 epoch 24: loss 0.5059 val macroF1 0.6913
+  seed 0 epoch 25: loss 0.5058 val macroF1 0.6890
+  seed 0 epoch 26: loss 0.5050 val macroF1 0.6858
+  seed 0 epoch 27: loss 0.5042 val macroF1 0.6910
+  seed 0 epoch 28: loss 0.5042 val macroF1 0.6876
+  seed 0 epoch 29: loss 0.5027 val macroF1 0.6892
+seed 0: test macroF1 0.6950 unseen 0.6995 FPR 0.2362 (117s)
+RF: test macroF1 0.7124 unseen 0.7188 (38s)
+wrote C:\Users\06ven\Downloads\federated-ids\artifacts\runs\centralized_category_all39

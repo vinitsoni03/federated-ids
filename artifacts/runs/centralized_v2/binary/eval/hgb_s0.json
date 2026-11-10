@@ -1,0 +1,175 @@
+{
+  "task": "binary",
+  "detector": "hgb",
+  "seed": 0,
+  "thresholds_from": "val",
+  "thresholds": {
+    "fpr5": 0.3377506276632425,
+    "fpr1": 0.7497146704300905
+  },
+  "val": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.6786280221023981,
+      "benign_fpr": 0.0274,
+      "attack_detection_rate": 0.8934749810432838,
+      "binary_f1": 0.9432075129148856,
+      "per_class_f1": {
+        "Benign": 0.4140485312899106,
+        "Attack": 0.9432075129148856
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.3377506276632425,
+      "macro_f1": 0.7099359905550359,
+      "benign_fpr": 0.05,
+      "attack_detection_rate": 0.9163402984607928,
+      "binary_f1": 0.9553697319412863,
+      "per_class_f1": {
+        "Benign": 0.46450224916878546,
+        "Attack": 0.9553697319412863
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.7497146704300905,
+      "macro_f1": 0.6471121729416703,
+      "benign_fpr": 0.01,
+      "attack_detection_rate": 0.8663492882437092,
+      "binary_f1": 0.9281948416869418,
+      "per_class_f1": {
+        "Benign": 0.36602950419639885,
+        "Attack": 0.9281948416869418
+      }
+    }
+  ],
+  "test": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.6794602003573769,
+      "benign_fpr": 0.0228,
+      "attack_detection_rate": 0.8891372961599159,
+      "binary_f1": 0.940849039373092,
+      "per_class_f1": {
+        "Benign": 0.4180713613416617,
+        "Attack": 0.940849039373092
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.3377506276632425,
+      "macro_f1": 0.7121307708159617,
+      "benign_fpr": 0.0453,
+      "attack_detection_rate": 0.9135118029984218,
+      "binary_f1": 0.9538732877888015,
+      "per_class_f1": {
+        "Benign": 0.4703882538431218,
+        "Attack": 0.9538732877888015
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.7497146704300905,
+      "macro_f1": 0.6467716705090288,
+      "benign_fpr": 0.007,
+      "attack_detection_rate": 0.8605133811152025,
+      "binary_f1": 0.9248848791368972,
+      "per_class_f1": {
+        "Benign": 0.3686584618811605,
+        "Attack": 0.9248848791368972
+      }
+    }
+  ],
+  "test_unseen": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.6759522767041686,
+      "benign_fpr": 0.02267027786137025,
+      "attack_detection_rate": 0.8741311432177369,
+      "binary_f1": 0.9323093768364165,
+      "per_class_f1": {
+        "Benign": 0.41959517657192075,
+        "Attack": 0.9323093768364165
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.3377506276632425,
+      "macro_f1": 0.708581710401303,
+      "benign_fpr": 0.044437757046845223,
+      "attack_detection_rate": 0.9010209655847947,
+      "binary_f1": 0.9468946181960354,
+      "per_class_f1": {
+        "Benign": 0.4702688026065707,
+        "Attack": 0.9468946181960354
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.7497146704300905,
+      "macro_f1": 0.6425329930651105,
+      "benign_fpr": 0.007021767479185475,
+      "attack_detection_rate": 0.8421882946860814,
+      "binary_f1": 0.9141710649065188,
+      "per_class_f1": {
+        "Benign": 0.3708949212237022,
+        "Attack": 0.9141710649065188
+      }
+    }
+  ],
+  "test_full_pool": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.935559598003431,
+      "benign_fpr": 0.02518057411573659,
+      "attack_detection_rate": 0.9914500989587339,
+      "binary_f1": 0.9952783624227606,
+      "per_class_f1": {
+        "Benign": 0.8758408335841016,
+        "Attack": 0.9952783624227606
+      },
+      "seconds": 29.8
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.3377506276632425,
+      "macro_f1": 0.9431775269628888,
+      "benign_fpr": 0.049085711385895764,
+      "attack_detection_rate": 0.9936988365842863,
+      "binary_f1": 0.9960048227665605,
+      "per_class_f1": {
+        "Benign": 0.8903502311592172,
+        "Attack": 0.9960048227665605
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.7497146704300905,
+      "macro_f1": 0.9252106444077772,
+      "benign_fpr": 0.00858636263680498,
+      "attack_detection_rate": 0.9889504524650328,
+      "binary_f1": 0.9942984359004563,
+      "per_class_f1": {
+        "Benign": 0.8561228529150983,
+        "Attack": 0.9942984359004563
+      }
+    }
+  ]
+}

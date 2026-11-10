@@ -1,0 +1,16 @@
+# WP3 step 1: MLP hyperparameter search (validation set only; the test split is never loaded).
+# Full grid chosen by the student on 2026-11-01: 3 x 2 x 2 x 2 = 24 configs per task.
+tasks: [category, class34, binary]
+feature_set: window_invariant
+device: cuda
+seeds: [0]                # search seed; top configs are re-checked with more seeds afterwards
+grid:
+  hidden: [[128, 64], [256, 128], [256, 128, 64]]
+  lr: [0.001, 0.0003]
+  class_weighting: [sqrt_inverse, inverse]
+  dropout: [0.1, 0.3]
+train:
+  epochs: 50              # raised from 30 so lr 3e-4 runs are not cut off (v1 best epochs were <= 30)
+  batch_size: 512
+  patience: 5             # early stopping on validation macro-F1
+select_by: val_macro_f1

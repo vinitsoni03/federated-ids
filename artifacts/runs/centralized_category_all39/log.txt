@@ -1,0 +1,22 @@
+device cuda
+run centralized_category_all39: train 664187 val 132923 test 253328, 39 features
+  seed 0 epoch 1: loss 0.7132 val macroF1 0.6456
+  seed 0 epoch 2: loss 0.6070 val macroF1 0.6692
+  seed 0 epoch 3: loss 0.5676 val macroF1 0.6753
+  seed 0 epoch 4: loss 0.5514 val macroF1 0.6772
+  seed 0 epoch 5: loss 0.5433 val macroF1 0.6791
+  seed 0 epoch 6: loss 0.5376 val macroF1 0.6760
+  seed 0 epoch 7: loss 0.5322 val macroF1 0.6802
+  seed 0 epoch 8: loss 0.5291 val macroF1 0.6770
+  seed 0 epoch 9: loss 0.5256 val macroF1 0.6798
+  seed 0 epoch 10: loss 0.5229 val macroF1 0.6811
+  seed 0 epoch 11: loss 0.5205 val macroF1 0.6826
+  seed 0 epoch 12: loss 0.5191 val macroF1 0.6863
+  seed 0 epoch 13: loss 0.5181 val macroF1 0.6845
+  seed 0 epoch 14: loss 0.5159 val macroF1 0.6817
+  seed 0 epoch 15: loss 0.5151 val macroF1 0.6832
+  seed 0 epoch 16: loss 0.5132 val macroF1 0.6834
+  seed 0 epoch 17: loss 0.5127 val macroF1 0.6825
+seed 0: test macroF1 0.6959 unseen 0.7002 FPR 0.2823 (56s)
+RF: test macroF1 0.7124 unseen 0.7188 (32s)
+wrote C:\Users\06ven\Downloads\federated-ids\artifacts\runs\centralized_category_all39

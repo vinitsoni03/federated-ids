@@ -1,0 +1,67 @@
+{
+  "task": "category",
+  "detector": "v2_mlp",
+  "seed": 1,
+  "split": "val",
+  "operating_points": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.6904945538226748,
+      "benign_fpr": 0.2532,
+      "attack_detection_rate": 0.9707402109081245,
+      "binary_f1": 0.9802304149284246,
+      "per_class_f1": {
+        "Benign": 0.5985413160214795,
+        "BruteForce": 0.4343859649122807,
+        "DDoS": 0.8717548824616894,
+        "DoS": 0.6417697787776528,
+        "Mirai": 0.9962634283045306,
+        "Recon": 0.7969720297664871,
+        "Spoofing": 0.8271360759493671,
+        "Web": 0.3571329543879107
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.9043147042393684,
+      "macro_f1": 0.6421143750570136,
+      "benign_fpr": 0.05,
+      "attack_detection_rate": 0.9010654847056433,
+      "binary_f1": 0.9469848833388104,
+      "per_class_f1": {
+        "Benign": 0.4239935731500491,
+        "BruteForce": 0.4024767801857585,
+        "DDoS": 0.8714074100044702,
+        "DoS": 0.6415801975246905,
+        "Mirai": 0.9961292044847838,
+        "Recon": 0.6504639030333323,
+        "Spoofing": 0.8187820208102256,
+        "Web": 0.3320819112627986
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.9689585734158754,
+      "macro_f1": 0.6085366425282821,
+      "benign_fpr": 0.01,
+      "attack_detection_rate": 0.8639494070651876,
+      "binary_f1": 0.9268151552253325,
+      "per_class_f1": {
+        "Benign": 0.3619214740074578,
+        "BruteForce": 0.3793677204658902,
+        "DDoS": 0.8707741969439132,
+        "DoS": 0.6412347408445067,
+        "Mirai": 0.9961956884469065,
+        "Recon": 0.5854069160577797,
+        "Spoofing": 0.7848997247345655,
+        "Web": 0.24849267872523687
+      }
+    }
+  ],
+  "config_id": "h256-128_lr0.001_sqrt_inverse_do0.1",
+  "model_path": "artifacts\\runs\\wp3_hparam_search\\category\\h256-128_lr0.001_sqrt_inverse_do0.1_s1\\mlp.pt"
+}

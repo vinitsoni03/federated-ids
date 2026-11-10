@@ -1,0 +1,20 @@
+| task | target | knob | BruteForce | DDoS | DoS | Mirai | Recon | Spoofing | Web |
+|---|---|---|---|---|---|---|---|---|---|
+| category | mlp | padding_only | 0.0486 | 0.0003 | 0.0010 | 0.0000 | 0.0687 | 0.0583 | 0.0503 |
+| category | mlp | slowdown_only | 0.0441 | 0.0037 | 0.0047 | 0.0003 | 0.0337 | 0.0567 | 0.0367 |
+| category | mlp | ttl_only | 0.0749 | 0.0020 | 0.0020 | 0.0003 | 0.0730 | 0.1250 | 0.1150 |
+| category | random_forest | padding_only | 0.0555 | 0.0003 | 0.0000 | 0.0003 | 0.0380 | 0.1350 | 0.0517 |
+| category | random_forest | slowdown_only | 0.0299 | 0.0013 | 0.0010 | 0.0000 | 0.0373 | 0.0243 | 0.0387 |
+| category | random_forest | ttl_only | 0.0256 | 0.0003 | 0.0000 | 0.0003 | 0.0330 | 0.0387 | 0.0437 |
+| class34 | mlp | padding_only | 0.0709 | 0.0003 | 0.0010 | 0.0000 | 0.1040 | 0.1233 | 0.0660 |
+| class34 | mlp | slowdown_only | 0.0495 | 0.0027 | 0.0020 | 0.0003 | 0.0490 | 0.0977 | 0.0920 |
+| class34 | mlp | ttl_only | 0.1019 | 0.0043 | 0.0030 | 0.0003 | 0.1087 | 0.2027 | 0.1733 |
+| class34 | random_forest | padding_only | 0.1502 | 0.0003 | 0.0000 | 0.0000 | 0.1910 | 0.3090 | 0.1863 |
+| class34 | random_forest | slowdown_only | 0.0819 | 0.0010 | 0.0007 | 0.0007 | 0.0817 | 0.0503 | 0.1013 |
+| class34 | random_forest | ttl_only | 0.0867 | 0.0003 | 0.0003 | 0.0007 | 0.1083 | 0.0680 | 0.1350 |
+| binary | mlp | padding_only | 0.1552 | 0.0017 | 0.0013 | 0.0017 | 0.2027 | 0.2020 | 0.1607 |
+| binary | mlp | slowdown_only | 0.0507 | 0.0023 | 0.0000 | 0.0010 | 0.0397 | 0.1093 | 0.0837 |
+| binary | mlp | ttl_only | 0.0946 | 0.0030 | 0.0007 | 0.0013 | 0.1080 | 0.2017 | 0.1460 |
+| binary | random_forest | padding_only | 0.0043 | 0.0000 | 0.0000 | 0.0000 | 0.0017 | 0.0180 | 0.0050 |
+| binary | random_forest | slowdown_only | 0.0080 | 0.0000 | 0.0000 | 0.0000 | 0.0287 | 0.0063 | 0.0050 |
+| binary | random_forest | ttl_only | 0.0117 | 0.0000 | 0.0000 | 0.0000 | 0.0143 | 0.0200 | 0.0153 |

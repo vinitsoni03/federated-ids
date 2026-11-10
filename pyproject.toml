@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "federated-ids"
+version = "0.1.0"
+description = "Federated IDS on CICIoT2023 (heterogeneity, poisoning, evasion) and GridStratLLM analysis"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "polars>=1.0",          # Parquet I/O (pyarrow's Parquet DLL is blocked on the dev machine)
+    "scikit-learn>=1.5",
+    "torch>=2.4",           # CPU build is sufficient
+    "pyyaml>=6",
+    "psutil>=5.9",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,1213 @@
+{
+  "threat_model": "black-box label-only; padding/slow-down/TTL on attacker's own packets",
+  "ttl_choices_benign_train_quantiles_10_50_90": [
+    63.4,
+    96.5,
+    197.6
+  ],
+  "per_class_sample": 3000,
+  "targets": {
+    "mlp": {
+      "task": "class34",
+      "clean_benign_fpr": 0.2404,
+      "budgets": {
+        "1.0": {
+          "per_class": {
+            "BruteForce": {
+              "n": 1678,
+              "evasion_rate": 0.20083432657926104,
+              "mean_queries": 23.591775923718714,
+              "chosen_slowdown_counts": {
+                "1.0": 337,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DDoS": {
+              "n": 3000,
+              "evasion_rate": 0.005333333333333333,
+              "mean_queries": 27.878333333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 16,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DoS": {
+              "n": 3000,
+              "evasion_rate": 0.004333333333333333,
+              "mean_queries": 27.905,
+              "chosen_slowdown_counts": {
+                "1.0": 13,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Mirai": {
+              "n": 3000,
+              "evasion_rate": 0.0006666666666666666,
+              "mean_queries": 27.985333333333333,
+              "chosen_slowdown_counts": {
+                "1.0": 2,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 25.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Recon": {
+              "n": 3000,
+              "evasion_rate": 0.244,
+              "mean_queries": 22.932333333333332,
+              "chosen_slowdown_counts": {
+                "1.0": 732,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Spoofing": {
+              "n": 3000,
+              "evasion_rate": 0.379,
+              "mean_queries": 19.376,
+              "chosen_slowdown_counts": {
+                "1.0": 1137,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Web": {
+              "n": 3000,
+              "evasion_rate": 0.27166666666666667,
+              "mean_queries": 22.13,
+              "chosen_slowdown_counts": {
+                "1.0": 815,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            }
+          },
+          "overall_evasion_rate": 0.15509706270962495,
+          "grid_size": 28
+        },
+        "0.5": {
+          "per_class": {
+            "BruteForce": {
+              "n": 1678,
+              "evasion_rate": 0.22586412395709177,
+              "mean_queries": 45.42133492252682,
+              "chosen_slowdown_counts": {
+                "1.0": 337,
+                "0.5": 42,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DDoS": {
+              "n": 3000,
+              "evasion_rate": 0.007666666666666666,
+              "mean_queries": 55.675666666666665,
+              "chosen_slowdown_counts": {
+                "1.0": 16,
+                "0.5": 7,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DoS": {
+              "n": 3000,
+              "evasion_rate": 0.004333333333333333,
+              "mean_queries": 55.78366666666667,
+              "chosen_slowdown_counts": {
+                "1.0": 13,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Mirai": {
+              "n": 3000,
+              "evasion_rate": 0.0016666666666666668,
+              "mean_queries": 55.95333333333333,
+              "chosen_slowdown_counts": {
+                "1.0": 2,
+                "0.5": 3,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Recon": {
+              "n": 3000,
+              "evasion_rate": 0.268,
+              "mean_queries": 43.61833333333333,
+              "chosen_slowdown_counts": {
+                "1.0": 732,
+                "0.5": 72,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Spoofing": {
+              "n": 3000,
+              "evasion_rate": 0.458,
+              "mean_queries": 34.887,
+              "chosen_slowdown_counts": {
+                "1.0": 1137,
+                "0.5": 237,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Web": {
+              "n": 3000,
+              "evasion_rate": 0.311,
+              "mean_queries": 41.69766666666667,
+              "chosen_slowdown_counts": {
+                "1.0": 815,
+                "0.5": 118,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            }
+          },
+          "overall_evasion_rate": 0.1794389673747332,
+          "grid_size": 56
+        },
+        "0.25": {
+          "per_class": {
+            "BruteForce": {
+              "n": 1678,
+              "evasion_rate": 0.23539928486293207,
+              "mean_queries": 66.91775923718713,
+              "chosen_slowdown_counts": {
+                "1.0": 337,
+                "0.5": 42,
+                "0.25": 16,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DDoS": {
+              "n": 3000,
+              "evasion_rate": 0.008333333333333333,
+              "mean_queries": 83.445,
+              "chosen_slowdown_counts": {
+                "1.0": 16,
+                "0.5": 7,
+                "0.25": 2,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DoS": {
+              "n": 3000,
+              "evasion_rate": 0.004333333333333333,
+              "mean_queries": 83.66233333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 13,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Mirai": {
+              "n": 3000,
+              "evasion_rate": 0.003,
+              "mean_queries": 83.89133333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 2,
+                "0.5": 3,
+                "0.25": 4,
+                "0.1": 0
+              },
+              "median_padding_bytes": 200.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Recon": {
+              "n": 3000,
+              "evasion_rate": 0.2813333333333333,
+              "mean_queries": 63.916333333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 732,
+                "0.5": 72,
+                "0.25": 40,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Spoofing": {
+              "n": 3000,
+              "evasion_rate": 0.497,
+              "mean_queries": 49.169333333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 1137,
+                "0.5": 237,
+                "0.25": 117,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Web": {
+              "n": 3000,
+              "evasion_rate": 0.359,
+              "mean_queries": 60.245666666666665,
+              "chosen_slowdown_counts": {
+                "1.0": 815,
+                "0.5": 118,
+                "0.25": 144,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            }
+          },
+          "overall_evasion_rate": 0.19585323711759325,
+          "grid_size": 84
+        },
+        "0.1": {
+          "per_class": {
+            "BruteForce": {
+              "n": 1678,
+              "evasion_rate": 0.2771156138259833,
+              "mean_queries": 87.53635280095352,
+              "chosen_slowdown_counts": {
+                "1.0": 337,
+                "0.5": 42,
+                "0.25": 16,
+                "0.1": 70
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DDoS": {
+              "n": 3000,
+              "evasion_rate": 0.01,
+              "mean_queries": 111.183,
+              "chosen_slowdown_counts": {
+                "1.0": 16,
+                "0.5": 7,
+                "0.25": 2,
+                "0.1": 5
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DoS": {
+              "n": 3000,
+              "evasion_rate": 0.007333333333333333,
+              "mean_queries": 111.461,
+              "chosen_slowdown_counts": {
+                "1.0": 13,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 9
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Mirai": {
+              "n": 3000,
+              "evasion_rate": 0.004,
+              "mean_queries": 111.79433333333333,
+              "chosen_slowdown_counts": {
+                "1.0": 2,
+                "0.5": 3,
+                "0.25": 4,
+                "0.1": 3
+              },
+              "median_padding_bytes": 200.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Recon": {
+              "n": 3000,
+              "evasion_rate": 0.328,
+              "mean_queries": 83.11033333333333,
+              "chosen_slowdown_counts": {
+                "1.0": 732,
+                "0.5": 72,
+                "0.25": 40,
+                "0.1": 140
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Spoofing": {
+              "n": 3000,
+              "evasion_rate": 0.5543333333333333,
+              "mean_queries": 61.99366666666667,
+              "chosen_slowdown_counts": {
+                "1.0": 1137,
+                "0.5": 237,
+                "0.25": 117,
+                "0.1": 172
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Web": {
+              "n": 3000,
+              "evasion_rate": 0.4673333333333333,
+              "mean_queries": 76.03,
+              "chosen_slowdown_counts": {
+                "1.0": 815,
+                "0.5": 118,
+                "0.25": 144,
+                "0.1": 325
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            }
+          },
+          "overall_evasion_rate": 0.23264559406443744,
+          "grid_size": 112
+        }
+      },
+      "clean_detection_rate": {
+        "BruteForce": 0.8854881266490765,
+        "DDoS": 0.9992563051380019,
+        "DoS": 0.999825,
+        "Mirai": 0.9995666666666667,
+        "Recon": 0.8404334457448919,
+        "Spoofing": 0.89795,
+        "Web": 0.866723259762309
+      },
+      "knob_ablation_at_loosest_budget": {
+        "padding_only": {
+          "BruteForce": 0.07091775923718713,
+          "DDoS": 0.0003333333333333333,
+          "DoS": 0.001,
+          "Mirai": 0.0,
+          "Recon": 0.104,
+          "Spoofing": 0.12333333333333334,
+          "Web": 0.066
+        },
+        "slowdown_only": {
+          "BruteForce": 0.04946364719904649,
+          "DDoS": 0.0026666666666666666,
+          "DoS": 0.002,
+          "Mirai": 0.0003333333333333333,
+          "Recon": 0.049,
+          "Spoofing": 0.09766666666666667,
+          "Web": 0.092
+        },
+        "ttl_only": {
+          "BruteForce": 0.10190703218116806,
+          "DDoS": 0.004333333333333333,
+          "DoS": 0.003,
+          "Mirai": 0.0003333333333333333,
+          "Recon": 0.10866666666666666,
+          "Spoofing": 0.20266666666666666,
+          "Web": 0.17333333333333334
+        }
+      },
+      "seconds": 3.8
+    },
+    "random_forest": {
+      "task": "class34",
+      "clean_benign_fpr": 0.285,
+      "budgets": {
+        "1.0": {
+          "per_class": {
+            "BruteForce": {
+              "n": 1684,
+              "evasion_rate": 0.24643705463182897,
+              "mean_queries": 23.30166270783848,
+              "chosen_slowdown_counts": {
+                "1.0": 415,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DDoS": {
+              "n": 3000,
+              "evasion_rate": 0.001,
+              "mean_queries": 27.984666666666666,
+              "chosen_slowdown_counts": {
+                "1.0": 3,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DoS": {
+              "n": 3000,
+              "evasion_rate": 0.0006666666666666666,
+              "mean_queries": 27.986,
+              "chosen_slowdown_counts": {
+                "1.0": 2,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Mirai": {
+              "n": 3000,
+              "evasion_rate": 0.0026666666666666666,
+              "mean_queries": 27.947666666666667,
+              "chosen_slowdown_counts": {
+                "1.0": 8,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Recon": {
+              "n": 3000,
+              "evasion_rate": 0.31466666666666665,
+              "mean_queries": 22.637666666666668,
+              "chosen_slowdown_counts": {
+                "1.0": 944,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Spoofing": {
+              "n": 3000,
+              "evasion_rate": 0.4856666666666667,
+              "mean_queries": 17.919333333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 1457,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Web": {
+              "n": 3000,
+              "evasion_rate": 0.3293333333333333,
+              "mean_queries": 21.904,
+              "chosen_slowdown_counts": {
+                "1.0": 988,
+                "0.5": 0,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            }
+          },
+          "overall_evasion_rate": 0.19391383865068076,
+          "grid_size": 28
+        },
+        "0.5": {
+          "per_class": {
+            "BruteForce": {
+              "n": 1684,
+              "evasion_rate": 0.2814726840855107,
+              "mean_queries": 43.73456057007126,
+              "chosen_slowdown_counts": {
+                "1.0": 415,
+                "0.5": 59,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DDoS": {
+              "n": 3000,
+              "evasion_rate": 0.0023333333333333335,
+              "mean_queries": 55.924,
+              "chosen_slowdown_counts": {
+                "1.0": 3,
+                "0.5": 4,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DoS": {
+              "n": 3000,
+              "evasion_rate": 0.001,
+              "mean_queries": 55.958333333333336,
+              "chosen_slowdown_counts": {
+                "1.0": 2,
+                "0.5": 1,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Mirai": {
+              "n": 3000,
+              "evasion_rate": 0.0033333333333333335,
+              "mean_queries": 55.86066666666667,
+              "chosen_slowdown_counts": {
+                "1.0": 8,
+                "0.5": 2,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Recon": {
+              "n": 3000,
+              "evasion_rate": 0.37066666666666664,
+              "mean_queries": 40.79633333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 944,
+                "0.5": 168,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Spoofing": {
+              "n": 3000,
+              "evasion_rate": 0.5746666666666667,
+              "mean_queries": 30.509333333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 1457,
+                "0.5": 267,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Web": {
+              "n": 3000,
+              "evasion_rate": 0.39166666666666666,
+              "mean_queries": 39.355,
+              "chosen_slowdown_counts": {
+                "1.0": 988,
+                "0.5": 187,
+                "0.25": 0,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            }
+          },
+          "overall_evasion_rate": 0.22886608412924203,
+          "grid_size": 56
+        },
+        "0.25": {
+          "per_class": {
+            "BruteForce": {
+              "n": 1684,
+              "evasion_rate": 0.2980997624703088,
+              "mean_queries": 63.53384798099763,
+              "chosen_slowdown_counts": {
+                "1.0": 415,
+                "0.5": 59,
+                "0.25": 28,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DDoS": {
+              "n": 3000,
+              "evasion_rate": 0.003,
+              "mean_queries": 83.84266666666667,
+              "chosen_slowdown_counts": {
+                "1.0": 3,
+                "0.5": 4,
+                "0.25": 2,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DoS": {
+              "n": 3000,
+              "evasion_rate": 0.0013333333333333333,
+              "mean_queries": 83.92233333333333,
+              "chosen_slowdown_counts": {
+                "1.0": 2,
+                "0.5": 1,
+                "0.25": 1,
+                "0.1": 0
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Mirai": {
+              "n": 3000,
+              "evasion_rate": 0.0036666666666666666,
+              "mean_queries": 83.76033333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 8,
+                "0.5": 2,
+                "0.25": 1,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Recon": {
+              "n": 3000,
+              "evasion_rate": 0.3923333333333333,
+              "mean_queries": 58.024,
+              "chosen_slowdown_counts": {
+                "1.0": 944,
+                "0.5": 168,
+                "0.25": 65,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Spoofing": {
+              "n": 3000,
+              "evasion_rate": 0.6186666666666667,
+              "mean_queries": 41.53633333333333,
+              "chosen_slowdown_counts": {
+                "1.0": 1457,
+                "0.5": 267,
+                "0.25": 132,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Web": {
+              "n": 3000,
+              "evasion_rate": 0.425,
+              "mean_queries": 55.59866666666667,
+              "chosen_slowdown_counts": {
+                "1.0": 988,
+                "0.5": 187,
+                "0.25": 100,
+                "0.1": 0
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            }
+          },
+          "overall_evasion_rate": 0.24558016663279822,
+          "grid_size": 84
+        },
+        "0.1": {
+          "per_class": {
+            "BruteForce": {
+              "n": 1684,
+              "evasion_rate": 0.3028503562945368,
+              "mean_queries": 83.09144893111639,
+              "chosen_slowdown_counts": {
+                "1.0": 415,
+                "0.5": 59,
+                "0.25": 28,
+                "0.1": 8
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DDoS": {
+              "n": 3000,
+              "evasion_rate": 0.004666666666666667,
+              "mean_queries": 111.71933333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 3,
+                "0.5": 4,
+                "0.25": 2,
+                "0.1": 5
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "DoS": {
+              "n": 3000,
+              "evasion_rate": 0.002,
+              "mean_queries": 111.86833333333334,
+              "chosen_slowdown_counts": {
+                "1.0": 2,
+                "0.5": 1,
+                "0.25": 1,
+                "0.1": 2
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Mirai": {
+              "n": 3000,
+              "evasion_rate": 0.004666666666666667,
+              "mean_queries": 111.632,
+              "chosen_slowdown_counts": {
+                "1.0": 8,
+                "0.5": 2,
+                "0.25": 1,
+                "0.1": 3
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Recon": {
+              "n": 3000,
+              "evasion_rate": 0.4046666666666667,
+              "mean_queries": 74.78666666666666,
+              "chosen_slowdown_counts": {
+                "1.0": 944,
+                "0.5": 168,
+                "0.25": 65,
+                "0.1": 37
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Spoofing": {
+              "n": 3000,
+              "evasion_rate": 0.6543333333333333,
+              "mean_queries": 51.464,
+              "chosen_slowdown_counts": {
+                "1.0": 1457,
+                "0.5": 267,
+                "0.25": 132,
+                "0.1": 107
+              },
+              "median_padding_bytes": 50.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            },
+            "Web": {
+              "n": 3000,
+              "evasion_rate": 0.4656666666666667,
+              "mean_queries": 70.67766666666667,
+              "chosen_slowdown_counts": {
+                "1.0": 988,
+                "0.5": 187,
+                "0.25": 100,
+                "0.1": 122
+              },
+              "median_padding_bytes": 0.0,
+              "constraint_violations": {
+                "frozen_feature_changes": 0,
+                "negative_padding": 0,
+                "mtu_exceeded_by_padding": 0,
+                "std_changed": 0,
+                "rate_factor_below_budget": 0
+              }
+            }
+          },
+          "overall_evasion_rate": 0.2600081284291811,
+          "grid_size": 112
+        }
+      },
+      "clean_detection_rate": {
+        "BruteForce": 0.8886543535620053,
+        "DDoS": 0.9997025220552007,
+        "DoS": 0.999925,
+        "Mirai": 0.9999,
+        "Recon": 0.8591797262447927,
+        "Spoofing": 0.94945,
+        "Web": 0.8723825693265421
+      },
+      "knob_ablation_at_loosest_budget": {
+        "padding_only": {
+          "BruteForce": 0.1502375296912114,
+          "DDoS": 0.0003333333333333333,
+          "DoS": 0.0,
+          "Mirai": 0.0,
+          "Recon": 0.191,
+          "Spoofing": 0.309,
+          "Web": 0.18633333333333332
+        },
+        "slowdown_only": {
+          "BruteForce": 0.08194774346793349,
+          "DDoS": 0.001,
+          "DoS": 0.0006666666666666666,
+          "Mirai": 0.0006666666666666666,
+          "Recon": 0.08166666666666667,
+          "Spoofing": 0.050333333333333334,
+          "Web": 0.10133333333333333
+        },
+        "ttl_only": {
+          "BruteForce": 0.08669833729216152,
+          "DDoS": 0.0003333333333333333,
+          "DoS": 0.0003333333333333333,
+          "Mirai": 0.0006666666666666666,
+          "Recon": 0.10833333333333334,
+          "Spoofing": 0.068,
+          "Web": 0.135
+        }
+      },
+      "seconds": 63.0
+    }
+  }
+}

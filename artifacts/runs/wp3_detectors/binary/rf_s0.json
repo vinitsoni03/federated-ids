@@ -1,0 +1,57 @@
+{
+  "task": "binary",
+  "detector": "rf",
+  "seed": 0,
+  "split": "val",
+  "operating_points": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.7490678835994055,
+      "benign_fpr": 0.5846,
+      "attack_detection_rate": 0.9920733566285969,
+      "binary_f1": 0.9847258055129872,
+      "per_class_f1": {
+        "Benign": 0.5134099616858238,
+        "Attack": 0.9847258055129872
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.94,
+      "macro_f1": 0.694606079625408,
+      "benign_fpr": 0.0414,
+      "attack_detection_rate": 0.9059903223032606,
+      "binary_f1": 0.9498703012371582,
+      "per_class_f1": {
+        "Benign": 0.4393418580136578,
+        "Attack": 0.9498703012371582
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.99,
+      "macro_f1": 0.6039976132293037,
+      "benign_fpr": 0.0054,
+      "attack_detection_rate": 0.8231357926252512,
+      "binary_f1": 0.9028844834682398,
+      "per_class_f1": {
+        "Benign": 0.3051107429903675,
+        "Attack": 0.9028844834682398
+      }
+    }
+  ],
+  "train_seconds": 26.4,
+  "params": {
+    "enabled": true,
+    "n_estimators": 100,
+    "max_depth": null,
+    "min_samples_leaf": 1,
+    "class_weight": "balanced_subsample",
+    "n_jobs": 6,
+    "seed": 0
+  }
+}

@@ -1,0 +1,6 @@
+fl_iid_fedavg_s0: exit 0 in 125s
+fl_iid_fedprox_s0: exit 0 in 143s
+fl_dir1.0_fedavg_s0: exit 0 in 141s
+fl_dir1.0_fedprox_s0: exit 0 in 131s
+fl_dir0.1_fedavg_s0: exit 0 in 113s
+fl_dir0.1_fedprox_s0: exit 0 in 124s

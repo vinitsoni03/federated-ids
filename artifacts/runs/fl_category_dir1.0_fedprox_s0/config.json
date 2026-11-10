@@ -1,0 +1,80 @@
+{
+  "experiment": {
+    "task": "category",
+    "feature_set": "window_invariant",
+    "seed": 0,
+    "torch_threads": 6,
+    "device": "cuda",
+    "model": {
+      "hidden": [
+        128,
+        64
+      ],
+      "dropout": 0.1
+    },
+    "train": {
+      "lr": 0.001,
+      "batch_size": 512,
+      "class_weighting": "sqrt_inverse"
+    },
+    "federated": {
+      "n_clients": 10,
+      "participation": 1.0,
+      "rounds": 30,
+      "local_epochs": 1,
+      "partition": "dirichlet",
+      "alpha": 1.0,
+      "min_client_size": 100,
+      "algorithm": "fedprox",
+      "mu": 0.01,
+      "aggregator": "fedavg",
+      "trim_beta": 0.2,
+      "clip_norm": null,
+      "server_lr": 1.0,
+      "eval_every": 2
+    },
+    "poison": {
+      "kind": "none",
+      "malicious_fraction": 0.0,
+      "scale": 5.0,
+      "boost": null,
+      "targets": []
+    },
+    "device_resolved": "cuda"
+  },
+  "features": [
+    "Header_Length",
+    "Protocol Type",
+    "Time_To_Live",
+    "Rate",
+    "fin_flag_number",
+    "syn_flag_number",
+    "rst_flag_number",
+    "psh_flag_number",
+    "ack_flag_number",
+    "ece_flag_number",
+    "cwr_flag_number",
+    "HTTP",
+    "HTTPS",
+    "DNS",
+    "Telnet",
+    "SMTP",
+    "SSH",
+    "IRC",
+    "TCP",
+    "UDP",
+    "DHCP",
+    "ARP",
+    "ICMP",
+    "IGMP",
+    "IPv",
+    "LLC",
+    "Min",
+    "Max",
+    "AVG",
+    "Std",
+    "Tot size",
+    "IAT",
+    "Variance"
+  ]
+}

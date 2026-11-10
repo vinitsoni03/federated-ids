@@ -1,0 +1,1 @@
+-m federated_ids.federated.simulation --run-name fl_iid_fedavg_s1 --partition iid --algorithm fedavg --seed 1

@@ -1,0 +1,2 @@
+round,val_macro_f1,test_macro_f1,test_benign_fpr,elapsed_s
+1,0.5502843855207307,0.5721967189686064,0.5671,20.2

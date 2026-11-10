@@ -1,0 +1,35 @@
+# Federated simulation (Milestone 5) - same task, features, model, preprocessing and test set
+# as configs/centralized.yaml.
+task: category
+feature_set: window_invariant
+seed: 0
+torch_threads: 6
+device: auto              # auto | cpu | cuda
+model:
+  hidden: [128, 64]
+  dropout: 0.1
+train:
+  lr: 0.001                 # Adam, re-initialised at every round on each client
+  batch_size: 512
+  class_weighting: sqrt_inverse   # computed from each client's OWN labels
+federated:
+  n_clients: 10
+  participation: 1.0        # fraction of clients sampled per round
+  rounds: 30
+  local_epochs: 1
+  partition: iid            # iid | dirichlet
+  alpha: 1.0                # Dirichlet concentration (only for partition: dirichlet)
+  min_client_size: 100
+  algorithm: fedavg         # fedavg | fedprox
+  mu: 0.01                  # FedProx proximal coefficient
+  aggregator: fedavg        # fedavg | median | trimmed_mean | norm_clip
+  trim_beta: 0.2
+  clip_norm: null           # null -> median norm of the round's updates
+  server_lr: 1.0
+  eval_every: 2
+poison:
+  kind: none                # none | sign_flip | label_flip_boost
+  malicious_fraction: 0.0
+  scale: 5.0
+  boost: null               # null -> n_clients / n_malicious
+  targets: []

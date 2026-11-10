@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_class34_v2_iid_fedavg_part0.5_s0 --device cuda --partition iid --algorithm fedavg --participation 0.5 --seed 0 --hidden 256 128 --dropout 0.1 --lr 0.001 --task class34
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 2: val macroF1 0.4662 test macroF1 0.4611 FPR 0.3862 (3.5s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 4: val macroF1 0.5001 test macroF1 0.4871 FPR 0.3495 (6.9s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 6: val macroF1 0.5114 test macroF1 0.5016 FPR 0.3351 (10.1s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 8: val macroF1 0.5118 test macroF1 0.5047 FPR 0.3494 (13.4s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 10: val macroF1 0.5287 test macroF1 0.5084 FPR 0.3124 (16.7s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 12: val macroF1 0.5250 test macroF1 0.5063 FPR 0.3028 (19.8s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 14: val macroF1 0.5319 test macroF1 0.5124 FPR 0.2976 (23.1s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 16: val macroF1 0.5371 test macroF1 0.5181 FPR 0.2849 (26.3s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 18: val macroF1 0.5419 test macroF1 0.5235 FPR 0.3034 (29.4s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 20: val macroF1 0.5437 test macroF1 0.5262 FPR 0.2706 (32.6s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 22: val macroF1 0.5439 test macroF1 0.5230 FPR 0.2933 (35.8s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 24: val macroF1 0.5406 test macroF1 0.5319 FPR 0.2822 (39.0s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 26: val macroF1 0.5436 test macroF1 0.5289 FPR 0.2629 (42.3s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 28: val macroF1 0.5471 test macroF1 0.5315 FPR 0.3003 (45.5s)
+  [fl_class34_v2_iid_fedavg_part0.5_s0] round 30: val macroF1 0.5490 test macroF1 0.5372 FPR 0.2615 (48.8s)
+{'n': 253328, 'accuracy': 0.6658521758352808, 'balanced_accuracy': 0.5515614844856337, 'macro_f1': 0.5372197098763921, 'weighted_f1': 0.6523576309344057, 'benign_fpr': 0.2615, 'attack_detection_rate': 0.9604648869016307, 'binary_f1': 0.9744918701305741, 'macro_roc_auc_ovr': 0.9707005626526657, 'macro_pr_auc_ovr': 0.5742780601362942} {} 48.8

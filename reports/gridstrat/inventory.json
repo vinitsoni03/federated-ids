@@ -1,0 +1,170 @@
+{
+  "20260225_normal": {
+    "model_name": "none (normal operation)",
+    "windows": 632,
+    "hours": 1.76,
+    "packets": 2153724,
+    "sessions": 0,
+    "coordinated_sessions": 0,
+    "target_states": {},
+    "step_type_sets": {},
+    "windows_positive": 0,
+    "windows_excluded": 0,
+    "packet_labels": {
+      "datamod_rows": 0
+    }
+  },
+  "20260228_openai": {
+    "model_name": "openai/gpt-5.3-codex",
+    "windows": 1574,
+    "hours": 4.37,
+    "packets": 4280238,
+    "sessions": 149,
+    "coordinated_sessions": 26,
+    "target_states": {
+      "Battery Storage Mismanagement": 31,
+      "Compromise of Maintenance Capabilities": 24,
+      "Manipulation of Control Commands": 31,
+      "Compromise of Remote Connections to Control Center": 28,
+      "Manipulation of Monitoring Data": 35
+    },
+    "step_type_sets": {
+      "arp_mitm,s7_data_modification": 147,
+      "arp_mitm,modbus_data_modification": 2
+    },
+    "windows_positive": 922,
+    "windows_excluded": 384,
+    "packet_labels": {
+      "datamod_rows": 355274,
+      "by_state": {
+        "match": 152515,
+        "no_match": 77707,
+        "pending": 125052
+      },
+      "rows_with_packet_id": 152515,
+      "distinct_linked_packets_found_in_capture": 152515
+    }
+  },
+  "20260301_google": {
+    "model_name": "google/gemini-3.1-pro-preview",
+    "windows": 2212,
+    "hours": 6.14,
+    "packets": 7785175,
+    "sessions": 54,
+    "coordinated_sessions": 13,
+    "target_states": {
+      "Manipulation of Monitoring Data": 10,
+      "Manipulation of Control Commands": 11,
+      "Battery Storage Mismanagement": 10,
+      "Compromise of Remote Connections to Control Center": 7,
+      "Compromise of Maintenance Capabilities": 16
+    },
+    "step_type_sets": {
+      "arp_mitm,s7_data_modification": 54
+    },
+    "windows_positive": 222,
+    "windows_excluded": 214,
+    "packet_labels": {
+      "datamod_rows": 94807,
+      "by_state": {
+        "no_match": 39890,
+        "match": 54917
+      },
+      "rows_with_packet_id": 54917,
+      "distinct_linked_packets_found_in_capture": 54917
+    }
+  },
+  "20260301_sonnet": {
+    "model_name": "anthropic/claude-sonnet-4.6",
+    "windows": 858,
+    "hours": 2.38,
+    "packets": 1660791,
+    "sessions": 69,
+    "coordinated_sessions": 62,
+    "target_states": {
+      "Manipulation of Control Commands": 10,
+      "Manipulation of Monitoring Data": 16,
+      "Compromise of Remote Connections to Control Center": 15,
+      "Compromise of Maintenance Capabilities": 14,
+      "Battery Storage Mismanagement": 14
+    },
+    "step_type_sets": {
+      "arp_mitm,modbus_data_modification,s7_data_modification": 9,
+      "arp_mitm,s7_data_modification": 60
+    },
+    "windows_positive": 594,
+    "windows_excluded": 84,
+    "packet_labels": {
+      "datamod_rows": 310883,
+      "by_state": {
+        "pending": 208895,
+        "match": 101988
+      },
+      "rows_with_packet_id": 101988,
+      "distinct_linked_packets_found_in_capture": 101988
+    }
+  },
+  "20260302_minimax": {
+    "model_name": "minimax/minimax-m2.5",
+    "windows": 2400,
+    "hours": 6.67,
+    "packets": 4733867,
+    "sessions": 118,
+    "coordinated_sessions": 88,
+    "target_states": {
+      "Manipulation of Control Commands": 23,
+      "Manipulation of Monitoring Data": 22,
+      "Compromise of Maintenance Capabilities": 17,
+      "Battery Storage Mismanagement": 32,
+      "Compromise of Remote Connections to Control Center": 24
+    },
+    "step_type_sets": {
+      "arp_mitm,s7_data_modification": 32,
+      "arp_mitm,modbus_data_modification": 23,
+      "arp_mitm,modbus_data_modification,s7_data_modification": 63
+    },
+    "windows_positive": 692,
+    "windows_excluded": 248,
+    "packet_labels": {
+      "datamod_rows": 459265,
+      "by_state": {
+        "match": 172908,
+        "no_match": 67511,
+        "pending": 218846
+      },
+      "rows_with_packet_id": 172908,
+      "distinct_linked_packets_found_in_capture": 172908
+    }
+  },
+  "20260303_sonnet": {
+    "model_name": "anthropic/claude-sonnet-4.6",
+    "windows": 781,
+    "hours": 2.17,
+    "packets": 3448550,
+    "sessions": 46,
+    "coordinated_sessions": 23,
+    "target_states": {
+      "Manipulation of Control Commands": 10,
+      "Battery Storage Mismanagement": 6,
+      "Manipulation of Monitoring Data": 12,
+      "Compromise of Maintenance Capabilities": 9,
+      "Compromise of Remote Connections to Control Center": 9
+    },
+    "step_type_sets": {
+      "arp_mitm,modbus_data_modification,s7_data_modification": 4,
+      "arp_mitm,s7_data_modification": 42
+    },
+    "windows_positive": 511,
+    "windows_excluded": 95,
+    "packet_labels": {
+      "datamod_rows": 335034,
+      "by_state": {
+        "match": 216518,
+        "no_match": 52835,
+        "pending": 65681
+      },
+      "rows_with_packet_id": 216518,
+      "distinct_linked_packets_found_in_capture": 216518
+    }
+  }
+}

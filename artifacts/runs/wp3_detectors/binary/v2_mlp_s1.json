@@ -1,0 +1,49 @@
+{
+  "task": "binary",
+  "detector": "v2_mlp",
+  "seed": 1,
+  "split": "val",
+  "operating_points": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.7644027185605162,
+      "benign_fpr": 0.1944,
+      "attack_detection_rate": 0.9570132032550831,
+      "binary_f1": 0.9742518472538885,
+      "per_class_f1": {
+        "Benign": 0.554553589867144,
+        "Attack": 0.9742518472538885
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.760624572634697,
+      "macro_f1": 0.6769405977219953,
+      "benign_fpr": 0.05,
+      "attack_detection_rate": 0.8951634967910383,
+      "binary_f1": 0.9437089230896017,
+      "per_class_f1": {
+        "Benign": 0.41017227235438886,
+        "Attack": 0.9437089230896017
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.9246010705828667,
+      "macro_f1": 0.6197242974363655,
+      "benign_fpr": 0.01,
+      "attack_detection_rate": 0.8405759714828451,
+      "binary_f1": 0.9131896969027864,
+      "per_class_f1": {
+        "Benign": 0.3262588979699446,
+        "Attack": 0.9131896969027864
+      }
+    }
+  ],
+  "config_id": "h256-128_lr0.0003_sqrt_inverse_do0.1",
+  "model_path": "artifacts\\runs\\wp3_hparam_search\\binary\\h256-128_lr0.0003_sqrt_inverse_do0.1_s1\\mlp.pt"
+}

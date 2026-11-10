@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name poison_category_iid_clean_norm_clip_s1 --device cuda --partition iid --aggregator norm_clip --seed 1 --task category
+  [poison_category_iid_clean_norm_clip_s1] round 2: val macroF1 0.5824 test macroF1 0.5944 FPR 0.4464 (6.5s)
+  [poison_category_iid_clean_norm_clip_s1] round 4: val macroF1 0.6093 test macroF1 0.6191 FPR 0.3957 (12.8s)
+  [poison_category_iid_clean_norm_clip_s1] round 6: val macroF1 0.6233 test macroF1 0.6316 FPR 0.3782 (19.0s)
+  [poison_category_iid_clean_norm_clip_s1] round 8: val macroF1 0.6289 test macroF1 0.6371 FPR 0.3480 (25.2s)
+  [poison_category_iid_clean_norm_clip_s1] round 10: val macroF1 0.6325 test macroF1 0.6412 FPR 0.3224 (31.4s)
+  [poison_category_iid_clean_norm_clip_s1] round 12: val macroF1 0.6385 test macroF1 0.6486 FPR 0.3267 (37.6s)
+  [poison_category_iid_clean_norm_clip_s1] round 14: val macroF1 0.6419 test macroF1 0.6538 FPR 0.3199 (43.8s)
+  [poison_category_iid_clean_norm_clip_s1] round 16: val macroF1 0.6470 test macroF1 0.6565 FPR 0.2973 (50.1s)
+  [poison_category_iid_clean_norm_clip_s1] round 18: val macroF1 0.6527 test macroF1 0.6633 FPR 0.3074 (56.4s)
+  [poison_category_iid_clean_norm_clip_s1] round 20: val macroF1 0.6567 test macroF1 0.6626 FPR 0.2801 (62.6s)
+  [poison_category_iid_clean_norm_clip_s1] round 22: val macroF1 0.6542 test macroF1 0.6642 FPR 0.2771 (68.8s)
+  [poison_category_iid_clean_norm_clip_s1] round 24: val macroF1 0.6585 test macroF1 0.6645 FPR 0.2806 (75.0s)
+  [poison_category_iid_clean_norm_clip_s1] round 26: val macroF1 0.6589 test macroF1 0.6671 FPR 0.2758 (81.3s)
+  [poison_category_iid_clean_norm_clip_s1] round 28: val macroF1 0.6630 test macroF1 0.6695 FPR 0.2781 (87.6s)
+  [poison_category_iid_clean_norm_clip_s1] round 30: val macroF1 0.6642 test macroF1 0.6687 FPR 0.2703 (93.8s)
+{'n': 253328, 'accuracy': 0.7966351923198383, 'balanced_accuracy': 0.6899707919695353, 'macro_f1': 0.6686845994543122, 'weighted_f1': 0.8041307711195059, 'benign_fpr': 0.2703, 'attack_detection_rate': 0.9628526104681746, 'binary_f1': 0.9755537974683545, 'macro_roc_auc_ovr': 0.966455261806447, 'macro_pr_auc_ovr': 0.7110124996884364} {} 93.8

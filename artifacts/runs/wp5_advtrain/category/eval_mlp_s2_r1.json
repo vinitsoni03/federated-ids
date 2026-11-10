@@ -1,0 +1,647 @@
+{
+  "task": "category",
+  "model": "mlp",
+  "seed": 2,
+  "round": 1,
+  "pool_size": 37199,
+  "thresholds": {
+    "fpr5": 0.8862817212939262,
+    "fpr1": 0.9706070385873318
+  },
+  "clean_test": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.6897667841805041,
+      "benign_fpr": 0.2564,
+      "attack_detection_rate": 0.9676075092056812,
+      "binary_f1": 0.9782979943407751,
+      "per_class_f1": {
+        "Benign": 0.5874081681017458,
+        "BruteForce": 0.526578073089701,
+        "DDoS": 0.8643996213500328,
+        "DoS": 0.6832609308885754,
+        "Mirai": 0.9955389216554443,
+        "Recon": 0.7924255022396266,
+        "Spoofing": 0.8253849042433345,
+        "Web": 0.24313815187557183
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.8862817212939262,
+      "macro_f1": 0.6482932462378963,
+      "benign_fpr": 0.06,
+      "attack_detection_rate": 0.898630654918464,
+      "binary_f1": 0.94538143928749,
+      "per_class_f1": {
+        "Benign": 0.42663277810556893,
+        "BruteForce": 0.5512345679012346,
+        "DDoS": 0.863941018766756,
+        "DoS": 0.6831063008565915,
+        "Mirai": 0.9955555555555555,
+        "Recon": 0.6231865029869362,
+        "Spoofing": 0.8040751077031457,
+        "Web": 0.23861413802738196
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.9706070385873318,
+      "macro_f1": 0.6088645767274686,
+      "benign_fpr": 0.0109,
+      "attack_detection_rate": 0.848722711730668,
+      "binary_f1": 0.9179495727350513,
+      "per_class_f1": {
+        "Benign": 0.3488827357542195,
+        "BruteForce": 0.5483760683760683,
+        "DDoS": 0.8632866232131313,
+        "DoS": 0.6826133604381953,
+        "Mirai": 0.995571598068214,
+        "Recon": 0.4914466892788674,
+        "Spoofing": 0.7589915163101923,
+        "Web": 0.18174802238086052
+      }
+    }
+  ],
+  "clean_val": [
+    {
+      "operating_point": "argmax",
+      "target_fpr": null,
+      "threshold": null,
+      "macro_f1": 0.689335230075236,
+      "benign_fpr": 0.259,
+      "attack_detection_rate": 0.9695441789201317,
+      "binary_f1": 0.979502063219412,
+      "per_class_f1": {
+        "Benign": 0.588048567574002,
+        "BruteForce": 0.44938980617372576,
+        "DDoS": 0.8623551022993602,
+        "DoS": 0.6622056542175091,
+        "Mirai": 0.9950646925436841,
+        "Recon": 0.7925151348376445,
+        "Spoofing": 0.823888232979142,
+        "Web": 0.34121464997681966
+      }
+    },
+    {
+      "operating_point": "fpr5",
+      "target_fpr": 0.05,
+      "threshold": 0.8862817212939262,
+      "macro_f1": 0.646488668610876,
+      "benign_fpr": 0.05,
+      "attack_detection_rate": 0.904145462504788,
+      "binary_f1": 0.948686401404234,
+      "per_class_f1": {
+        "Benign": 0.43158277303289116,
+        "BruteForce": 0.41776061776061774,
+        "DDoS": 0.861943778009144,
+        "DoS": 0.6618645049218298,
+        "Mirai": 0.9949641487410372,
+        "Recon": 0.6582761020179712,
+        "Spoofing": 0.8196342232499474,
+        "Web": 0.32588320115356884
+      }
+    },
+    {
+      "operating_point": "fpr1",
+      "target_fpr": 0.01,
+      "threshold": 0.9706070385873318,
+      "macro_f1": 0.6039097504332775,
+      "benign_fpr": 0.01,
+      "attack_detection_rate": 0.856695043111872,
+      "binary_f1": 0.9226229563401862,
+      "per_class_f1": {
+        "Benign": 0.35004596563185064,
+        "BruteForce": 0.38099173553719007,
+        "DDoS": 0.8607376922867735,
+        "DoS": 0.6608082728558511,
+        "Mirai": 0.9948964274992494,
+        "Recon": 0.5708351479012428,
+        "Spoofing": 0.784185459344695,
+        "Web": 0.22877730240936725
+      }
+    }
+  ],
+  "evasion": {
+    "argmax": {
+      "n": 19895,
+      "detected": 0.9439055038954511,
+      "by_budget": {
+        "1.0": {
+          "evasion_rate": 0.05282496405559402,
+          "robust_detection": 0.8940437295802965
+        },
+        "0.5": {
+          "evasion_rate": 0.07124980030885564,
+          "robust_detection": 0.8766524252324704
+        },
+        "0.25": {
+          "evasion_rate": 0.08658608019596357,
+          "robust_detection": 0.8621764262377482
+        },
+        "0.1": {
+          "evasion_rate": 0.10202886202673199,
+          "robust_detection": 0.8475998994722292
+        }
+      },
+      "per_family": {
+        "BruteForce": {
+          "n": 1895,
+          "detected": 0.908179419525066,
+          "1.0": {
+            "evasion_rate": 0.06856478791400349,
+            "robust_detection": 0.845910290237467
+          },
+          "0.5": {
+            "evasion_rate": 0.09180708890180128,
+            "robust_detection": 0.824802110817942
+          },
+          "0.25": {
+            "evasion_rate": 0.1115630447414294,
+            "robust_detection": 0.8068601583113456
+          },
+          "0.1": {
+            "evasion_rate": 0.12376525276002324,
+            "robust_detection": 0.795778364116095
+          }
+        },
+        "DDoS": {
+          "n": 3000,
+          "detected": 0.9993333333333333,
+          "1.0": {
+            "evasion_rate": 0.0010006671114076052,
+            "robust_detection": 0.9983333333333333
+          },
+          "0.5": {
+            "evasion_rate": 0.001667778519012675,
+            "robust_detection": 0.9976666666666667
+          },
+          "0.25": {
+            "evasion_rate": 0.001667778519012675,
+            "robust_detection": 0.9976666666666667
+          },
+          "0.1": {
+            "evasion_rate": 0.003002001334222815,
+            "robust_detection": 0.9963333333333333
+          }
+        },
+        "DoS": {
+          "n": 3000,
+          "detected": 1.0,
+          "1.0": {
+            "evasion_rate": 0.0006666666666666666,
+            "robust_detection": 0.9993333333333333
+          },
+          "0.5": {
+            "evasion_rate": 0.001,
+            "robust_detection": 0.999
+          },
+          "0.25": {
+            "evasion_rate": 0.001,
+            "robust_detection": 0.999
+          },
+          "0.1": {
+            "evasion_rate": 0.0016666666666666668,
+            "robust_detection": 0.9983333333333333
+          }
+        },
+        "Mirai": {
+          "n": 3000,
+          "detected": 0.9993333333333333,
+          "1.0": {
+            "evasion_rate": 0.000333555703802535,
+            "robust_detection": 0.999
+          },
+          "0.5": {
+            "evasion_rate": 0.000333555703802535,
+            "robust_detection": 0.999
+          },
+          "0.25": {
+            "evasion_rate": 0.000333555703802535,
+            "robust_detection": 0.999
+          },
+          "0.1": {
+            "evasion_rate": 0.0010006671114076052,
+            "robust_detection": 0.9983333333333333
+          }
+        },
+        "Recon": {
+          "n": 3000,
+          "detected": 0.866,
+          "1.0": {
+            "evasion_rate": 0.07236335642802155,
+            "robust_detection": 0.8033333333333333
+          },
+          "0.5": {
+            "evasion_rate": 0.09507313317936875,
+            "robust_detection": 0.7836666666666666
+          },
+          "0.25": {
+            "evasion_rate": 0.10892994611239415,
+            "robust_detection": 0.7716666666666666
+          },
+          "0.1": {
+            "evasion_rate": 0.11855273287143957,
+            "robust_detection": 0.7633333333333333
+          }
+        },
+        "Spoofing": {
+          "n": 3000,
+          "detected": 0.91,
+          "1.0": {
+            "evasion_rate": 0.15824175824175823,
+            "robust_detection": 0.766
+          },
+          "0.5": {
+            "evasion_rate": 0.22564102564102564,
+            "robust_detection": 0.7046666666666667
+          },
+          "0.25": {
+            "evasion_rate": 0.2824175824175824,
+            "robust_detection": 0.653
+          },
+          "0.1": {
+            "evasion_rate": 0.32783882783882784,
+            "robust_detection": 0.6116666666666667
+          }
+        },
+        "Web": {
+          "n": 3000,
+          "detected": 0.9113333333333333,
+          "1.0": {
+            "evasion_rate": 0.09070958302852963,
+            "robust_detection": 0.8286666666666667
+          },
+          "0.5": {
+            "evasion_rate": 0.11265544989027067,
+            "robust_detection": 0.8086666666666666
+          },
+          "0.25": {
+            "evasion_rate": 0.13569861009509876,
+            "robust_detection": 0.7876666666666666
+          },
+          "0.1": {
+            "evasion_rate": 0.17666422823701536,
+            "robust_detection": 0.7503333333333333
+          }
+        }
+      },
+      "constraint_violations": {
+        "frozen_feature_changes": 0,
+        "negative_padding": 0,
+        "mtu_exceeded_by_padding": 0,
+        "std_changed": 0,
+        "rate_factor_below_budget": 0
+      },
+      "mean_queries": 103.68917407742691
+    },
+    "fpr5": {
+      "n": 19895,
+      "detected": 0.804423221915054,
+      "by_budget": {
+        "1.0": {
+          "evasion_rate": 0.10384903774056486,
+          "robust_detection": 0.7208846443830108
+        },
+        "0.5": {
+          "evasion_rate": 0.11334666333416646,
+          "robust_detection": 0.7132445338024629
+        },
+        "0.25": {
+          "evasion_rate": 0.11972006998250437,
+          "robust_detection": 0.7081176174918321
+        },
+        "0.1": {
+          "evasion_rate": 0.1284678830292427,
+          "robust_detection": 0.7010806735360643
+        }
+      },
+      "per_family": {
+        "BruteForce": {
+          "n": 1895,
+          "detected": 0.6691292875989446,
+          "1.0": {
+            "evasion_rate": 0.08517350157728706,
+            "robust_detection": 0.6121372031662269
+          },
+          "0.5": {
+            "evasion_rate": 0.10015772870662461,
+            "robust_detection": 0.6021108179419525
+          },
+          "0.25": {
+            "evasion_rate": 0.10410094637223975,
+            "robust_detection": 0.5994722955145119
+          },
+          "0.1": {
+            "evasion_rate": 0.10804416403785488,
+            "robust_detection": 0.5968337730870712
+          }
+        },
+        "DDoS": {
+          "n": 3000,
+          "detected": 0.997,
+          "1.0": {
+            "evasion_rate": 0.0026746907388833165,
+            "robust_detection": 0.9943333333333333
+          },
+          "0.5": {
+            "evasion_rate": 0.0036776997659645604,
+            "robust_detection": 0.9933333333333333
+          },
+          "0.25": {
+            "evasion_rate": 0.0056837178201270475,
+            "robust_detection": 0.9913333333333333
+          },
+          "0.1": {
+            "evasion_rate": 0.007021063189568706,
+            "robust_detection": 0.99
+          }
+        },
+        "DoS": {
+          "n": 3000,
+          "detected": 0.9996666666666667,
+          "1.0": {
+            "evasion_rate": 0.003334444814938313,
+            "robust_detection": 0.9963333333333333
+          },
+          "0.5": {
+            "evasion_rate": 0.0040013337779259755,
+            "robust_detection": 0.9956666666666667
+          },
+          "0.25": {
+            "evasion_rate": 0.0040013337779259755,
+            "robust_detection": 0.9956666666666667
+          },
+          "0.1": {
+            "evasion_rate": 0.0056685561853951315,
+            "robust_detection": 0.994
+          }
+        },
+        "Mirai": {
+          "n": 3000,
+          "detected": 0.9986666666666667,
+          "1.0": {
+            "evasion_rate": 0.0016688918558077437,
+            "robust_detection": 0.997
+          },
+          "0.5": {
+            "evasion_rate": 0.0020026702269692926,
+            "robust_detection": 0.9966666666666667
+          },
+          "0.25": {
+            "evasion_rate": 0.002336448598130841,
+            "robust_detection": 0.9963333333333333
+          },
+          "0.1": {
+            "evasion_rate": 0.0030040053404539386,
+            "robust_detection": 0.9956666666666667
+          }
+        },
+        "Recon": {
+          "n": 3000,
+          "detected": 0.5536666666666666,
+          "1.0": {
+            "evasion_rate": 0.10776640577965081,
+            "robust_detection": 0.494
+          },
+          "0.5": {
+            "evasion_rate": 0.11800120409391933,
+            "robust_detection": 0.48833333333333334
+          },
+          "0.25": {
+            "evasion_rate": 0.12101143889223359,
+            "robust_detection": 0.4866666666666667
+          },
+          "0.1": {
+            "evasion_rate": 0.12642986152919927,
+            "robust_detection": 0.4836666666666667
+          }
+        },
+        "Spoofing": {
+          "n": 3000,
+          "detected": 0.7876666666666666,
+          "1.0": {
+            "evasion_rate": 0.3410918324164198,
+            "robust_detection": 0.519
+          },
+          "0.5": {
+            "evasion_rate": 0.3762166737198476,
+            "robust_detection": 0.49133333333333334
+          },
+          "0.25": {
+            "evasion_rate": 0.4016081252644943,
+            "robust_detection": 0.4713333333333333
+          },
+          "0.1": {
+            "evasion_rate": 0.42911553110452816,
+            "robust_detection": 0.44966666666666666
+          }
+        },
+        "Web": {
+          "n": 3000,
+          "detected": 0.5753333333333334,
+          "1.0": {
+            "evasion_rate": 0.3163383545770568,
+            "robust_detection": 0.3933333333333333
+          },
+          "0.5": {
+            "evasion_rate": 0.33198146002317497,
+            "robust_detection": 0.38433333333333336
+          },
+          "0.25": {
+            "evasion_rate": 0.3464658169177289,
+            "robust_detection": 0.376
+          },
+          "0.1": {
+            "evasion_rate": 0.37543453070683663,
+            "robust_detection": 0.35933333333333334
+          }
+        }
+      },
+      "constraint_violations": {
+        "frozen_feature_changes": 0,
+        "negative_padding": 0,
+        "mtu_exceeded_by_padding": 0,
+        "std_changed": 0,
+        "rate_factor_below_budget": 0
+      },
+      "mean_queries": 99.62271932016996
+    },
+    "fpr1": {
+      "n": 19895,
+      "detected": 0.6916813269665745,
+      "by_budget": {
+        "1.0": {
+          "evasion_rate": 0.09897536516241552,
+          "robust_detection": 0.6232219150540337
+        },
+        "0.5": {
+          "evasion_rate": 0.10805900733958287,
+          "robust_detection": 0.616938929379241
+        },
+        "0.25": {
+          "evasion_rate": 0.11474456798197806,
+          "robust_detection": 0.6123146519225936
+        },
+        "0.1": {
+          "evasion_rate": 0.12731632875517768,
+          "robust_detection": 0.6036189997486806
+        }
+      },
+      "per_family": {
+        "BruteForce": {
+          "n": 1895,
+          "detected": 0.5007915567282322,
+          "1.0": {
+            "evasion_rate": 0.059009483667017915,
+            "robust_detection": 0.4712401055408971
+          },
+          "0.5": {
+            "evasion_rate": 0.07903055848261328,
+            "robust_detection": 0.46121372031662267
+          },
+          "0.25": {
+            "evasion_rate": 0.08956796628029505,
+            "robust_detection": 0.45593667546174144
+          },
+          "0.1": {
+            "evasion_rate": 0.10326659641728135,
+            "robust_detection": 0.44907651715039576
+          }
+        },
+        "DDoS": {
+          "n": 3000,
+          "detected": 0.9943333333333333,
+          "1.0": {
+            "evasion_rate": 0.004693261816962789,
+            "robust_detection": 0.9896666666666667
+          },
+          "0.5": {
+            "evasion_rate": 0.0053637277908146165,
+            "robust_detection": 0.989
+          },
+          "0.25": {
+            "evasion_rate": 0.0073751257123700975,
+            "robust_detection": 0.987
+          },
+          "0.1": {
+            "evasion_rate": 0.015085484411666107,
+            "robust_detection": 0.9793333333333333
+          }
+        },
+        "DoS": {
+          "n": 3000,
+          "detected": 0.998,
+          "1.0": {
+            "evasion_rate": 0.009686038744154976,
+            "robust_detection": 0.9883333333333333
+          },
+          "0.5": {
+            "evasion_rate": 0.01068804275217101,
+            "robust_detection": 0.9873333333333333
+          },
+          "0.25": {
+            "evasion_rate": 0.01169004676018704,
+            "robust_detection": 0.9863333333333333
+          },
+          "0.1": {
+            "evasion_rate": 0.019372077488309953,
+            "robust_detection": 0.9786666666666667
+          }
+        },
+        "Mirai": {
+          "n": 3000,
+          "detected": 0.9976666666666667,
+          "1.0": {
+            "evasion_rate": 0.003007016371533578,
+            "robust_detection": 0.9946666666666667
+          },
+          "0.5": {
+            "evasion_rate": 0.0036752422318743734,
+            "robust_detection": 0.994
+          },
+          "0.25": {
+            "evasion_rate": 0.004677581022385567,
+            "robust_detection": 0.993
+          },
+          "0.1": {
+            "evasion_rate": 0.005011693952555964,
+            "robust_detection": 0.9926666666666667
+          }
+        },
+        "Recon": {
+          "n": 3000,
+          "detected": 0.36833333333333335,
+          "1.0": {
+            "evasion_rate": 0.07149321266968325,
+            "robust_detection": 0.342
+          },
+          "0.5": {
+            "evasion_rate": 0.0760180995475113,
+            "robust_detection": 0.3403333333333333
+          },
+          "0.25": {
+            "evasion_rate": 0.07963800904977375,
+            "robust_detection": 0.339
+          },
+          "0.1": {
+            "evasion_rate": 0.08778280542986425,
+            "robust_detection": 0.336
+          }
+        },
+        "Spoofing": {
+          "n": 3000,
+          "detected": 0.648,
+          "1.0": {
+            "evasion_rate": 0.4691358024691358,
+            "robust_detection": 0.344
+          },
+          "0.5": {
+            "evasion_rate": 0.5005144032921811,
+            "robust_detection": 0.32366666666666666
+          },
+          "0.25": {
+            "evasion_rate": 0.5277777777777778,
+            "robust_detection": 0.306
+          },
+          "0.1": {
+            "evasion_rate": 0.5653292181069959,
+            "robust_detection": 0.2816666666666667
+          }
+        },
+        "Web": {
+          "n": 3000,
+          "detected": 0.2643333333333333,
+          "1.0": {
+            "evasion_rate": 0.3316519546027743,
+            "robust_detection": 0.17666666666666667
+          },
+          "0.5": {
+            "evasion_rate": 0.37326607818411095,
+            "robust_detection": 0.16566666666666666
+          },
+          "0.25": {
+            "evasion_rate": 0.3896595208070618,
+            "robust_detection": 0.16133333333333333
+          },
+          "0.1": {
+            "evasion_rate": 0.4287515762925599,
+            "robust_detection": 0.151
+          }
+        }
+      },
+      "constraint_violations": {
+        "frozen_feature_changes": 0,
+        "negative_padding": 0,
+        "mtu_exceeded_by_padding": 0,
+        "std_changed": 0,
+        "rate_factor_below_budget": 0
+      },
+      "mean_queries": 100.15958142576848
+    }
+  }
+}

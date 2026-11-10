@@ -1,0 +1,209 @@
+{
+  "val": {
+    "n": 132923,
+    "accuracy": 0.9703813486003174,
+    "balanced_accuracy": 0.7037366783142984,
+    "macro_f1": 0.7490678835994055,
+    "weighted_f1": 0.9669969006647982,
+    "per_class": {
+      "Benign": {
+        "precision": 0.671950824975736,
+        "recall": 0.4154,
+        "f1": 0.5134099616858238,
+        "support": 5000
+      },
+      "Attack": {
+        "precision": 0.9774862899747366,
+        "recall": 0.9920733566285969,
+        "f1": 0.9847258055129872,
+        "support": 127923
+      }
+    },
+    "confusion_matrix": [
+      [
+        2077,
+        2923
+      ],
+      [
+        1014,
+        126909
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.5846,
+    "attack_detection_rate": 0.9920733566285969,
+    "binary_f1": 0.9847258055129872,
+    "macro_roc_auc_ovr": 0.9750888253089749,
+    "macro_pr_auc_ovr": 0.8010554519684353,
+    "binary_roc_auc": 0.9750888253089749,
+    "binary_pr_auc": 0.9988521611678469,
+    "inference_seconds": 0.248,
+    "inference_us_per_row": 1.863
+  },
+  "test": {
+    "n": 253328,
+    "accuracy": 0.9685506536979726,
+    "balanced_accuracy": 0.7027183982114676,
+    "macro_f1": 0.746723607187064,
+    "weighted_f1": 0.9650409659927671,
+    "per_class": {
+      "Benign": {
+        "precision": 0.6626660265642503,
+        "recall": 0.4141,
+        "f1": 0.5096929041787187,
+        "support": 10000
+      },
+      "Attack": {
+        "precision": 0.9762869365668471,
+        "recall": 0.9913367964229353,
+        "f1": 0.9837543101954092,
+        "support": 243328
+      }
+    },
+    "confusion_matrix": [
+      [
+        4141,
+        5859
+      ],
+      [
+        2108,
+        241220
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.5859,
+    "attack_detection_rate": 0.9913367964229353,
+    "binary_f1": 0.9837543101954092,
+    "macro_roc_auc_ovr": 0.972632352215939,
+    "macro_pr_auc_ovr": 0.794485413989162,
+    "binary_roc_auc": 0.972632352215939,
+    "binary_pr_auc": 0.998640957651195,
+    "inference_seconds": 0.465,
+    "inference_us_per_row": 1.835
+  },
+  "test_unseen": {
+    "n": 222317,
+    "accuracy": 0.9643751939797677,
+    "balanced_accuracy": 0.702098762554372,
+    "macro_f1": 0.7459202036278659,
+    "weighted_f1": 0.9603863872597502,
+    "per_class": {
+      "Benign": {
+        "precision": 0.6651087832393231,
+        "recall": 0.4139833483799779,
+        "f1": 0.5103252133053048,
+        "support": 9969
+      },
+      "Attack": {
+        "precision": 0.9729677204412527,
+        "recall": 0.990214176728766,
+        "f1": 0.9815151939504271,
+        "support": 212348
+      }
+    },
+    "confusion_matrix": [
+      [
+        4127,
+        5842
+      ],
+      [
+        2078,
+        210270
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.586016651620022,
+    "attack_detection_rate": 0.990214176728766,
+    "binary_f1": 0.9815151939504271,
+    "macro_roc_auc_ovr": 0.9695594277630897,
+    "macro_pr_auc_ovr": 0.7951470880346199,
+    "binary_roc_auc": 0.9695594277630897,
+    "binary_pr_auc": 0.998294351368953,
+    "note": "test rows whose exact feature vector never occurs in the train pool"
+  },
+  "train_seconds": 26.5,
+  "feature_importance": {
+    "HTTPS": 0.15947689059877274,
+    "ack_flag_number": 0.0902279099676749,
+    "IAT": 0.08868388684265843,
+    "Rate": 0.08440276576335075,
+    "Time_To_Live": 0.07348129913285237,
+    "Header_Length": 0.0649497634829501,
+    "Tot size": 0.062386929681919286,
+    "AVG": 0.05230536152996519,
+    "psh_flag_number": 0.0382253459850717,
+    "Max": 0.03820779253336126,
+    "Std": 0.036723645958092035,
+    "Variance": 0.03262642171352931,
+    "Min": 0.03201853971544314,
+    "rst_flag_number": 0.025567577984560434,
+    "syn_flag_number": 0.02465713139956756,
+    "TCP": 0.01985113969070056,
+    "HTTP": 0.016807181244375302,
+    "DNS": 0.011741554608807332,
+    "UDP": 0.011617618631480224,
+    "fin_flag_number": 0.007319472184818943,
+    "Protocol Type": 0.005698215791500986,
+    "LLC": 0.005497710771761011,
+    "ARP": 0.005072055453497824,
+    "ICMP": 0.004291800365256429,
+    "IPv": 0.0037810312950719853,
+    "SSH": 0.002301556267325257,
+    "DHCP": 0.0011687717342506755,
+    "ece_flag_number": 0.00040932541884556125,
+    "IGMP": 0.00021551914608159046,
+    "cwr_flag_number": 0.00021392906897967705,
+    "IRC": 6.759262286011986e-05,
+    "Telnet": 2.7672441764230164e-06,
+    "SMTP": 1.4961704410262286e-06
+  },
+  "test_full_pool": {
+    "n": 8980013,
+    "accuracy": 0.9801864429372207,
+    "balanced_accuracy": 0.7074946705157785,
+    "macro_f1": 0.7849143983663613,
+    "weighted_f1": 0.9763623866504528,
+    "per_class": {
+      "Benign": {
+        "precision": 0.9595228982292244,
+        "recall": 0.4155860412402524,
+        "f1": 0.5799748824384808,
+        "support": 295585
+      },
+      "Attack": {
+        "precision": 0.9804852920077858,
+        "recall": 0.9994032997913046,
+        "f1": 0.9898539142942419,
+        "support": 8684428
+      }
+    },
+    "confusion_matrix": [
+      [
+        122841,
+        172744
+      ],
+      [
+        5182,
+        8679246
+      ]
+    ],
+    "class_names": [
+      "Benign",
+      "Attack"
+    ],
+    "benign_fpr": 0.5844139587597477,
+    "attack_detection_rate": 0.9994032997913046,
+    "binary_f1": 0.9898539142942419,
+    "seconds": 17.2
+  },
+  "peak_rss_mb": 2885.7
+}

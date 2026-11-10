@@ -1,0 +1,218 @@
+{
+  "run_config": {
+    "server-data-dir": "/home/fids/fids/data",
+    "out-dir": "/home/fids/fids/runs",
+    "run-name": "flower_azure_hybrid_category_iid_s0",
+    "n-clients": 10,
+    "num-server-rounds": 30,
+    "local-epochs": 1,
+    "learning-rate": 0.001,
+    "batch-size": 512,
+    "device": "cpu"
+  },
+  "data_manifest": {
+    "created_utc": "2026-10-26T07:27:47+00:00",
+    "task": "category",
+    "class_names": [
+      "Benign",
+      "BruteForce",
+      "DDoS",
+      "DoS",
+      "Mirai",
+      "Recon",
+      "Spoofing",
+      "Web"
+    ],
+    "feature_set": "window_invariant",
+    "features": [
+      "Header_Length",
+      "Protocol Type",
+      "Time_To_Live",
+      "Rate",
+      "fin_flag_number",
+      "syn_flag_number",
+      "rst_flag_number",
+      "psh_flag_number",
+      "ack_flag_number",
+      "ece_flag_number",
+      "cwr_flag_number",
+      "HTTP",
+      "HTTPS",
+      "DNS",
+      "Telnet",
+      "SMTP",
+      "SSH",
+      "IRC",
+      "TCP",
+      "UDP",
+      "DHCP",
+      "ARP",
+      "ICMP",
+      "IGMP",
+      "IPv",
+      "LLC",
+      "Min",
+      "Max",
+      "AVG",
+      "Std",
+      "Tot size",
+      "IAT",
+      "Variance"
+    ],
+    "partition": "iid",
+    "alpha": null,
+    "n_clients": 10,
+    "seed": 0,
+    "split": "ciciot_v1",
+    "files": {
+      "client_0.npz": {
+        "rows": 66419,
+        "label_histogram": [
+          2548,
+          907,
+          28602,
+          10076,
+          7406,
+          10188,
+          5025,
+          1667
+        ],
+        "sha256": "cdf1dcc40ae10d0f66b62ff3a6a42252b8ed46e1ab715713b82f178a697f8219"
+      },
+      "client_1.npz": {
+        "rows": 66419,
+        "label_histogram": [
+          2526,
+          923,
+          28757,
+          9955,
+          7624,
+          10054,
+          4880,
+          1700
+        ],
+        "sha256": "a5799fc029127948062141fc5c30dc6f269ffb523ff7ab67edd0ed1d4ea8a19a"
+      },
+      "client_2.npz": {
+        "rows": 66419,
+        "label_histogram": [
+          2513,
+          885,
+          28662,
+          10229,
+          7523,
+          9875,
+          5038,
+          1694
+        ],
+        "sha256": "74de53451096d69c5ca8877d6bde1c70eb429f98f30114db5244cd1e092173cd"
+      },
+      "client_3.npz": {
+        "rows": 66419,
+        "label_histogram": [
+          2454,
+          936,
+          28692,
+          10050,
+          7555,
+          10242,
+          4814,
+          1676
+        ],
+        "sha256": "8d8001a1e8d4703d91e5a09b4e65c41b1eb2b30a8afdcc460457e3801414d0dc"
+      },
+      "client_4.npz": {
+        "rows": 66419,
+        "label_histogram": [
+          2472,
+          888,
+          28647,
+          9976,
+          7445,
+          10264,
+          4997,
+          1730
+        ],
+        "sha256": "17944b18181c07294798a6fadf62e0c94079c7eee7f68be1fc944b6e3db00cd7"
+      },
+      "client_5.npz": {
+        "rows": 66419,
+        "label_histogram": [
+          2516,
+          892,
+          28790,
+          9809,
+          7446,
+          10169,
+          5043,
+          1754
+        ],
+        "sha256": "389975c36d08897afe4c8c1379d3438ff8cb0675b3be0d099fb5ad56e5979160"
+      },
+      "client_6.npz": {
+        "rows": 66419,
+        "label_histogram": [
+          2438,
+          919,
+          28476,
+          9965,
+          7444,
+          10326,
+          5042,
+          1809
+        ],
+        "sha256": "053a8e83fe745a35883c59ec03237eb7088dc3eb7d41bfd4a30b354ad0031473"
+      },
+      "client_7.npz": {
+        "rows": 66418,
+        "label_histogram": [
+          2461,
+          903,
+          28623,
+          9989,
+          7503,
+          10082,
+          5088,
+          1769
+        ],
+        "sha256": "268c151df4745eece4e84620cb9f94c4e560cca66edc574b571a8cc4236a3dd1"
+      },
+      "client_8.npz": {
+        "rows": 66418,
+        "label_histogram": [
+          2490,
+          913,
+          28557,
+          9997,
+          7570,
+          10163,
+          5041,
+          1687
+        ],
+        "sha256": "9590058432b22c5c717804dc937cea2790f9300163b9fc4b4bdc6923d7cc53a6"
+      },
+      "client_9.npz": {
+        "rows": 66418,
+        "label_histogram": [
+          2582,
+          913,
+          28484,
+          9954,
+          7484,
+          10209,
+          5032,
+          1760
+        ],
+        "sha256": "bd713b13596bc3417ce429e462a16e35ef36c794a936ead3913bc9b1049d3c39"
+      },
+      "server_eval.npz": {
+        "val_rows": 132923,
+        "test_rows": 253328,
+        "sha256": "061b4b9a86c039d70c4e7eda48beb37a6f80f72d3395721d6904d919e507a8c2"
+      },
+      "preprocessor.json": {
+        "sha256": "b39e0becb9d5f19b31037fd734486048cf3c28a7771d245c85a0855776e2d3cb"
+      }
+    }
+  }
+}

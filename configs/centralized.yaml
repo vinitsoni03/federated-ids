@@ -1,0 +1,23 @@
+# Centralized baseline (Milestone 4). Same model/preprocessing are reused by the FL runs.
+task: category            # category (Benign + 7 families) | class34 | binary
+device: auto              # auto | cpu | cuda (Phase 2 runs pass --device cuda)
+feature_set: window_invariant
+model:
+  hidden: [128, 64]
+  dropout: 0.1
+train:
+  epochs: 30
+  lr: 0.001
+  batch_size: 512
+  class_weighting: sqrt_inverse
+  patience: 5             # early stopping on validation macro-F1
+seeds: [0, 1, 2]
+random_forest:
+  enabled: true
+  n_estimators: 100
+  max_depth: null
+  min_samples_leaf: 1
+  class_weight: balanced_subsample
+  n_jobs: 6
+  seed: 0
+full_test: true           # also score the entire held-out test pool (~9M rows)

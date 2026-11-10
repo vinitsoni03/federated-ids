@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_category_dir1.0_fedprox_s1 --device cuda --partition dirichlet --alpha 1.0 --algorithm fedprox --mu 0.01 --seed 1 --task category
+  [fl_category_dir1.0_fedprox_s1] round 2: val macroF1 0.5633 test macroF1 0.5780 FPR 0.4355 (8.0s)
+  [fl_category_dir1.0_fedprox_s1] round 4: val macroF1 0.5898 test macroF1 0.6058 FPR 0.4100 (15.7s)
+  [fl_category_dir1.0_fedprox_s1] round 6: val macroF1 0.6100 test macroF1 0.6191 FPR 0.3809 (23.3s)
+  [fl_category_dir1.0_fedprox_s1] round 8: val macroF1 0.6214 test macroF1 0.6300 FPR 0.3993 (31.0s)
+  [fl_category_dir1.0_fedprox_s1] round 10: val macroF1 0.6260 test macroF1 0.6328 FPR 0.3598 (38.6s)
+  [fl_category_dir1.0_fedprox_s1] round 12: val macroF1 0.6270 test macroF1 0.6376 FPR 0.3396 (46.2s)
+  [fl_category_dir1.0_fedprox_s1] round 14: val macroF1 0.6342 test macroF1 0.6412 FPR 0.3214 (53.9s)
+  [fl_category_dir1.0_fedprox_s1] round 16: val macroF1 0.6387 test macroF1 0.6465 FPR 0.3335 (61.5s)
+  [fl_category_dir1.0_fedprox_s1] round 18: val macroF1 0.6427 test macroF1 0.6501 FPR 0.3235 (69.1s)
+  [fl_category_dir1.0_fedprox_s1] round 20: val macroF1 0.6438 test macroF1 0.6500 FPR 0.3131 (76.8s)
+  [fl_category_dir1.0_fedprox_s1] round 22: val macroF1 0.6469 test macroF1 0.6517 FPR 0.3136 (84.4s)
+  [fl_category_dir1.0_fedprox_s1] round 24: val macroF1 0.6479 test macroF1 0.6556 FPR 0.3327 (92.0s)
+  [fl_category_dir1.0_fedprox_s1] round 26: val macroF1 0.6492 test macroF1 0.6550 FPR 0.3053 (99.7s)
+  [fl_category_dir1.0_fedprox_s1] round 28: val macroF1 0.6520 test macroF1 0.6585 FPR 0.2989 (107.5s)
+  [fl_category_dir1.0_fedprox_s1] round 30: val macroF1 0.6504 test macroF1 0.6546 FPR 0.2780 (115.2s)
+{'n': 253328, 'accuracy': 0.7957193835659698, 'balanced_accuracy': 0.6659141777819002, 'macro_f1': 0.6546029127990034, 'weighted_f1': 0.7944312412791414, 'benign_fpr': 0.278, 'attack_detection_rate': 0.9625279458179905, 'binary_f1': 0.9752289108465642, 'macro_roc_auc_ovr': 0.9646671864420302, 'macro_pr_auc_ovr': 0.7040269621193775} {} 115.2

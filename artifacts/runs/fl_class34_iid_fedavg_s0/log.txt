@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_class34_iid_fedavg_s0 --device cuda --partition iid --algorithm fedavg --seed 0 --task class34
+  [fl_class34_iid_fedavg_s0] round 2: val macroF1 0.4637 test macroF1 0.4485 FPR 0.4280 (6.5s)
+  [fl_class34_iid_fedavg_s0] round 4: val macroF1 0.4844 test macroF1 0.4694 FPR 0.4010 (12.6s)
+  [fl_class34_iid_fedavg_s0] round 6: val macroF1 0.4993 test macroF1 0.4868 FPR 0.3737 (18.8s)
+  [fl_class34_iid_fedavg_s0] round 8: val macroF1 0.5049 test macroF1 0.4895 FPR 0.3746 (25.0s)
+  [fl_class34_iid_fedavg_s0] round 10: val macroF1 0.5072 test macroF1 0.4893 FPR 0.3522 (31.2s)
+  [fl_class34_iid_fedavg_s0] round 12: val macroF1 0.5148 test macroF1 0.4977 FPR 0.3378 (37.3s)
+  [fl_class34_iid_fedavg_s0] round 14: val macroF1 0.5212 test macroF1 0.5006 FPR 0.3358 (43.5s)
+  [fl_class34_iid_fedavg_s0] round 16: val macroF1 0.5190 test macroF1 0.5027 FPR 0.3244 (49.6s)
+  [fl_class34_iid_fedavg_s0] round 18: val macroF1 0.5239 test macroF1 0.5076 FPR 0.3195 (55.6s)
+  [fl_class34_iid_fedavg_s0] round 20: val macroF1 0.5295 test macroF1 0.5096 FPR 0.3201 (61.8s)
+  [fl_class34_iid_fedavg_s0] round 22: val macroF1 0.5249 test macroF1 0.5081 FPR 0.3238 (67.9s)
+  [fl_class34_iid_fedavg_s0] round 24: val macroF1 0.5279 test macroF1 0.5153 FPR 0.3001 (74.0s)
+  [fl_class34_iid_fedavg_s0] round 26: val macroF1 0.5332 test macroF1 0.5173 FPR 0.2970 (80.2s)
+  [fl_class34_iid_fedavg_s0] round 28: val macroF1 0.5256 test macroF1 0.5098 FPR 0.2879 (86.4s)
+  [fl_class34_iid_fedavg_s0] round 30: val macroF1 0.5374 test macroF1 0.5202 FPR 0.2952 (92.6s)
+{'n': 253328, 'accuracy': 0.654799311564454, 'balanced_accuracy': 0.538384142819209, 'macro_f1': 0.520222575386496, 'weighted_f1': 0.6363920632844858, 'benign_fpr': 0.2952, 'attack_detection_rate': 0.9602717319831667, 'binary_f1': 0.9737071848414701, 'macro_roc_auc_ovr': 0.9687157594752892, 'macro_pr_auc_ovr': 0.5594427664196706} {} 92.6

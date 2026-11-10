@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_binary_v2_iid_fedavg_s2 --device cuda --partition iid --algorithm fedavg --seed 2 --hidden 256 128 --dropout 0.1 --lr 0.0003 --task binary
+  [fl_binary_v2_iid_fedavg_s2] round 2: val macroF1 0.6982 test macroF1 0.6779 FPR 0.3275 (7.0s)
+  [fl_binary_v2_iid_fedavg_s2] round 4: val macroF1 0.7085 test macroF1 0.6992 FPR 0.2388 (13.6s)
+  [fl_binary_v2_iid_fedavg_s2] round 6: val macroF1 0.7170 test macroF1 0.7126 FPR 0.2424 (20.4s)
+  [fl_binary_v2_iid_fedavg_s2] round 8: val macroF1 0.7243 test macroF1 0.7208 FPR 0.2352 (27.1s)
+  [fl_binary_v2_iid_fedavg_s2] round 10: val macroF1 0.7319 test macroF1 0.7267 FPR 0.2406 (34.4s)
+  [fl_binary_v2_iid_fedavg_s2] round 12: val macroF1 0.7312 test macroF1 0.7265 FPR 0.2156 (41.3s)
+  [fl_binary_v2_iid_fedavg_s2] round 14: val macroF1 0.7338 test macroF1 0.7284 FPR 0.2118 (48.2s)
+  [fl_binary_v2_iid_fedavg_s2] round 16: val macroF1 0.7328 test macroF1 0.7285 FPR 0.2009 (55.2s)
+  [fl_binary_v2_iid_fedavg_s2] round 18: val macroF1 0.7303 test macroF1 0.7256 FPR 0.1809 (61.9s)
+  [fl_binary_v2_iid_fedavg_s2] round 20: val macroF1 0.7392 test macroF1 0.7342 FPR 0.2031 (68.7s)
+  [fl_binary_v2_iid_fedavg_s2] round 22: val macroF1 0.7381 test macroF1 0.7323 FPR 0.1941 (75.4s)
+  [fl_binary_v2_iid_fedavg_s2] round 24: val macroF1 0.7412 test macroF1 0.7354 FPR 0.1959 (82.1s)
+  [fl_binary_v2_iid_fedavg_s2] round 26: val macroF1 0.7443 test macroF1 0.7384 FPR 0.2003 (89.1s)
+  [fl_binary_v2_iid_fedavg_s2] round 28: val macroF1 0.7416 test macroF1 0.7344 FPR 0.1863 (97.2s)
+  [fl_binary_v2_iid_fedavg_s2] round 30: val macroF1 0.7438 test macroF1 0.7367 FPR 0.1868 (104.5s)
+{'n': 253328, 'accuracy': 0.9375197372576265, 'balanced_accuracy': 0.8779144397685429, 'macro_f1': 0.7367201253308766, 'weighted_f1': 0.9484947544673856, 'benign_fpr': 0.1868, 'attack_detection_rate': 0.9426288795370857, 'binary_f1': 0.9666472804511088, 'macro_roc_auc_ovr': 0.9668003066848039, 'macro_pr_auc_ovr': 0.7647329178172888} {} 104.5

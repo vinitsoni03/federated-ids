@@ -1,0 +1,17 @@
+-m federated_ids.federated.simulation --run-name fl_category_dir0.1_fedavg_s1 --device cuda --partition dirichlet --alpha 0.1 --algorithm fedavg --seed 1 --task category
+  [fl_category_dir0.1_fedavg_s1] round 2: val macroF1 0.3385 test macroF1 0.3281 FPR 0.4797 (6.0s)
+  [fl_category_dir0.1_fedavg_s1] round 4: val macroF1 0.3968 test macroF1 0.3769 FPR 0.2523 (12.1s)
+  [fl_category_dir0.1_fedavg_s1] round 6: val macroF1 0.4232 test macroF1 0.4067 FPR 0.2989 (18.3s)
+  [fl_category_dir0.1_fedavg_s1] round 8: val macroF1 0.4679 test macroF1 0.4470 FPR 0.2609 (24.1s)
+  [fl_category_dir0.1_fedavg_s1] round 10: val macroF1 0.4766 test macroF1 0.4599 FPR 0.1290 (30.1s)
+  [fl_category_dir0.1_fedavg_s1] round 12: val macroF1 0.4701 test macroF1 0.4543 FPR 0.1222 (36.0s)
+  [fl_category_dir0.1_fedavg_s1] round 14: val macroF1 0.4776 test macroF1 0.4600 FPR 0.1450 (42.0s)
+  [fl_category_dir0.1_fedavg_s1] round 16: val macroF1 0.4768 test macroF1 0.4604 FPR 0.1192 (47.9s)
+  [fl_category_dir0.1_fedavg_s1] round 18: val macroF1 0.4768 test macroF1 0.4657 FPR 0.1257 (53.7s)
+  [fl_category_dir0.1_fedavg_s1] round 20: val macroF1 0.4807 test macroF1 0.4664 FPR 0.1506 (59.5s)
+  [fl_category_dir0.1_fedavg_s1] round 22: val macroF1 0.4719 test macroF1 0.4584 FPR 0.1571 (65.2s)
+  [fl_category_dir0.1_fedavg_s1] round 24: val macroF1 0.4799 test macroF1 0.4638 FPR 0.1599 (71.0s)
+  [fl_category_dir0.1_fedavg_s1] round 26: val macroF1 0.4730 test macroF1 0.4568 FPR 0.1113 (76.8s)
+  [fl_category_dir0.1_fedavg_s1] round 28: val macroF1 0.4821 test macroF1 0.4672 FPR 0.1751 (82.5s)
+  [fl_category_dir0.1_fedavg_s1] round 30: val macroF1 0.4858 test macroF1 0.4687 FPR 0.1341 (88.3s)
+{'n': 253328, 'accuracy': 0.6915421903619023, 'balanced_accuracy': 0.5439790126345392, 'macro_f1': 0.4687347591253148, 'weighted_f1': 0.65324894179032, 'benign_fpr': 0.1341, 'attack_detection_rate': 0.9066568582325092, 'binary_f1': 0.9483025421033175, 'macro_roc_auc_ovr': 0.9377537203427915, 'macro_pr_auc_ovr': 0.5905072314778637} {} 88.3
