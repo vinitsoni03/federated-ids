@@ -11,10 +11,10 @@ archived in `artifacts/runs_cpu_20261026/`; CPU and GPU runs are not bit-identic
 Results are for one split of one dataset release. Seeds per cell are given in the `n_seeds` column of
 each table; "± x" is the sample standard deviation over seeds.
 
-**Status:** WP1 (federated baseline), WP2 (poisoning), the evasion reruns, the Flower deployment across
-Azure and the laptop (§5.4) and WP3 (centralized v2 + calibrated operating points, §4.1) are complete.
-* WP4 (federated v2, §5.3) is complete. WP5 (evasion defence) is two-thirds done (not yet in this report); WP6 (GridStratLLM without the ARP signature)
-  have not been started.
+**Status:** all experiments are complete: WP1 (federated baseline), WP2 (poisoning), the evasion reruns, WP3
+(centralized v2 + calibrated operating points, §4.1), WP4 (federated v2, §5.3), the Flower deployment across Azure
+and the laptop (§5.4), WP5 (evasion at fixed FPR + adversarial training, §7.1) and WP6 (GridStratLLM without the
+ARP signature, §8.1).
 
 ## 1. Scope and research questions
 Four separate studies, each with its own threat model (`reports/threat_models.md`). Every CICIoT2023
@@ -285,8 +285,47 @@ Setup:
 * **Flood families are hard to evade** (DDoS, DoS, Mirai <= 0.01), with one exception: the 8-class GPU-trained MLP, where DDoS and DoS reach **0.06** at r >= 0.1. The earlier CPU-trained MLP gave <= 0.01, so this robustness is model-dependent.
 * **Low-rate families evade often.** Spoofing, Web, Recon and BruteForce windows can be made to look Benign 20-65 % of the time (r >= 0.1); these are the families already confused with Benign without any attack.
 * **Most successes need no slow-down** (no throughput cost for the attacker): 55-81 % of successful evasions used r = 1 for five of the six targets, but only 39 % for the binary RF. No single knob is enough alone (`m7_evasion_knob_ablation.csv`).
-* **The binary RF's low evasion rate is not robustness.** It labels 59 % of benign traffic as attack. Evasion must be compared at a fixed benign FPR, which is the planned WP3/WP5 calibration (not done yet).
+* **The binary RF's low evasion rate is not robustness.** It labels 59 % of benign traffic as attack. At a fixed benign FPR (§7.1) every detector is evadable, including the binary tree model.
 * **Limitation:** perturbations are modelled in feature space from the feature definitions; they were not replayed through the CIC extractor.
+
+### 7.1 Evasion at a fixed false-positive rate, and adversarial training (WP5) - `reports/tables/wp5_*.csv`, `reports/figures/wp5_advtrain_evasion.png`
+**Protocol** (`experiments/wp5_advtrain.py`). The attacker and its constraints are unchanged from §7.
+* **Targets:** the frozen v2 MLP (3 seeds) and HGB (1 seed) from §4.1, attacked at three decision rules: argmax and
+  the validation thresholds for 5 % and 1 % benign FPR.
+* **Adversarial training, 2 rounds:** attack the current model's 1 %-FPR rule on a fixed *train* sample
+  (<= 20,000 attack windows per family), add every successful adversarial window with its true label to a
+  cumulative pool, retrain from scratch (same preprocessing and hyperparameters), and re-fit the thresholds on val.
+* **Evaluation:** every round's model is attacked adaptively (the attacker queries the *retrained* model) on one fixed
+  test sample (<= 3,000 attack windows per family, identical for all models). Evasion rate = share of detected windows
+  turned Benign; robust detection = share of all sampled attack windows still flagged after the attack.
+* **Checks:** 0 constraint violations in all 108 attacked evaluations; every success re-queried.
+
+Evasion rate at the loosest budget (r >= 0.1), 1 %-FPR rule, round 0 (frozen) -> 1 -> 2; robust detection
+in brackets (round 0 -> 2). MLP = mean of 3 seeds (sd <= 0.032).
+
+| Task | v2 MLP | HGB |
+|---|---|---|
+| 8-class | 0.359 -> 0.119 -> 0.122 (0.45 -> 0.62) | 0.445 -> 0.185 -> **0.083** (0.40 -> 0.67) |
+| 34-class | 0.406 -> 0.157 -> **0.103** (0.41 -> 0.62) | 0.486 -> 0.174 -> 0.172 (0.35 -> 0.57) |
+| binary | 0.240 -> 0.100 -> **0.090** (0.50 -> 0.59) | 0.328 -> 0.160 -> 0.121 (0.48 -> 0.63) |
+
+* **Calibrated thresholds are easier to evade than argmax.** At round 0 the 1 %-FPR rule is evaded 1.1-2.1x as
+  often as argmax (8-class MLP 0.36 vs 0.17, 34-class HGB 0.49 vs 0.27, binary HGB 0.33 vs 0.31). Lowering the false-alarm rate moves the
+  threshold towards the attack side, so a smaller perturbation crosses it. The deployable operating point (§4.1)
+  is the vulnerable one.
+* **The §7 Random Forest result does not carry over.** At a fixed 1 % FPR the binary tree model (HGB) is evaded
+  33 % of the time, more than the MLP (24 %). The RF's 4 % in §7 came from flagging 59 % of benign traffic.
+* **One round of adversarial training removes most of the evasion:** a 2.0-3.0x reduction at 1 % FPR in every task and model. A second round helps
+  8-class HGB, 34-class MLP and binary HGB further; it is flat for 8-class MLP and 34-class HGB. Evasion without any slow-down (r = 1) falls from 0.19-0.41 to 0.06-0.14.
+* **Clean cost is negligible.** Over both rounds, at the 1 % rule, clean test detection changes by -0.011 to +0.005,
+  macro-F1 by -0.010 to +0.010, and the achieved benign FPR stays at 0.9-1.25 % (HGB binary 0.7 % -> 1.1 %). Argmax macro-F1
+  changes by <= 0.015.
+* **What remains.** After two rounds, flood families are almost never evaded (DDoS, DoS, Mirai <= 0.06; exception:
+  binary HGB Mirai 0.25). Spoofing (0.28-0.69) and Web (0.20-0.50) stay evadable for every model, because they are
+  the families that already overlap with Benign (§4). Robust detection at 1 % FPR is still only 57-67 %.
+* **Limitations.** The defence is evaluated against the *same* attacker it was trained on (adaptive to the new
+  model, but the same perturbation space); a stronger or different attacker was not tested. HGB has one seed.
+  Perturbations remain feature-space only (§7).
 
 ## 8. LLM-coordinated attacks - GridStratLLM (RQ5) - `reports/tables/m8_gridstrat*.csv`, `reports/figures/m8_gridstrat_auc.png`
 
@@ -304,10 +343,46 @@ Setup:
 * **The planning LLM barely matters.** All 436 sessions execute through the same primitives (`arp_mitm` + S7/Modbus data modification), so the network signature is set by the toolkit.
 * **A classical rule works as well as the models.** "IP address with more than one source MAC" flags 89-99 % of attack windows, with 0 false-alarm windows on held-out normal operation (resolution 1.4/h).
 * **Limitations.**
-  * Every attack uses ARP MITM, so attacks *without* that signature cannot be tested here (WP6 is planned, not done).
+  * Every attack uses ARP MITM, so attacks without a MITM step cannot be tested here (§8.1 removes the ARP features but not the MITM).
   * The normal hold-out is short (0.70 h).
   * Commercial NSM not evaluated (clock offset).
   * Smart-grid findings do not transfer to generic IoT without testing.
+
+### 8.1 Detection without the ARP signature (WP6) - `reports/tables/wp6_gridstrat_no_arp.csv`, `reports/gridstrat/wp6_results.json`
+**Question.** If an attacker hid the ARP/L2-L3 binding anomaly, would the attacks still be detectable?
+`gridstrat/wp6_no_arp.py` keeps the §8 windows, labels, guard band, Random Forest and leave-one-LLM-out folds, and
+changes only the features:
+* **Timing/volume, no identities** (12): §8 volume minus the host counts (distinct source MACs / IPs). No ARP
+  packets, no binding feature, no host counts.
+* **Process data** (137): SCADA records (`process_data.parquet`: PV, wind, battery, demand, power flow, ~100
+  records/s). Per window and numeric field: standard deviation, range and number of value changes, plus records
+  per source. Absolute levels are left out because they follow weather and time of day, which differ between
+  capture days.
+* **Check:** the §8 volume folds were recomputed in the same script and match the stored results exactly.
+
+| Held-out LLM | Timing/volume, no ARP: AUC / session det. / FA per h | Process data only: AUC / session det. / FA per h | Both: AUC / session det. / FA per h |
+|---|---|---|---|
+| claude-sonnet-4.6 | 0.993 / 1.00 / 0 | 0.501 / 0.83 / 96.8 | 0.980 / 1.00 / 0 |
+| gemini-3.1-pro-preview | 0.996 / 1.00 / 0 | 0.373 / 0.54 / 129.5 | 0.997 / 1.00 / 0 |
+| minimax-m2.5 | 0.969 / 1.00 / 1.4 | 0.545 / 0.94 / 172.2 | 0.908 / 1.00 / 1.4 |
+| gpt-5.3-codex | 0.896 / 0.98 / 0 | 0.580 / 0.87 / 78.3 | 0.908 / 0.99 / 0 |
+
+FA per h = false-alarm windows per hour of held-out normal operation (resolution 1.4/h).
+
+* **Removing the ARP and host-count features costs almost nothing.** AUC drops by 0.003-0.007 relative to §8
+  volume, and 98-100 % of sessions are still detected, with the same false-alarm rate. Only the gpt-5.3-codex fold
+  (the hardest) misses sessions: 3 of 149, spread over three target states (0.96-0.97), all single-worker
+  (0.98 vs 1.00 for coordinated). Every other fold detects every session of every target state.
+* **What is left is the MITM relay, not the data manipulation.** The top features in every fold are S7
+  inter-arrival time and S7 packet/byte counts. Attack windows carry ~5 % more S7 packets (median 3,364 vs 3,195
+  per window), consistent with frames being forwarded through the attacker. Hiding the ARP anomaly is therefore not
+  enough to evade detection on this testbed, but this does **not** show that an attack without a MITM step (e.g.
+  a compromised PLC or engineering workstation) would be detected.
+* **Negative result: process data carries no usable signal** in this form (AUC 0.37-0.58, 78-172 false alarms
+  per hour). Its most important features are weather-driven (wind temperature, demand), and adding it to the
+  network features does not help (minimax AUC 0.969 -> 0.908). Whether `process_data` is logged before or after the
+  manipulated S7 values reach SCADA is not documented, so a physics-consistency detector was not attempted.
+* **Not done (future work):** window-size and guard-band sensitivity, and replay of the attacks without a MITM step.
 
 ## 9. Reproducibility
 * **Environment.** `README.md` (commands) and `requirements-lock.txt` (CPU env). GPU env: `D:\federated-ids-work\venv-cuda`.

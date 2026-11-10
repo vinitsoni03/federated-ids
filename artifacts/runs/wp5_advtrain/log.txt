@@ -55,3 +55,53 @@
 [class34] hgb_s0 round 1: trained on 708625 rows (pool 44438) in 58s
 [class34] hgb_s0_r1: clean 1% det 0.8503 FPR 0.0104 F1 0.5732 | evasion@0.1 argmax 0.117 fpr5 0.152 fpr1 0.174 | robust@0.1 fpr1 0.574
 [class34] pool_hgb_s0_r2: 15432 new adversarial train windows (90514 detected of 126325, 0.170 evaded)
+=== start 2026-11-10 23:23:58 {'tasks': ['category', 'class34', 'binary'], 'models': ['mlp', 'hgb'], 'seeds': [0, 1, 2], 'rounds': 2, 'train_per_family': 20000, 'test_per_family': 3000, 'device': 'cuda', 'run_name': 'wp5_advtrain'}
+[category] train attack sample 126325, test attack sample 19895, TTL choices [None, 63.4, 96.5, 197.6]
+[category] mlp_s0 round 1: trained on 696758 rows (pool 32571) in 0s
+[category] mlp_s0 round 2: trained on 707168 rows (pool 42981) in 0s
+[category] mlp_s1 round 1: trained on 695560 rows (pool 31373) in 0s
+[category] mlp_s1 round 2: trained on 703509 rows (pool 39322) in 0s
+[category] mlp_s2 round 1: trained on 701386 rows (pool 37199) in 0s
+[category] mlp_s2 round 2: trained on 711931 rows (pool 47744) in 0s
+[category] hgb_s0 round 1: trained on 706266 rows (pool 42079) in 0s
+[category] hgb_s0 round 2: trained on 721611 rows (pool 57424) in 0s
+[class34] train attack sample 126325, test attack sample 19895, TTL choices [None, 63.4, 96.5, 197.6]
+[class34] mlp_s0 round 1: trained on 698894 rows (pool 34707) in 0s
+[class34] mlp_s0 round 2: trained on 713237 rows (pool 49050) in 0s
+[class34] mlp_s1 round 1: trained on 702296 rows (pool 38109) in 0s
+[class34] mlp_s1 round 2: trained on 713589 rows (pool 49402) in 0s
+[class34] mlp_s2 round 1: trained on 701404 rows (pool 37217) in 0s
+[class34] mlp_s2 round 2: trained on 717050 rows (pool 52863) in 0s
+[class34] hgb_s0 round 1: trained on 708625 rows (pool 44438) in 0s
+[class34] hgb_s0 round 2: trained on 724057 rows (pool 59870) in 68s
+[class34] hgb_s0_r2: clean 1% det 0.8466 FPR 0.0090 F1 0.5734 | evasion@0.1 argmax 0.080 fpr5 0.116 fpr1 0.172 | robust@0.1 fpr1 0.569
+[binary] train attack sample 126325, test attack sample 19895, TTL choices [None, 63.4, 96.5, 197.6]
+[binary] mlp_s0_r0: clean 1% det 0.8341 FPR 0.0103 F1 0.7604 | evasion@0.1 argmax 0.202 fpr5 0.263 fpr1 0.259 | robust@0.1 fpr1 0.482
+[binary] pool_mlp_s0_r1: 22715 new adversarial train windows (85748 detected of 126325, 0.265 evaded)
+[binary] mlp_s0 round 1: trained on 686902 rows (pool 22715) in 35s
+[binary] mlp_s0_r1: clean 1% det 0.8048 FPR 0.0101 F1 0.7468 | evasion@0.1 argmax 0.143 fpr5 0.136 fpr1 0.106 | robust@0.1 fpr1 0.547
+[binary] pool_mlp_s0_r2: 8769 new adversarial train windows (80762 detected of 126325, 0.109 evaded)
+[binary] mlp_s0 round 2: trained on 695671 rows (pool 31484) in 79s
+[binary] mlp_s0_r2: clean 1% det 0.8377 FPR 0.0117 F1 0.7540 | evasion@0.1 argmax 0.111 fpr5 0.123 fpr1 0.097 | robust@0.1 fpr1 0.599
+[binary] mlp_s1_r0: clean 1% det 0.8314 FPR 0.0091 F1 0.7551 | evasion@0.1 argmax 0.175 fpr5 0.268 fpr1 0.244 | robust@0.1 fpr1 0.492
+[binary] pool_mlp_s1_r1: 22152 new adversarial train windows (85621 detected of 126325, 0.259 evaded)
+[binary] mlp_s1 round 1: trained on 686339 rows (pool 22152) in 74s
+[binary] mlp_s1_r1: clean 1% det 0.8326 FPR 0.0099 F1 0.7554 | evasion@0.1 argmax 0.111 fpr5 0.124 fpr1 0.091 | robust@0.1 fpr1 0.594
+[binary] pool_mlp_s1_r2: 7213 new adversarial train windows (86071 detected of 126325, 0.084 evaded)
+[binary] mlp_s1 round 2: trained on 693552 rows (pool 29365) in 54s
+[binary] mlp_s1_r2: clean 1% det 0.8242 FPR 0.0104 F1 0.7501 | evasion@0.1 argmax 0.102 fpr5 0.111 fpr1 0.086 | robust@0.1 fpr1 0.584
+[binary] mlp_s2_r0: clean 1% det 0.8333 FPR 0.0106 F1 0.7552 | evasion@0.1 argmax 0.192 fpr5 0.236 fpr1 0.218 | robust@0.1 fpr1 0.511
+[binary] pool_mlp_s2_r1: 19722 new adversarial train windows (86138 detected of 126325, 0.229 evaded)
+[binary] mlp_s2 round 1: trained on 683909 rows (pool 19722) in 60s
+[binary] mlp_s2_r1: clean 1% det 0.8274 FPR 0.0095 F1 0.7471 | evasion@0.1 argmax 0.118 fpr5 0.133 fpr1 0.103 | robust@0.1 fpr1 0.579
+[binary] pool_mlp_s2_r2: 7960 new adversarial train windows (85118 detected of 126325, 0.094 evaded)
+[binary] mlp_s2 round 2: trained on 691869 rows (pool 27682) in 51s
+[binary] mlp_s2_r2: clean 1% det 0.8255 FPR 0.0106 F1 0.7473 | evasion@0.1 argmax 0.110 fpr5 0.125 fpr1 0.086 | robust@0.1 fpr1 0.590
+[binary] hgb_s0_r0: clean 1% det 0.8605 FPR 0.0070 F1 0.6795 | evasion@0.1 argmax 0.307 fpr5 0.248 fpr1 0.328 | robust@0.1 fpr1 0.475
+[binary] pool_hgb_s0_r1: 27452 new adversarial train windows (90503 detected of 126325, 0.303 evaded)
+[binary] hgb_s0 round 1: trained on 691639 rows (pool 27452) in 6s
+[binary] hgb_s0_r1: clean 1% det 0.8631 FPR 0.0101 F1 0.6710 | evasion@0.1 argmax 0.122 fpr5 0.100 fpr1 0.160 | robust@0.1 fpr1 0.601
+[binary] pool_hgb_s0_r2: 13411 new adversarial train windows (91580 detected of 126325, 0.146 evaded)
+[binary] hgb_s0 round 2: trained on 705050 rows (pool 40863) in 6s
+[binary] hgb_s0_r2: clean 1% det 0.8604 FPR 0.0107 F1 0.6670 | evasion@0.1 argmax 0.063 fpr5 0.059 fpr1 0.121 | robust@0.1 fpr1 0.625
+=== done 2026-11-10 23:37:01

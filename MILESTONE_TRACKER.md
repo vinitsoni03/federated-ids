@@ -2,7 +2,7 @@
 
 Student: Vinit Soni (E23CSEU0437)
 Project: AI-Enabled Cyberattack Detection and Adversarially Robust Federated Intrusion Detection
-Last updated: 2026-11-01
+Last updated: 2026-11-10 (final submission Fri 2026-11-13: report, slides, GitHub, live demo)
 
 Statuses: `Not started` / `In progress` / `Blocked` / `Done (verified)`. "Done (verified)" means the
 command/tests ran successfully and the evidence file exists; code alone never counts.
@@ -19,7 +19,8 @@ command/tests ran successfully and the evidence file exists; code alone never co
 | M7 | Inference-time evasion | Done (verified) - 3 tasks on GPU | `artifacts/runs/evasion_centralized_*_window_invariant/metrics.json` (0 constraint violations, re-queried); `reports/tables/m7_*.csv`, `m7_evasion_*.png`. Fixed-FPR comparison (WP5) still open |
 | M8 | GridStratLLM analysis | Done (verified) | `python -m federated_ids.gridstrat.analysis ...` -> `reports/gridstrat/{inventory,results}.json`; `reports/tables/m8_*.csv`, `reports/figures/m8_gridstrat_auc.png` |
 | WP3 | Improve centralized detector (search, calibration, two-stage, HGB, freeze v2) | Done (verified) | Search 72 + re-check 18 runs; `wp3_detectors` (val); `wp3_freeze` one-time test eval -> `artifacts/runs/centralized_v2/`, `reports/tables/wp3_test_operating_points.csv`. Frozen: v2 MLP (h256-128, sqrt-inverse) + HGB; two-stage = negative result |
-| WP5 | Adversarial training vs evasion (fixed FPR) | In progress | category + class34 done except class34 HGB round 2 -> `reports/tables/wp5_evasion.csv`; binary not started (run stopped: low RAM) |
+| WP5 | Adversarial training vs evasion (fixed FPR) | Done (verified) | `python -m federated_ids.experiments.wp5_advtrain` exit 0 (resumed 2026-11-10, done 23:37); 36 evals, 0 constraint violations in 108 attacked evaluations -> `reports/tables/wp5_evasion.csv`, `wp5_advtrain_summary.csv`, `wp5_advtrain_per_family_fpr1.csv`, `reports/figures/wp5_advtrain_evasion.png`; report §7.1 |
+| WP6 | GridStratLLM without the ARP signature (core) | Done (verified) | `python -m federated_ids.gridstrat.wp6_no_arp --root ...` (45 s, M8 volume folds reproduced exactly) -> `reports/gridstrat/wp6_results.json`, `reports/tables/wp6_gridstrat_no_arp.csv`, `reports/figures/wp6_gridstrat_no_arp_auc.png`; report §8.1. Sensitivity (window/guard) = future work (student: core only) |
 | WP4 | Federated with v2 + realism checks | Done (verified) | 45 runs exit 0; `python -m federated_ids.experiments.wp4_eval` -> `reports/tables/wp4_federated.csv` (72 runs at calibrated 5 %/1 % FPR, comm, rounds to 95 %) |
 | M9 | Final report & reproducibility | In progress | `reports/final_report.md` updated from GPU results (§4-7); WP3-WP6 sections and the Flower result missing |
 

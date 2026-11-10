@@ -386,15 +386,100 @@ def gridstrat():
     plt.close(fig)
 
 
+# ---------- WP5 adversarial training ----------
+def advtrain():
+    """Seed-mean summary per (task, model, round, operating point) + per-family evasion at the loosest budget."""
+    rows, fam_rows = [], []
+    for task, _ in TASKS:
+        evals = sorted((RUNS / "wp5_advtrain" / task).glob("eval_*.json"))
+        if not evals:
+            missing.append(f"artifacts/runs/wp5_advtrain/{task}/eval_*.json")
+            continue
+        E = [json.loads(p.read_text(encoding="utf-8")) for p in evals]
+        for model in sorted({e["model"] for e in E}):
+            for rnd in sorted({e["round"] for e in E}):
+                es = [e for e in E if e["model"] == model and e["round"] == rnd]
+                if not es:
+                    continue
+                for op in ("argmax", "fpr5", "fpr1"):
+                    clean = [next(c for c in e["clean_test"] if c["operating_point"] == op) for e in es]
+                    ev = [e["evasion"][op] for e in es]
+                    row = {"task": task, "model": model, "round": rnd, "n_seeds": len(es),
+                           "pool_size_mean": float(np.mean([e["pool_size"] for e in es])), "operating_point": op}
+                    for k, key in (("clean_macro_f1", "macro_f1"), ("clean_benign_fpr", "benign_fpr"),
+                                   ("clean_detection", "attack_detection_rate")):
+                        row[k], row[k + "_sd"] = mean_sd([c[key] for c in clean])
+                    for b in ("1.0", "0.1"):
+                        row[f"evasion_r{b}"], row[f"evasion_r{b}_sd"] = mean_sd([v["by_budget"][b]["evasion_rate"] for v in ev])
+                        row[f"robust_det_r{b}"], row[f"robust_det_r{b}_sd"] = mean_sd(
+                            [v["by_budget"][b]["robust_detection"] for v in ev])
+                    rows.append(row)
+                    if op == "fpr1":
+                        for fam in ev[0]["per_family"]:
+                            fam_rows.append({"task": task, "model": model, "round": rnd, "family": fam,
+                                             "n": ev[0]["per_family"][fam]["n"],
+                                             "evasion_r0.1": mean_sd([v["per_family"][fam]["0.1"]["evasion_rate"] for v in ev])[0],
+                                             "robust_det_r0.1": mean_sd([v["per_family"][fam]["0.1"]["robust_detection"] for v in ev])[0]})
+    write_table("wp5_advtrain_summary", rows)
+    write_table("wp5_advtrain_per_family_fpr1", fam_rows)
+    if not rows:
+        return
+    fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.4), sharey=True)
+    for ax, (task, tlab) in zip(axes, TASKS):
+        for i, (model, op) in enumerate([(m, o) for m in ("mlp", "hgb") for o in ("argmax", "fpr1")]):
+            pts = sorted((r["round"], r["evasion_r0.1"]) for r in rows
+                         if r["task"] == task and r["model"] == model and r["operating_point"] == op)
+            if pts:
+                ax.plot(*zip(*pts), marker="o", markersize=4, color=SERIES[i],
+                        linestyle="-" if op == "fpr1" else "--",
+                        label=f"{ {'mlp': 'v2 MLP', 'hgb': 'HGB'}[model] }, {'1 % FPR' if op == 'fpr1' else 'argmax'}")
+        ax.set_xticks([0, 1, 2], ["0 (frozen)", "1", "2"])
+        ax.set_xlabel("Adversarial training round")
+        ax.set_title(tlab)
+    axes[0].set_ylabel("Evasion rate (detected -> Benign), r≥0.1")
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, ncol=4, loc="upper center", fontsize=8, bbox_to_anchor=(0.5, 1.0))
+    fig.tight_layout(rect=(0, 0, 1, 0.9))
+    fig.savefig(FIG / "wp5_advtrain_evasion.png", dpi=160)
+    plt.close(fig)
+
+
+# ---------- WP6 GridStratLLM without the ARP signature ----------
+def gridstrat_no_arp():
+    r = load(ROOT / "reports" / "gridstrat" / "wp6_results.json")
+    if not r:
+        return
+    groups = [g for g in ("volume_m8_reference", "timing_volume_noid", "process", "timing_volume_noid+process")
+              if g in r["folds"]]
+    labels = {"volume_m8_reference": "§8 volume (with host counts)", "timing_volume_noid": "timing/volume, no ARP/IDs",
+              "process": "process data only", "timing_volume_noid+process": "timing/volume + process"}
+    llms = sorted(r["folds"][groups[0]])
+    fig, ax = plt.subplots(figsize=(7.5, 3.8))
+    w = 0.8 / len(groups)
+    for i, g in enumerate(groups):
+        ys = [r["folds"][g][m]["roc_auc"] for m in llms]
+        ax.bar(np.arange(len(llms)) + (i - (len(groups) - 1) / 2) * w, ys, width=w - 0.02, color=SERIES[i], label=labels[g])
+    ax.axhline(0.5, color=INK2, linewidth=1, linestyle=":")
+    ax.set_xticks(range(len(llms)), [m.split("/")[-1] for m in llms])
+    ax.set_ylim(0.3, 1.0)
+    ax.set_ylabel("Window ROC-AUC on held-out LLM")
+    ax.set_title("GridStratLLM without the ARP signature (WP6)")
+    ax.legend(ncol=2, loc="upper center", fontsize=8, bbox_to_anchor=(0.5, -0.12))
+    fig.tight_layout()
+    fig.savefig(FIG / "wp6_gridstrat_no_arp_auc.png", dpi=160)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-family-eval", action="store_true", help="skip recomputing per-family rates")
-    FAMILY_EVAL = not ap.parse_args().no_family_eval
-    centralized()
-    federated()
-    poisoning()
-    evasion()
-    gridstrat()
+    sections = {"centralized": centralized, "federated": federated, "poisoning": poisoning, "evasion": evasion,
+                "gridstrat": gridstrat, "advtrain": advtrain, "gridstrat_no_arp": gridstrat_no_arp}
+    ap.add_argument("--only", nargs="+", choices=list(sections), help="rebuild only these sections")
+    args = ap.parse_args()
+    FAMILY_EVAL = not args.no_family_eval
+    for name in args.only or sections:
+        sections[name]()
     print("tables:", sorted(p.name for p in TAB.glob("*.csv")))
     print("figures:", sorted(p.name for p in FIG.glob("*.png")))
     if missing:
