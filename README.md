@@ -26,7 +26,7 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements-lock.txt --extra-index-url https://download.pytorch.org/whl/cpu
 pip install -e . --no-deps               # the package itself, versions from the lock
-pytest -q                                # 63 tests
+pytest -q                                # 69 tests
 ```
 `requirements-lock.txt` pins the exact versions every result was produced with (verified in a fresh
 venv on 2026-11-11). `pip install -r requirements.txt` (= `-e .[dev]`, latest versions) also works

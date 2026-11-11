@@ -1,0 +1,32 @@
+[92mINFO [0m:      Starting Flower SuperNode
+INFO:     Started server process [2000]
+INFO:     Waiting for application startup.
+[92mINFO [0m:      FastAPI lifespan: startup
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:9107 (Press CTRL+C to quit)
+[92mINFO [0m:      SuperNode ID: 1863236345349438211
+┌────────────────── Update available ───────────────────┐
+│ A newer Flower version is available: 1.42.0 -> 1.43.0 │
+│ Upgrade: python -m pip install -U flwr                │
+└───────────────────────────────────────────────────────┘
+[92mINFO [0m:      Starting Flower SuperExec
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 17955980837792089]
+[92mINFO [0m:      Receiving: train message (ID: babd2d82ee12dfdbb7452f7dd70c6a312801374606c4d1e9bd5f892c2a169b20)
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 17955980837792089]
+[92mINFO [0m:      Sending: train message (ID: 7ae2d21bc9c33fe5d697c185bc0ff30abf9db0f0f9514b1a6281ac9987fe6c31)
+[92mINFO [0m:      Sent successfully
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 17955980837792089]
+[92mINFO [0m:      Receiving: train message (ID: df812c0d04cc8e72e0f8834f7cd72dcdec29043d7b3d83c9fc409c4ec4a784fb)
+[92mINFO [0m:      Received successfully
+[92mINFO [0m:      Start `flwr-clientapp` process
+[92mINFO [0m:      
+[92mINFO [0m:      
+[92mINFO [0m:      [RUN 17955980837792089]
+[92mINFO [0m:      Sending: train message (ID: 261bb53b42ee4913ee179a7b668ce6e4707ce4c060b10466c65fe7f1645547ac)
+[92mINFO [0m:      Sent successfully

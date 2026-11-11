@@ -47,13 +47,22 @@ ssh -p "$SSH_PORT" "${SSH_OPTS[@]}" -N -L "$LOCAL_PORT:127.0.0.1:8000" "$ADMIN@$
 sleep 5
 
 export FLWR_HOME="$KEYDIR/flwr_home_laptop" PYTHONIOENCODING=utf-8 PYTHONUTF8=1
-export PATH="$(cd "$SCRIPTS" && pwd):$PATH" PYTHONPATH="$(pwd)/flower_app"
+# Application Control blocks the Flower launcher .exe files on the laptop, so every laptop-side Flower
+# command runs as `python -c <entry point>`; win_shim/sitecustomize.py does the same for the commands
+# Flower itself starts (flower-superexec, flwr-clientapp).
+export PATH="$(cd "$SCRIPTS" && pwd):$PATH" PYTHONPATH="$(pwd -W)/flower_app;$(pwd -W)/scripts/azure/win_shim"
+flwr_entry() {  # flwr_entry <command name> <module> <function> [args...]
+  local name=$1 mod=$2 fn=$3; shift 3
+  "$PY" -c "import sys; sys.argv[0] = '$name'; from $mod import $fn; $fn()" "$@"
+}
 mkdir -p "$FLWR_HOME"
 printf '[superlink.azure]\naddress = "127.0.0.1:%s"\nroot-certificates = "%s"\n' "$LOCAL_PORT" "$TLS/ca.crt" > "$FLWR_HOME/config.toml"
 echo "[hybrid] starting laptop SuperNodes ($LAPTOP_CLIENTS)"
 port=9104
 for i in $LAPTOP_CLIENTS; do
-  "$SCRIPTS/flower-supernode" --root-certificates "$TLS/ca.crt" --superlink "127.0.0.1:$LOCAL_PORT" \
+  # inline (not flwr_entry) so that $! is the Python process itself and cleanup() can stop it
+  "$PY" -c "import sys; sys.argv[0] = 'flower-supernode'; from flwr.supernode.cli import flower_supernode; flower_supernode()" \
+    --root-certificates "$TLS/ca.crt" --superlink "127.0.0.1:$LOCAL_PORT" \
     --host 127.0.0.1 --port $port --node-config "partition-id=$i num-partitions=$N_CLIENTS data-dir='$DATA'" \
     > "$OUT/flower_logs/laptop_supernode_$i.log" 2>&1 & pids+=($!)
   port=$((port + 1))
@@ -62,7 +71,7 @@ sleep 10
 
 echo "[hybrid] flwr run ($ROUNDS rounds, $N_CLIENTS clients)"
 t0=$(date +%s)
-"$SCRIPTS/flwr" run flower_app azure --stream --run-config \
+flwr_entry flwr flwr.cli.app app run flower_app azure --stream --run-config \
   "server-data-dir='/home/$ADMIN/fids/data' out-dir='/home/$ADMIN/fids/runs' run-name='$RUN_NAME' n-clients=$N_CLIENTS num-server-rounds=$ROUNDS device='cpu'" \
   > "$OUT/flower_logs/flwr_run.log" 2>&1
 echo "[hybrid] flwr run finished in $(( $(date +%s) - t0 ))s"

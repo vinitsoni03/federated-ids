@@ -25,11 +25,22 @@ ROOT = Path(__file__).resolve().parents[1]
 APP = ROOT / "flower_app"
 
 
-def exe(env_python: Path, name: str) -> str:
-    p = env_python.parent / (name + (".exe" if os.name == "nt" else ""))
+SHIM = ROOT / "scripts" / "azure" / "win_shim"
+ENTRY = {"flower-superlink": ("flwr.superlink.cli", "flower_superlink"),
+         "flower-supernode": ("flwr.supernode.cli", "flower_supernode"),
+         "flwr": ("flwr.cli.app", "app")}
+
+
+def exe(env_python: Path, name: str) -> list[str]:
+    """Command for a Flower console script. On Windows it runs through python.exe, because Application
+    Control on the dev laptop blocks the pip-generated launcher .exe files (see win_shim/sitecustomize.py)."""
+    if os.name == "nt":
+        mod, fn = ENTRY[name]
+        return [str(env_python), "-c", f"import sys; sys.argv[0] = {name!r}; from {mod} import {fn}; {fn}()"]
+    p = env_python.parent / name
     if not p.exists():
         raise SystemExit(f"{p} not found - is flwr installed in this environment?")
-    return str(p)
+    return [str(p)]
 
 
 def main() -> int:
@@ -63,19 +74,20 @@ def main() -> int:
     # Scripts/bin directory must be on PATH even when the venv is not activated.
     env = {**os.environ, "FLWR_HOME": str(home), "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1",
            "PATH": str(py.parent) + os.pathsep + os.environ.get("PATH", ""),
-           "PYTHONPATH": str(APP) + os.pathsep + os.environ.get("PYTHONPATH", "")}
+           "PYTHONPATH": os.pathsep.join([str(APP)] + ([str(SHIM)] if os.name == "nt" else [])
+                                         + [os.environ.get("PYTHONPATH", "")])}
 
     procs: list[subprocess.Popen] = []
     t0 = time.time()
     try:
         fh = open(logs / "superlink.log", "w", encoding="utf-8")
-        procs.append(subprocess.Popen([exe(py, "flower-superlink"), *link_sec, "--host", "127.0.0.1",
+        procs.append(subprocess.Popen([*exe(py, "flower-superlink"), *link_sec, "--host", "127.0.0.1",
                                        "--port", str(a.superlink_port), "--disable-runtime-dependency-installation"],
                                       stdout=fh, stderr=subprocess.STDOUT, env=env, cwd=ROOT))
         time.sleep(a.startup_wait)
         for i in range(a.n_clients):
             fh = open(logs / f"supernode_{i}.log", "w", encoding="utf-8")
-            procs.append(subprocess.Popen([exe(py, "flower-supernode"), *node_sec,
+            procs.append(subprocess.Popen([*exe(py, "flower-supernode"), *node_sec,
                                            "--superlink", f"127.0.0.1:{a.superlink_port}",
                                            "--host", "127.0.0.1", "--port", str(a.supernode_base_port + i),
                                            "--node-config",
@@ -86,7 +98,7 @@ def main() -> int:
         if dead:
             raise SystemExit(f"processes exited during startup: {dead}; see {logs}")
         print(f"started 1 SuperLink + {a.n_clients} SuperNodes (pids {[p.pid for p in procs]}); logs in {logs}", flush=True)
-        cmd = [exe(py, "flwr"), "run", str(APP), "local-deployment", "--stream"]
+        cmd = [*exe(py, "flwr"), "run", str(APP), "local-deployment", "--stream"]
         rcfg = (f"server-data-dir='{Path(a.data_dir).as_posix()}' n-clients={a.n_clients} "
                 f"out-dir='{(ROOT / 'artifacts' / 'runs').as_posix()}' " + a.run_config).strip()
         cmd += ["--run-config", rcfg]
