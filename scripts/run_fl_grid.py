@@ -44,6 +44,11 @@ def grid(name: str) -> list[tuple[str, list[str]]]:
         for mu in ("0.001", "0.1", "1.0"):
             runs.append((f"fl_dir0.1_fedprox_mu{mu}_s0", PARTS["dir0.1"] + ["--algorithm", "fedprox", "--mu", mu,
                                                                             "--seed", "0"]))
+    elif name == "m5_r60":
+        runs.append(("fl_iid_fedavg_r60_s0", PARTS["iid"] + ALGOS["fedavg"] + ["--rounds", "60", "--seed", "0"]))
+        for seed in (0, 1, 2):
+            runs.append((f"fl_dir0.1_fedavg_r60_s{seed}", PARTS["dir0.1"] + ALGOS["fedavg"]
+                         + ["--rounds", "60", "--seed", str(seed)]))
     elif name == "m6":
         for p in ("iid", "dir1.0"):
             for att, aa in ATTACKS.items():

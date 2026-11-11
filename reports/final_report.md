@@ -37,6 +37,27 @@ study is run for three label sets:
 * Anything about CIC-IDS2017 / UNSW-NB15.
 * Transfer between CICIoT2023 and GridStratLLM (never merged).
 
+### 1.1 Changes since the Phase 1 proposal (16 October 2026)
+The scope and threat models are unchanged; the research questions were reordered and sharpened after the data
+audit (`reports/phase1_review.md`).
+
+| Phase 1 research question | In this report | What changed |
+|---|---|---|
+| 1. How well does a baseline IDS detect CICIoT2023 attacks? | RQ1, §4-4.1 | Added calibrated 1 % / 5 % FPR operating points, a tuned v2 MLP and HGB |
+| 2. Can GridStratLLM metadata support a separate evaluation of LLM-coordinated attacks? | RQ5, §8-8.1 | Answered yes; tested by leave-one-LLM-out, plus a follow-up without the ARP signature |
+| 3. How much does constrained evasion degrade macro-F1 and minority-class recall? | RQ4, §7-7.1 | Measured as per-family evasion rate and attack recall after the attack (§7 explains why); adversarial training added as a defence |
+| 4. How much damage does poisoning cause under IID / non-IID clients, and can a selected defence reduce it? | RQ3, §6 | Three robust aggregators instead of one, two attacks, and a malicious-fraction sweep |
+| 5. Performance, false-positive, runtime and communication trade-offs | Throughout | FPR at fixed operating points (§4.1), communication and rounds (§5.3), defence runtime (§6) |
+| (new) Federated vs centralized training | RQ2, §5-5.4 | Added because the poisoning study needs a measured federated baseline first; includes a real Flower run across Azure and the laptop |
+
+**Other additions:** every CICIoT2023 study is run for three label sets (8-class, 34-class, binary), and a local
+demo dashboard (§9) shows detection and the evasion attack live.
+
+**Planned but not done:**
+* The optional synthetic-traffic source (Knowledge-to-Data, arXiv:2601.05022) was not used.
+* The commercial NSM alerts in GridStratLLM could not be scored (clock offset, §2).
+* WP6 window-size and guard-band sensitivity was left as future work.
+
 ## 2. Data and data quality (`reports/dataset_audit.md`)
 * **CICIoT2023 local release:**
   * 309 CSV files, 46,776,700 windows, 39 features.
@@ -74,19 +95,21 @@ study is run for three label sets:
 
 ## 4. Centralized baseline (RQ1) - `reports/tables/m4_centralized.csv`, `m4_per_class_test.csv`
 
-| Task | Model | Test macro-F1 | per seed | Unseen | Benign FPR | Full test pool macro-F1 |
-|---|---|---|---|---|---|---|
-| 8-class | MLP (3 seeds) | **0.687 ± 0.005** | 0.690 / 0.690 / 0.681 | 0.691 | 0.264 | 0.606 (seed 0) |
-| 8-class | Random Forest | 0.709 | - | 0.715 | 0.464 | 0.607 |
-| 8-class, all 39 feat. (ablation) | MLP / RF | 0.696 / 0.712 | - | 0.700 / 0.719 | 0.282 / 0.463 | 0.624 / 0.609 |
-| 34-class | MLP (3 seeds) | **0.556 ± 0.027** | 0.569 / 0.525 / 0.573 | 0.558 | 0.262 | 0.535 |
-| 34-class | Random Forest | 0.591 | - | 0.593 | 0.285 | 0.541 |
-| binary | MLP (3 seeds) | **0.750 ± 0.004** | 0.750 / 0.746 / 0.754 | 0.748 | 0.192 | 0.920 |
-| binary | Random Forest | 0.747 | - | 0.746 | **0.586** | 0.785 |
+| Task | Model | Test macro-F1 | per seed | Balanced acc. | Unseen | Benign FPR | Full test pool macro-F1 |
+|---|---|---|---|---|---|---|---|
+| 8-class | MLP (3 seeds) | **0.687 ± 0.005** | 0.690 / 0.690 / 0.681 | 0.710 | 0.691 | 0.264 | 0.606 (seed 0) |
+| 8-class | Random Forest | 0.709 | - | 0.680 | 0.715 | 0.464 | 0.607 |
+| 8-class, all 39 feat. (ablation) | MLP / RF | 0.696 / 0.712 | - | 0.708 / 0.684 | 0.700 / 0.719 | 0.282 / 0.463 | 0.624 / 0.609 |
+| 34-class | MLP (3 seeds) | **0.556 ± 0.027** | 0.569 / 0.525 / 0.573 | 0.571 | 0.558 | 0.262 | 0.535 |
+| 34-class | Random Forest | 0.591 | - | 0.594 | 0.593 | 0.285 | 0.541 |
+| binary | MLP (3 seeds) | **0.750 ± 0.004** | 0.750 / 0.746 / 0.754 | 0.879 | 0.748 | 0.192 | 0.920 |
+| binary | Random Forest | 0.747 | - | 0.703 | 0.746 | **0.586** | 0.785 |
 
 * **Accuracy flatters the models; macro-F1 is far lower.** In the 8-class task, DDoS and Mirai are easy, while Web and BruteForce are poor (per-class table).
 * **Benign is the hard class in every task.** 19-29 % of benign windows are flagged (MLP), mostly as Recon, Spoofing or Web, which embed attacks in normal-looking traffic. At these argmax operating points no configuration is deployable; §4.1 fixes the operating point.
 * **The Random Forest wins macro-F1 only by over-flagging.** In 8-class and binary its benign FPR is 2-3x the MLP's, so "better" depends on the operating point.
+  Balanced accuracy (mean per-class recall, which weights Benign like every other class) reverses the ranking:
+  8-class MLP 0.710 vs RF 0.680, binary 0.879 vs 0.703. Only on 34-class is the RF ahead on both metrics.
 * **The 34-class MLP is unstable across seeds** (0.525-0.573). Seed 1 stopped early. Results for that task need more seeds or tuning.
 * **Shortcut ablation.** The six window-dependent features add <= +0.01 macro-F1.
 * **Leakage check.** Unseen-test metrics are within 0.006 of all-test metrics.
@@ -253,6 +276,10 @@ Setup:
   * The targeted attack hides 23-62 % (IID) and up to 73 % (binary, α = 1.0) of DDoS windows as Benign.
   * The targeted attack is **not stealthy**: macro-F1 falls and the benign FPR rises, which a server could notice.
 * **In the IID case all three robust aggregators neutralise both attacks.** DDoS->B stays <= 0.003, and macro-F1 is within 0.016 of clean. The clean-utility cost is <= 0.001.
+* **Runtime cost of the defences is negligible here.** Every aggregator takes 92-94 s per 30-round run (IID,
+  `wall_clock_s`), the same as FedAvg. With 10 clients and 13 k parameters, aggregation is a tiny part of a round;
+  the coordinate-wise median and trimmed mean grow with clients x parameters, so this does not carry over to large
+  models or many clients.
 * **With non-IID clients (α = 1.0, 1 seed) protection is partial:**
   * Macro-F1 stays near clean, but sign-flip still raises the benign FPR, from 0.31-0.33 to 0.42-0.50 (8-class) and from 0.29-0.32 to 0.44-0.48 (34-class).
   * Clean-run cost is also higher. For binary, median 0.733 vs FedAvg 0.757.
@@ -272,6 +299,11 @@ Setup:
 * The attacker may pad its own packets (<= MTU), slow down by factor r, and set TTL to benign quantiles.
 * Every success is re-checked: 0 constraint violations, and re-queried as Benign.
 * Target models: MLP seed 0 and the RF, per task. Up to 3,000 detected windows per attack family.
+* Metrics: Phase 1 planned to report the drop in macro-F1 and minority-class recall. The attacker only changes
+  its own attack windows, so benign rows are unaffected and the damage is entirely a loss of attack recall. It is
+  reported directly: the **evasion rate** (share of detected windows turned Benign) per family, and in §7.1 the
+  **robust detection** (attack recall after the attack). Per family, robust detection is exactly the per-class
+  recall Phase 1 asked for (`wp5_advtrain_per_family_fpr1.csv`).
 
 | Task | Model | Clean benign FPR | Overall evasion, r >= 1 | r >= 0.1 | Most evadable families at r >= 0.1 |
 |---|---|---|---|---|---|
@@ -392,6 +424,11 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
 * **Demo.** `scripts/run_demo.ps1` serves a local dashboard (`demo/`) on real test windows: detection with the
   frozen vs. WP5-hardened 8-class v2 MLP, a query-by-query replay of the evasion attack, the Flower run history,
   and the result tables. All demo numbers are recomputed from the bundled artifacts, not hard-coded.
+* **Model endpoint.** `serving/` is a FastAPI service for a packaged model (`scripts/package_model.py`): HTTPS with a
+  private CA, an API key, input validation, Docker image, bound to localhost and reached only through an SSH tunnel
+  (`scripts/azure/serve.sh`, `tunnel_endpoint.sh`). Tested locally: requests without the key are rejected (401),
+  malformed input is rejected, and predictions served over HTTPS for 400 real test windows equal the offline model
+  (agreement 1.0000). It packages the v1 MLP; it was not deployed to the Azure VM.
 
 ## 10. Limitations and negative results (summary)
 * One release, one split, one hardware setup. Non-IID poisoning cells and the fraction sweep have 1 seed.
@@ -429,16 +466,40 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
   can step outside; the report states those boundaries next to each result.
 
 ## References
-* **Dataset and project sources:**
-  * Neto et al. (2023), doi:10.3390/s23135941.
-  * Kellerer & Hagenmeyer (2026): dataset doi:10.35097/bx5337kcykte438h; paper doi:10.1145/3765611.3815147.
-* **Methods:**
-  * McMahan et al. (2017, FedAvg).
-  * Li et al. (2020, FedProx, MLSys 2, 429-450).
-  * Hsu et al. (2019, Dirichlet non-IID, arXiv:1909.06335).
-  * Yin et al. (2018, median/trimmed mean, PMLR 80, 5650-5659).
-  * Bagdasaryan et al. (2020, boosting).
-  * Sun et al. (2019, norm bounding).
-  * Apruzzese et al. (2022, doi:10.1145/3469659).
-  * Arp et al. (2022, USENIX Security, 3971-3988).
-* Full entries and verification status: `reports/phase1_review.md`.
+Every entry below was checked against the publisher, proceedings or arXiv record (2026-10-26 and 2026-11-11).
+
+**Datasets**
+* Neto, E. C. P., Dadkhah, S., Ferreira, R., Zohourian, A., Lu, R., & Ghorbani, A. A. (2023). CICIoT2023: A
+  real-time dataset and benchmark for large-scale attacks in IoT environment. *Sensors*, 23(13), 5941.
+  https://doi.org/10.3390/s23135941
+* Kellerer, N., & Hagenmeyer, V. (2026). GridStratLLM: Agent framework for coordinated cyberattacks on the smart
+  grid with large language models [Dataset]. Karlsruhe Institute of Technology. https://doi.org/10.35097/bx5337kcykte438h
+* Kellerer, N., & Hagenmeyer, V. (2026). GridStratLLM: Agent framework for coordinated cyberattacks on the smart
+  grid with large language models. In *Proceedings of the 2026 ACM Sustainability Week* (pp. 110-123). ACM.
+  https://doi.org/10.1145/3765611.3815147
+
+**Federated learning**
+* McMahan, B., Moore, E., Ramage, D., Hampson, S., & Agüera y Arcas, B. (2017). Communication-efficient learning
+  of deep networks from decentralized data. In *Proceedings of the 20th International Conference on Artificial
+  Intelligence and Statistics (AISTATS)*, PMLR 54, 1273-1282.
+* Li, T., Sahu, A. K., Zaheer, M., Sanjabi, M., Talwalkar, A., & Smith, V. (2020). Federated optimization in
+  heterogeneous networks. *Proceedings of Machine Learning and Systems*, 2, 429-450.
+* Hsu, T.-M. H., Qi, H., & Brown, M. (2019). Measuring the effects of non-identical data distribution for
+  federated visual classification. arXiv:1909.06335.
+
+**Poisoning and robust aggregation**
+* Yin, D., Chen, Y., Kannan, R., & Bartlett, P. (2018). Byzantine-robust distributed learning: Towards optimal
+  statistical rates. In *Proceedings of the 35th International Conference on Machine Learning*, PMLR 80, 5650-5659.
+* Bagdasaryan, E., Veit, A., Hua, Y., Estrin, D., & Shmatikov, V. (2020). How to backdoor federated learning.
+  In *Proceedings of the 23rd International Conference on Artificial Intelligence and Statistics (AISTATS)*,
+  PMLR 108, 2938-2948.
+* Sun, Z., Kairouz, P., Suresh, A. T., & McMahan, H. B. (2019). Can you really backdoor federated learning?
+  arXiv:1911.07963.
+
+**Adversarial ML and evaluation practice**
+* Apruzzese, G., Andreolini, M., Ferretti, L., Marchetti, M., & Colajanni, M. (2022). Modeling realistic
+  adversarial attacks against network intrusion detection systems. *Digital Threats: Research and Practice*,
+  3(3), Article 31. https://doi.org/10.1145/3469659
+* Arp, D., Quiring, E., Pendlebury, F., Warnecke, A., Pierazzi, F., Wressnegger, C., Cavallaro, L., & Rieck, K.
+  (2022). Dos and don'ts of machine learning in computer security. In *31st USENIX Security Symposium*
+  (pp. 3971-3988).

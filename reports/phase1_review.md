@@ -33,7 +33,8 @@ Verified online on 2026-10-26 (publisher / proceedings / DBLP record found):
 * Li, T., Sahu, A. K., Zaheer, M., Sanjabi, M., Talwalkar, A., & Smith, V. (2020). Federated optimization in heterogeneous networks. *Proceedings of Machine Learning and Systems*, 2, 429-450.
 * Yin, D., Chen, Y., Kannan, R., & Bartlett, P. (2018). Byzantine-robust distributed learning: Towards optimal statistical rates. In *Proceedings of the 35th ICML*, PMLR 80, 5650-5659.
 
-Standard references, details from memory - **check against the publisher before submission**:
+Standard references, originally written from memory; **verified 2026-11-11** against PMLR (McMahan, Bagdasaryan)
+and arXiv (Hsu, Sun) - all details matched. Pierazzi et al. was not used in the final report and was not checked:
 * McMahan, B., Moore, E., Ramage, D., Hampson, S., & Agüera y Arcas, B. (2017). Communication-efficient learning of deep networks from decentralized data. *AISTATS*, PMLR 54, 1273-1282.
 * Hsu, T.-M. H., Qi, H., & Brown, M. (2019). Measuring the effects of non-identical data distribution for federated visual classification. arXiv:1909.06335.
 * Bagdasaryan, E., Veit, A., Hua, Y., Estrin, D., & Shmatikov, V. (2020). How to backdoor federated learning. *AISTATS*, PMLR 108, 2938-2948.

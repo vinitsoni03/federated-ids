@@ -14,7 +14,7 @@ command/tests ran successfully and the evidence file exists; code alone never co
 | M2 | Dataset inventory & audit | Done (verified) | `results/audit/ciciot_full_rerun_20261025/` (exact, SHA-256, identical to 2026-10-04 run); `reports/data/ciciot_{duplicates,semantic_checks}.json`, `ciciot_label_plausibility.csv`; `reports/gridstrat/bagit_verification.json` (14/14 MD5); `reports/dataset_audit.md` |
 | M3 | Preprocessing & leakage-aware splits | Done (verified) | `python -m federated_ids.data.splits` -> `artifacts/splits/ciciot_v1/split_manifest.json`; train-only `Preprocessor` (JSON per run); `pytest -q` 47 passed incl. leakage tests on the real split; mutation checks (purge gap, dedup) caught |
 | M4 | Centralized baseline | Done (verified) - 3 tasks on GPU | `artifacts/runs/centralized_{category,class34,binary}_window_invariant/` (MLP x3 seeds + RF, val/test/unseen/full pool) + `centralized_category_all39`; `reports/tables/m4_*.csv`. Calibrated operating points: done in WP3 |
-| M5 | Federated learning (Centralized vs FedAvg vs FedProx; IID/non-IID) | In progress | Simulator: Done (verified) - 63 runs x 3 tasks, `reports/tables/m5_federated.csv`, `m5_convergence_*.png`. Flower: memory fix done; local 10-SuperNode run matches simulator (`artifacts/runs/flower_memtest_10c/`); **hybrid Azure+laptop run, 30 rounds, TLS: Done (verified)** - `artifacts/runs/flower_azure_hybrid_category_iid_s0/` (test macro-F1 0.6692 = simulator s0 0.6692). Remaining: Flower result into the final report |
+| M5 | Federated learning (Centralized vs FedAvg vs FedProx; IID/non-IID) | Done (verified) | Simulator: 63 runs x 3 tasks, `reports/tables/m5_federated.csv`, `m5_convergence_*.png`. Flower: local 10-SuperNode run matches simulator (`artifacts/runs/flower_memtest_10c/`); hybrid Azure+laptop run, 30 rounds, TLS - `artifacts/runs/flower_azure_hybrid_category_iid_s0/` (test macro-F1 0.6692 = simulator s0 0.6692); report §5.4. 60-round convergence check (WP1, planned, run 2026-11-11): `m5_r60` grid |
 | M6 | Model-update poisoning & mitigation | Done (verified) | 180 runs x 3 tasks (all exit 0), `reports/tables/m6_poisoning.csv`, `reports/figures/m6_poisoning_*.png`; unit tests for attack activation/aggregators pass |
 | M7 | Inference-time evasion | Done (verified) - 3 tasks on GPU | `artifacts/runs/evasion_centralized_*_window_invariant/metrics.json` (0 constraint violations, re-queried); `reports/tables/m7_*.csv`, `m7_evasion_*.png`. Fixed-FPR comparison (WP5) still open |
 | M8 | GridStratLLM analysis | Done (verified) | `python -m federated_ids.gridstrat.analysis ...` -> `reports/gridstrat/{inventory,results}.json`; `reports/tables/m8_*.csv`, `reports/figures/m8_gridstrat_auc.png` |
@@ -27,5 +27,9 @@ command/tests ran successfully and the evidence file exists; code alone never co
 ## Open items / blockers
 * Waiting for the student: (1) laptop sleep restored to 10 min on 2026-11-01 (done); (2) WP3 search size - decided 2026-11-01: full grid.
 * Not done (out of scope or infeasible here, documented): commercial-NSM detection rates (clock not
-  alignable), replay of evasion perturbations through the CIC feature extractor, GPU training,
-  differential privacy / secure aggregation.
+  alignable), replay of evasion perturbations through the CIC feature extractor, differential privacy /
+  secure aggregation, WP6 window/guard-band sensitivity (student: core only).
+* Azure endpoint (`serving/`, planned as Azure's second role): built and tested locally over HTTPS
+  (auth, validation, served == offline); deployment to `fids-server` pending the student's decision on the
+  firewall rule (laptop IP changed to <redacted> on 2026-11-11; NSG allows only the two earlier ISP IPs).
+* After the final demo (plan): delete `fids-rg`. Budget alert `fids-budget` is 10 INR/month, not $10.
