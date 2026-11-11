@@ -157,7 +157,7 @@ Test macro-F1, mean ± sd over 3 seeds (benign FPR in brackets):
   * The single-seed μ check found no better μ than 0.01. Larger μ made binary and 34-class worse. For 34-class, all three extra μ values gave a model that flags essentially every benign window (benign FPR >= 0.9997).
 * **Cost per run** (30 rounds, 10 clients):
   * Communication: 30.05 MB (8-class), 33.92 MB (34-class), 29.15 MB (binary).
-  * Wall clock: ~92-125 s on the GPU (`wall_clock_s`).
+  * Wall clock: ~84-117 s on the GPU (`wall_clock_s`).
 
 ### 5.3 Federated v2 and realism checks (WP4) - `reports/tables/wp4_federated.csv`
 * **Setup.** The simulator was re-run with the v2 MLP (§4.1) for each task.
@@ -173,11 +173,11 @@ Test attack detection at the 1 % threshold (mean of 3 seeds; achieved FPR 1.0-1.
 |---|---|---|---|
 | Centralized | 0.849 -> 0.852 | 0.844 -> 0.846 | 0.826 -> 0.833 |
 | FedAvg IID | 0.839 -> 0.843 (F1 0.669 -> 0.676) | 0.823 -> 0.840 (F1 0.520 -> 0.534) | 0.816 -> 0.808 (F1 0.741 -> 0.737) |
-| FedAvg α = 1.0 | 0.837 -> 0.843 (F1 0.667 -> 0.672) | 0.816 -> 0.834 (F1 0.514 -> 0.528) | 0.808 -> 0.803 (F1 0.758 -> 0.755) |
+| FedAvg α = 1.0 | 0.837 -> 0.843 (F1 0.667 -> 0.672) | 0.816 -> 0.834 (F1 0.514 -> 0.528) | 0.808 -> 0.803 (F1 0.758 -> 0.754) |
 | FedAvg α = 0.1 | 0.803 -> 0.811 (F1 0.42 -> 0.45, sd 0.11) | 0.801 -> 0.815 (F1 0.42 -> 0.45) | 0.53 -> 0.53 (sd 0.46) |
 | Communication / 30 rounds | 30.1 -> 97.6 MB | 33.9 -> 105.3 MB | 29.2 -> 95.8 MB |
 
-* **v2 helps federated training more than centralized training on 34-class.** It adds +1.7-1.8 points of detection
+* **v2 helps federated training more than centralized training on 34-class.** It adds +1.6-1.8 points of detection
   at 1 % FPR and +0.014 macro-F1. Federated v2 comes within 0.4 points of centralized v1 at 1 % FPR (0.840 vs 0.844).
 * **On binary, v2 is slightly worse** (-0.5 to -0.8 points). v2's binary learning rate (3e-4) was chosen centrally.
   A plausible cause, not tested, is that it is too slow for one local epoch per round.
@@ -389,6 +389,9 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
 * **Pipeline.** Phase 2 GPU pipeline: `bash scripts/run_phase2_gpu.sh`. Flower: `scripts/run_flower_deployment.py`.
 * **Run records.** Each run directory holds its config (incl. resolved device), environment, preprocessor, metrics and history.
 * **Tests.** `pytest -q` -> 63 passed (CPU environment). They include leakage tests on the real split, mutation-checked.
+* **Demo.** `scripts/run_demo.ps1` serves a local dashboard (`demo/`) on real test windows: detection with the
+  frozen vs. WP5-hardened 8-class v2 MLP, a query-by-query replay of the evasion attack, the Flower run history,
+  and the result tables. All demo numbers are recomputed from the bundled artifacts, not hard-coded.
 
 ## 10. Limitations and negative results (summary)
 * One release, one split, one hardware setup. Non-IID poisoning cells and the fraction sweep have 1 seed.
@@ -398,6 +401,32 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
 * Strong label skew (α = 0.1) defeats both FedAvg and FedProx.
 * Robust aggregation is only partially effective with non-IID clients, and the trimmed mean fails once the malicious fraction exceeds β.
 * The Flower deployment (§5.4) was run once (8-class, IID, FedAvg, seed 0, v1 MLP); the v2 and non-IID results come from the simulator.
+
+## 11. Conclusion
+
+* **RQ1 (detection).** Under a leakage-aware split, CICIoT2023 is far harder than the often-quoted >0.99 scores:
+  test macro-F1 is 0.69 (8-class), 0.56-0.57 (34-class) and 0.75 (binary) for the MLP. The operating point matters
+  more than the model: at argmax every model flags 19-29 % of benign windows, while a validation-calibrated 1 %-FPR
+  threshold still detects 83-86 % of attack windows. HGB is the strongest detector at that threshold.
+* **RQ2 (federation).** With IID or moderately skewed clients, federated training costs little: 0.6-2.5 points of
+  detection at 1 % FPR below centralized, closed further by 2 local epochs per round. Strong label skew (α = 0.1)
+  breaks FedAvg and FedProx alike, and remains the open problem. A real Flower deployment across Azure and the
+  laptop reproduced the simulator to four decimals, so the simulated results stand for a real network.
+* **RQ3 (poisoning).** Two of ten malicious clients defeat plain FedAvg in every task, but median and trimmed-mean
+  aggregation neutralise both attacks at essentially no clean cost in the IID case. The defences degrade with
+  non-IID clients and fail by assumption once the malicious fraction exceeds what they trim; the median held to 30 %.
+* **RQ4 (evasion).** A label-only black-box attacker that can only pad, slow and re-TTL its own packets evades the
+  deployable 1 %-FPR rule for 24-49 % of detected windows - more than at argmax, so the deployable operating point
+  is also the most evadable one. Two rounds of adversarial training cut that evasion to 8-17 % at negligible clean cost,
+  but Spoofing and Web - the families that already overlap benign traffic - stay 0.2-0.7 evadable.
+* **RQ5 (LLM-coordinated attacks).** On GridStratLLM, network signatures transfer across planning LLMs almost
+  perfectly (volume AUC 0.90-1.00 leave-one-LLM-out) because every session executes through the same MITM toolkit;
+  the signature is set by the tools, not the LLM. The detection survives removal of the ARP signature, but the
+  residual signal is the MITM relay itself, so attacks without a MITM step remain untested.
+* **Overall.** For this dataset and threat models, the deciding factors were data hygiene (splits, duplicates,
+  shortcut features), the operating point, and explicit robustness evaluation - not model choice. Each robustness
+  fix (calibration, robust aggregation, adversarial training) came with a measurable assumption that an attacker
+  can step outside; the report states those boundaries next to each result.
 
 ## References
 * **Dataset and project sources:**

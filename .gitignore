@@ -54,3 +54,6 @@ PHASE2_PLAN.md
 
 # Demo bundle (small models + sample windows) is committed so the demo runs from a clone
 !demo/bundle/*.pt
+
+# Office lock files
+~$*
