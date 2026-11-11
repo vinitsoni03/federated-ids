@@ -424,11 +424,15 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
 * **Demo.** `scripts/run_demo.ps1` serves a local dashboard (`demo/`) on real test windows: detection with the
   frozen vs. WP5-hardened 8-class v2 MLP, a query-by-query replay of the evasion attack, the Flower run history,
   and the result tables. All demo numbers are recomputed from the bundled artifacts, not hard-coded.
-* **Model endpoint.** `serving/` is a FastAPI service for a packaged model (`scripts/package_model.py`): HTTPS with a
-  private CA, an API key, input validation, Docker image, bound to localhost and reached only through an SSH tunnel
-  (`scripts/azure/serve.sh`, `tunnel_endpoint.sh`). Tested locally: requests without the key are rejected (401),
-  malformed input is rejected, and predictions served over HTTPS for 400 real test windows equal the offline model
-  (agreement 1.0000). It packages the v1 MLP; it was not deployed to the Azure VM.
+* **Model endpoint on Azure.** `serving/` is a FastAPI service for a packaged model (`scripts/package_model.py`):
+  Docker container on the `fids-server` VM, HTTPS with a private CA, an API key, input validation, bound to the VM's
+  localhost and reached only through an SSH tunnel on port 443 (`scripts/azure/serve.sh`, `tunnel_endpoint.sh`).
+  It serves the model trained in the Flower run across Azure and the laptop (§5.4, v1 MLP, test macro-F1 0.6692).
+  Deployed and tested on 2026-11-11: health 200, request without the key 401, with the key 200, and predictions for
+  400 real test windows identical to the offline model (agreement 1.0000).
+  Two deployment bugs that the earlier local test could not show were fixed: the container user could not read the
+  TLS key (the endpoint now gets its own copy owned by that user, still owner-only), and the API key file written on
+  Windows ended in `\r\n`, so the container's key never matched (the key is now stripped on both sides).
 
 ## 10. Limitations and negative results (summary)
 * One release, one split, one hardware setup. Non-IID poisoning cells and the fraction sweep have 1 seed.

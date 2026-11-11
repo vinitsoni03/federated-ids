@@ -36,7 +36,7 @@ def _load() -> Bundle:
     return Bundle(Path(md))
 
 
-API_KEY = os.environ.get("API_KEY", "")
+API_KEY = os.environ.get("API_KEY", "").strip()  # a key file written on Windows ends in \r\n
 if len(API_KEY) < 16:
     raise RuntimeError("API_KEY must be set (>= 16 characters)")
 BUNDLE = _load()

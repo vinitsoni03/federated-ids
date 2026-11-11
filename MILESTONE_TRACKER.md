@@ -29,7 +29,8 @@ command/tests ran successfully and the evidence file exists; code alone never co
 * Not done (out of scope or infeasible here, documented): commercial-NSM detection rates (clock not
   alignable), replay of evasion perturbations through the CIC feature extractor, differential privacy /
   secure aggregation, WP6 window/guard-band sensitivity (student: core only).
-* Azure endpoint (`serving/`, planned as Azure's second role): built and tested locally over HTTPS
-  (auth, validation, served == offline); deployment to `fids-server` pending the student's decision on the
-  firewall rule (laptop IP changed to <redacted> on 2026-11-11; NSG allows only the two earlier ISP IPs).
+* Azure endpoint (`serving/`, planned as Azure's second role): **Done (verified) 2026-11-11** - Docker container
+  on `fids-server`, serving the Flower-trained model; `tunnel_endpoint.sh` smoke test passed (health 200, no key
+  401, key 200, 400 test windows served == offline 1.0000). Student approved adding <redacted>/32 to the NSG
+  rule `allow-ssh-operator` (port 443 only; the two earlier ISP IPs kept).
 * After the final demo (plan): delete `fids-rg`. Budget alert `fids-budget` is 10 INR/month, not $10.
