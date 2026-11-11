@@ -19,7 +19,15 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8"]
+demo = [
+    "fastapi>=0.110",
+    "uvicorn>=0.30",
+]
+dev = [
+    "pytest>=8",
+    "httpx>=0.27",           # fastapi.testclient backend for tests/test_demo.py
+    "federated-ids[demo]",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

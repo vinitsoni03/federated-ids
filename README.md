@@ -24,11 +24,13 @@ aggregation is implemented.
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-pip install --index-url https://download.pytorch.org/whl/cpu torch==2.14.1
-pip install -r requirements.txt          # editable install + dev extras
+pip install -r requirements-lock.txt --extra-index-url https://download.pytorch.org/whl/cpu
+pip install -e . --no-deps               # the package itself, versions from the lock
 pytest -q                                # 63 tests
 ```
-Exact versions used: `requirements-lock.txt`. Large intermediates go to `configs/data.yaml: work_dir`
+`requirements-lock.txt` pins the exact versions every result was produced with (verified in a fresh
+venv on 2026-11-11). `pip install -r requirements.txt` (= `-e .[dev]`, latest versions) also works
+but is not what the results were run on. Large intermediates go to `configs/data.yaml: work_dir`
 (default `D:/federated-ids-work`; override with `$env:FIDS_WORK_DIR`).
 On machines where Windows Application Control blocks unsigned DLLs, `pyarrow.parquet` and `duckdb`
 may fail to import; the code only needs `polars` for Parquet.
