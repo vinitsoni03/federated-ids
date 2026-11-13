@@ -57,6 +57,17 @@ threshold, scan of all windows), **Evasion attack** (the constrained black-box a
 frozen vs. hardened on all 280 attack windows), **Federated training** (replay of the Azure + laptop Flower run),
 **Results** (read live from `reports/tables/`). Binds to localhost only; the secured API endpoint is `serving/app.py`.
 
+## Real-traffic test
+
+Score your own capture (Wireshark/Npcap `.pcapng` or `.pcap`) with the same two models (report §4.2):
+```powershell
+python -m federated_ids.live.score D:\federated-ids-work\captures\my_capture.pcapng   # -> <work_dir>\live\my_capture\
+python scripts\live_analysis.py "laptop=D:\federated-ids-work\live\my_capture\features.csv"   # -> reports\tables\live_*.csv
+```
+The capture is cut into the dataset's 10-packet windows and turned into the CICIoT2023 features
+(`src/federated_ids/live/`, pure Python, no extra packages). Keep captures out of the repository: they contain
+addresses and visited hosts. Capture only traffic you own.
+
 ## Reproduce everything (in order)
 
 ```powershell

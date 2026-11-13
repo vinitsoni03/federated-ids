@@ -1,0 +1,5 @@
+capture,model,windows,udp_majority_share,alarm_argmax,alarm_fpr5,alarm_fpr1,alarm_fpr1_tcp_windows,alarm_fpr1_udp_windows,alarm_fpr1_timing_imputed,top_predicted_fpr1
+"laptop (home Wi-Fi, 10 min)",frozen,5958,0.64,0.9956,0.9668,0.8864,0.7004,0.9911,0.8469,"Spoofing 4728, Web 214, Recon 176"
+"laptop (home Wi-Fi, 10 min)",hardened,5958,0.64,0.9997,0.9555,0.8548,0.6249,0.9824,0.8471,"Spoofing 4778, Web 164, BruteForce 100"
+GridStratLLM normal operation,frozen,212407,0.0,1.0,0.9999,0.9992,0.9993,0.4167,0.9997,"BruteForce 162236, Recon 49991, Web 10"
+GridStratLLM normal operation,hardened,212407,0.0,1.0,0.9735,0.3546,0.3545,0.6667,0.9274,"Recon 74297, BruteForce 993, Web 15"

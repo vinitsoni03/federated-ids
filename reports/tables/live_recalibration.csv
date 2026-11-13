@@ -1,0 +1,5 @@
+model,threshold,one_minus_t,local_fpr_second_half,ciciot_test_benign_fpr,ciciot_test_attack_detection
+frozen,validation 1 % FPR (CICIoT2023),2.8e-02,0.9063,0.0116,0.8548
+frozen,local 1 % FPR (first half of capture),6.3e-09,0.0537,0.0,0.5928
+hardened,validation 1 % FPR (CICIoT2023),2.9e-02,0.8724,0.0116,0.8539
+hardened,local 1 % FPR (first half of capture),9.2e-10,0.001,0.0,0.5299
