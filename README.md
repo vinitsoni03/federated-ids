@@ -14,6 +14,16 @@ An offline, reproducible research pipeline with four **separate** studies:
 Threat models: `reports/threat_models.md`. Status of every milestone: `MILESTONE_TRACKER.md`.
 Datasets: `data/README.md`.
 
+**Written deliverables** (each `.md` source has a `.docx` and `.pdf` build):
+
+| Document | Source | Build |
+|---|---|---|
+| Final report (every number traced to a table; results matrix, confusion matrices, comparison with published work) | `reports/final_report.md` | `python scripts/build_docs.py reports/final_report.md` |
+| Literature review, with a detailed comparison against the closest published studies | `reports/literature_review.md` | `python scripts/build_docs.py reports/literature_review.md` |
+| Research paper (IEEE conference, LaTeX) | `paper/main.tex`, `paper/refs.bib` | Overleaf (pdfLaTeX + BibTeX) |
+
+Figures for these documents: `python scripts/make_doc_figures.py`.
+
 Nothing here attacks a real system: all attacks are simulated on recorded data.
 Federated learning here gives **no formal privacy guarantee**; no differential privacy or secure
 aggregation is implemented.
@@ -38,7 +48,7 @@ may fail to import; the code only needs `polars` for Parquet.
 ## Live demo dashboard
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scriptsun_demo.ps1   # opens http://127.0.0.1:8000
+powershell -ExecutionPolicy Bypass -File scripts\run_demo.ps1   # opens http://127.0.0.1:8000
 ```
 Runs locally from `demo/bundle/` (built by `python scripts/build_demo_bundle.py`; committed, so no dataset is
 needed): the 8-class v2 MLP before and after adversarial training, its validation thresholds, 320 real test
@@ -88,7 +98,9 @@ src/federated_ids/
 scripts/            run_fl_grid.py, make_figures.py
 tests/              unit + leakage tests
 artifacts/splits/   split manifest;  artifacts/runs/<run>/  configs, metrics, histories, models
-reports/            initial_state, dataset_audit, threat_models, phase1_review, final_report, data/, gridstrat/, tables/, figures/
+reports/            initial_state, dataset_audit, threat_models, phase1_review, final_report,
+                    literature_review, data/, gridstrat/, tables/, figures/
+paper/              IEEE conference paper (main.tex, refs.bib, figures/)
 results/audit/      CICIoT2023 audits (2026-10-04 and rerun 2026-10-25)
 docs/docs/          earlier decisions and run log (sessions 1-2)
 ```

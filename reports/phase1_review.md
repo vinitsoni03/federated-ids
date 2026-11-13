@@ -31,7 +31,7 @@ Verified online on 2026-10-26 (publisher / proceedings / DBLP record found):
 * Apruzzese, G., Andreolini, M., Ferretti, L., Marchetti, M., & Colajanni, M. (2022). Modeling realistic adversarial attacks against network intrusion detection systems. *Digital Threats: Research and Practice*, 3(3), Article 31. https://doi.org/10.1145/3469659
 * Arp, D., Quiring, E., Pendlebury, F., Warnecke, A., Pierazzi, F., Wressnegger, C., Cavallaro, L., & Rieck, K. (2022). Dos and don'ts of machine learning in computer security. In *31st USENIX Security Symposium* (pp. 3971-3988).
 * Li, T., Sahu, A. K., Zaheer, M., Sanjabi, M., Talwalkar, A., & Smith, V. (2020). Federated optimization in heterogeneous networks. *Proceedings of Machine Learning and Systems*, 2, 429-450.
-* Yin, D., Chen, Y., Kannan, R., & Bartlett, P. (2018). Byzantine-robust distributed learning: Towards optimal statistical rates. In *Proceedings of the 35th ICML*, PMLR 80, 5650-5659.
+* Yin, D., Chen, Y., Ramchandran, K., & Bartlett, P. (2018). Byzantine-robust distributed learning: Towards optimal statistical rates. In *Proceedings of the 35th ICML*, PMLR 80, 5650-5659.
 
 Standard references, originally written from memory; **verified 2026-11-11** against PMLR (McMahan, Bagdasaryan)
 and arXiv (Hsu, Sun) - all details matched. Pierazzi et al. was not used in the final report and was not checked:
