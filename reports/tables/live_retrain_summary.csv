@@ -1,0 +1,5 @@
+variant,local_factor,seeds,val_macro_f1_argmax,local_test_alarm_argmax,local_test_alarm_fpr5,local_test_alarm_fpr1,local_test_alarm_fpr1_tcp,local_test_alarm_fpr1_udp,local_train_alarm_fpr1,ciciot_test_benign_fpr_fpr5,ciciot_test_attack_det_fpr5,ciciot_test_macro_f1_fpr5,ciciot_test_benign_fpr_fpr1,ciciot_test_attack_det_fpr1,ciciot_test_macro_f1_fpr1,ciciot_test_benign_fpr_argmax,ciciot_test_attack_det_argmax,ciciot_test_macro_f1_argmax
+frozen v2 (no local data),0,3,0.6909,0.9978,0.942,0.8685,0.5636,0.973,0.8368,0.0504,0.8932,0.6443,0.0125,0.8523,0.6124,0.2559,0.9676,0.6906
+retrained + local x0,0,3,0.6909,0.9978,0.942,0.8685,0.5636,0.973,0.8368,0.0504,0.8932,0.6443,0.0125,0.8523,0.6124,0.2559,0.9676,0.6906
+retrained + local x1,1,3,0.6887,0.0208,0.008,0.0045,0.0176,0.0,0.001,0.053,0.8962,0.6476,0.0103,0.8505,0.6087,0.2584,0.967,0.6907
+retrained + local x5,5,3,0.6911,0.0082,0.0019,0.001,0.0039,0.0,0.0,0.0487,0.8921,0.641,0.0097,0.8498,0.6069,0.3064,0.973,0.689

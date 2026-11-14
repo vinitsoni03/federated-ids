@@ -36,7 +36,7 @@ Two malicious clients out of ten collapse FedAvg. Coordinate-wise median and tri
 A label-only black-box attacker that can only pad, slow down and re-TTL its own packets evades the deployable 1\,\%-FPR rule for 24--49\,\% of detected windows. Two rounds of adversarial training reduce this to 8--17\,\%.
 On GridStratLLM, LLM-planned attacks are detected across planning LLMs (leave-one-LLM-out AUC 0.90--1.00), even without the ARP signature.
 A Flower deployment across two Azure virtual machines and a laptop reproduces the simulator to four decimals.
-On real traffic without attacks from a laptop on home Wi-Fi, however, the same 1\,\% rule flags 86--89\,\% of windows, mostly HTTP/3 (QUIC), so the lab results do not transfer without local benign data.
+On real traffic without attacks from a laptop on home Wi-Fi, however, the same 1\,\% rule flags 86--89\,\% of windows, mostly HTTP/3 (QUIC). Adding 2.6 minutes of that laptop's benign traffic to training lowers this to 0.45\,\% on held-out traffic from the same session without reducing CICIoT2023 detection.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -298,7 +298,9 @@ The CICIoT2023 test split comes from the same lab as its training data. We there
 
 \textbf{The detectors do not transfer.} The 1\,\% rule, which flags 1.2\,\% of benign test windows, flags 86--89\,\% of the laptop's windows. 64\,\% of them are HTTPS over UDP port 443 (HTTP/3), which is nearly absent from the dataset's benign class; 98--99\,\% of those are flagged, and ordinary TCP browsing is flagged 62--70\,\%. Burst timestamps on Windows Wi-Fi capture inflate the rate features, but replacing them with the training median lowers the alarm rate only to 84.7\,\%.
 
-\textbf{Recalibration is not enough.} A threshold fitted so that 1\,\% of the first five minutes is flagged reduces false alarms in the last five minutes to 5.4\,\% (frozen) and 0.1\,\% (hardened). It lies within $10^{-8}$ of 1, and at that threshold the detectors find only 59\,\% and 53\,\% of CICIoT2023 test attacks instead of 85\,\%.
+\textbf{Recalibration is not enough.} We split the laptop windows into halves (the first 2.6 minutes and the remaining 7.4). A threshold fitted so that 1\,\% of the first half is flagged reduces false alarms in the second half to 5.4\,\% (frozen) and 0.1\,\% (hardened). It lies within $10^{-8}$ of 1, and at that threshold the detectors find only 59\,\% and 53\,\% of CICIoT2023 test attacks instead of 85\,\%.
+
+\textbf{Local benign training is.} We added the first half (2,979 windows) to the training split as benign and retrained the 8-class MLP with the same recipe: seeds 0--2, early stopping and thresholds on CICIoT2023 validation, the second half used only for scoring. Without the added windows, retraining reproduces the frozen models exactly. With them, false alarms on the second half fall from 86.9\,\% to 0.45\,\% (TCP 1.8\,\%, QUIC 0.0\,\%). CICIoT2023 test detection at the 1\,\% rule stays at 85.1\,\% (85.2\,\% before) and macro-F1 at 0.609 (0.612). Repeating the windows five times gives 0.10\,\%. Both halves come from one session, so this shows that the detector can learn a site's benign traffic at no detection cost, not that it generalises to other days or networks.
 
 \begin{table}[t]
 \caption{False-alarm rate on traffic without attacks, 1\,\% rule}\label{tab:live}
@@ -334,7 +336,7 @@ Smart grid, normal op. & hardened & 35.5\,\% & 35.5\,\% & -- \\
 \item Evasion is modelled in feature space and not replayed through the feature extractor. Adversarial training was tested only against the same attacker.
 \item Multi-Krum, FLTrust and formal privacy were not evaluated.
 \item Comparisons with prior work rest on their published tables, not their split files.
-\item The real-traffic test covers one laptop, one network and 10 minutes, and measures false alarms only.
+\item The real-traffic test covers one laptop, one network and 10 minutes, and measures false alarms only. The local-training result is tested on the same session's traffic.
 \end{itemize}
 
 \section{Conclusion}
@@ -342,9 +344,9 @@ Under a leakage-aware protocol, CICIoT2023 multi-class detection is about 0.69 m
 
 Federated training matches centralised training under mild heterogeneity, and a real cross-cloud deployment reproduced the simulation exactly. Strong label skew remains unsolved. Robust aggregation stops two poisoning clients only within its assumptions. LLM-planned attacks on a smart-grid testbed are detectable because their signature is set by the attack toolkit.
 
-On real home traffic, the same detectors raise false alarms for most windows, and a local threshold removes them only by missing a third of the attacks. Deployment therefore needs the target network's own benign traffic in training, which federated learning with clients on those networks can provide.
+On real home traffic, the same detectors raise false alarms for most windows, and a local threshold removes them only by missing a third of the attacks. A few minutes of the network's own benign traffic in training removes them without that cost. Deployment therefore needs the target network's benign traffic in training, which federated learning with clients on those networks can provide.
 
-Future work: federated fine-tuning on local benign traffic, attacks generated in an isolated lab, adaptive attackers, clustered FL for label skew, multi-Krum and FLTrust under the same protocol, and replay of evasion through the feature extractor. Code, tests and run records are available at \url{https://github.com/vinitsoni03/federated-ids}.
+Future work: federated fine-tuning on local benign traffic tested across days and networks, attacks generated in an isolated lab, adaptive attackers, clustered FL for label skew, multi-Krum and FLTrust under the same protocol, and replay of evasion through the feature extractor. Code, tests and run records are available at \url{https://github.com/vinitsoni03/federated-ids}.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}

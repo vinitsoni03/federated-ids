@@ -63,6 +63,7 @@ Score your own capture (Wireshark/Npcap `.pcapng` or `.pcap`) with the same two 
 ```powershell
 python -m federated_ids.live.score D:\federated-ids-work\captures\my_capture.pcapng   # -> <work_dir>\live\my_capture\
 python scripts\live_analysis.py "laptop=D:\federated-ids-work\live\my_capture\features.csv"   # -> reports\tables\live_*.csv
+python scripts\live_retrain.py --features D:\federated-ids-work\live\my_capture\features.csv   # GPU, ~12 min: retrain with the capture's first half as benign
 ```
 The capture is cut into the dataset's 10-packet windows and turned into the CICIoT2023 features
 (`src/federated_ids/live/`, pure Python, no extra packages). Keep captures out of the repository: they contain

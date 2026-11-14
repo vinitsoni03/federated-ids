@@ -240,7 +240,7 @@ Test attack detection at the 5 % / 1 % validation thresholds (achieved test beni
 * **Caveat.** These are per-window rates. On a busy network, 1 % of benign windows can still mean many alerts;
   alert aggregation was not evaluated.
 
-### 4.2 Real traffic: does the detector transfer? - `reports/tables/live_capture.csv`, `live_recalibration.csv`
+### 4.2 Real traffic: does the detector transfer? - `reports/tables/live_capture.csv`, `live_recalibration.csv`, `live_retrain_summary.csv`
 CICIoT2023's test split comes from the same lab as its training data. To test the detectors on traffic they have
 never seen, two captures that contain **no attacks** were scored with the demo bundle's models (frozen v2 MLP and
 WP5-hardened MLP, 8-class). Every alarm on them is therefore a false alarm.
@@ -277,24 +277,48 @@ protocol, `Std` the sample standard deviation). The analysis is `python scripts/
 * **Industrial traffic is further still.** S7 traffic has no HTTPS, a PSH share of 0.6 (benign 95th percentile: 0.5)
   and frames of at most 241 bytes at the median. The frozen model flags 99.9 % of it; the hardened model 35.5 %.
 
-**Can recalibration fix it?** A local threshold was fitted so that 1 % of the first five minutes of the laptop
-capture is flagged, then tested on the last five minutes (54 % and 74 % UDP windows respectively):
+**Can recalibration fix it?** The laptop capture was split in two halves by window count: the first 2,979 windows
+(the first 2.6 minutes, 54 % UDP windows) and the last 2,979 (the remaining 7.4 minutes, 74 % UDP). A local
+threshold was fitted so that 1 % of the first half is flagged, then tested on the second half:
 
-| Model | Threshold | Laptop false alarms (last 5 min) | CICIoT2023 test benign FPR | CICIoT2023 test attack detection |
+| Model | Threshold | Laptop false alarms (second half) | CICIoT2023 test benign FPR | CICIoT2023 test attack detection |
 |---|---|---|---|---|
 | frozen | validation 1 % (CICIoT2023) | 90.6 % | 1.2 % | 85.5 % |
-| frozen | local 1 % (first 5 min of laptop) | 5.4 % | 0.0 % | 59.3 % |
+| frozen | local 1 % (first half of laptop) | 5.4 % | 0.0 % | 59.3 % |
 | hardened | validation 1 % (CICIoT2023) | 87.2 % | 1.2 % | 85.4 % |
-| hardened | local 1 % (first 5 min of laptop) | 0.1 % | 0.0 % | 53.0 % |
+| hardened | local 1 % (first half of laptop) | 0.1 % | 0.0 % | 53.0 % |
 
 * **A threshold cannot repair a feature-space gap.** The local threshold removes most false alarms, but it has to
   sit within 10^-8^ of 1 (the models are near-certain the laptop's traffic is an attack). At that threshold the
   detectors miss 41-47 % of the CICIoT2023 test attacks instead of 15 %.
-* **What would fix it** is local benign traffic in training. That is what federated learning with clients on the
-  deployment networks provides (§5), subject to the label-skew limits found there.
+
+**Does local benign traffic in training fix it?** The first half of the laptop windows was added to the CICIoT2023
+training split as Benign (once, and repeated 5 times; CICIoT2023 has 25,000 benign training windows), and the
+8-class v2 MLP was retrained from scratch with the WP3 recipe (same configuration, seeds 0-2, the original
+train-only preprocessor, early stopping and 5 %/1 % thresholds on CICIoT2023 validation). The laptop's second half
+was used only for scoring (`python scripts/live_retrain.py`). Retraining without laptop data reproduces the frozen
+models exactly, so every difference below comes from the added windows. Mean over 3 seeds, 1 % rule:
+
+| Training data | Laptop false alarms (second half) | TCP windows | UDP (QUIC) windows | CICIoT2023 test benign FPR | CICIoT2023 test attack detection | CICIoT2023 test macro-F1 |
+|---|---|---|---|---|---|---|
+| CICIoT2023 only (frozen v2) | 86.9 % | 56.4 % | 97.3 % | 1.25 % | 85.2 % | 0.612 |
+| + laptop first half (2,979 windows) | **0.45 %** | 1.8 % | 0.0 % | 1.03 % | 85.1 % | 0.609 |
+| + laptop first half x 5 | **0.10 %** | 0.4 % | 0.0 % | 0.97 % | 85.0 % | 0.607 |
+
+* **Local benign data fixes what the threshold could not.** 2.6 minutes of the laptop's traffic in training cut its
+  false alarms from 87 % to 0.45 % at the unchanged validation-calibrated 1 % rule, while CICIoT2023 attack
+  detection stays at 85 % (-0.2 to -0.3 points) and macro-F1 changes by -0.004 to -0.006. Recalibration had bought
+  the same false-alarm reduction at the cost of 26-32 points of detection.
+* **QUIC is learned completely** (0.0 % of UDP windows flagged); the remaining alarms are TCP windows.
+* **This is what federated learning with clients on the deployment networks provides** (§5): each site trains on
+  its own benign traffic without sending it, subject to the label-skew limits found there (a site that holds only
+  benign traffic is an extreme case of label skew).
 * **Scope.** One laptop, one network, 10 minutes; the dataset's 10-packet windows; false alarms only (no attacks
-  were generated). The result is a lower bound on how far lab results can be from deployment, not a measurement
-  of deployment performance.
+  were generated). The held-out half comes from the same session as the training half (minutes later, same
+  browser session, more of it video), so this shows the detector can learn a site's benign traffic without losing CICIoT2023 detection;
+  whether that holds on another day or network, and against attacks on the local network, is not measured. The
+  results are a lower bound on how far lab results can be from deployment, not a measurement of deployment
+  performance.
 
 ## 5. Federated learning (RQ2) - `reports/tables/m5_federated.csv`, `reports/figures/m5_convergence_*.png`
 
@@ -592,7 +616,8 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
   Windows ended in `\r\n`, so the container's key never matched (the key is now stripped on both sides).
 * **Real-traffic test (§4.2).** `python -m federated_ids.live.score <capture.pcapng>` (writes window features,
   per-window verdicts and a summary to `<work_dir>/live/`), then `python scripts/live_analysis.py` for
-  `reports/tables/live_capture.csv` and `live_recalibration.csv`. Tests: `tests/test_live.py` (synthetic pcap and
+  `reports/tables/live_capture.csv` and `live_recalibration.csv`; `python scripts/live_retrain.py` (GPU, ~12 min)
+  for the retraining test, `live_retrain.csv` and `live_retrain_summary.csv`. Tests: `tests/test_live.py` (synthetic pcap and
   pcapng with hand-computed features).
 
 ## 10. Limitations and negative results (summary)
@@ -605,7 +630,9 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
 * The Flower deployment (§5.4) was run once (8-class, IID, FedAvg, seed 0, v1 MLP); the v2 and non-IID results come from the simulator.
 * **The detectors do not transfer beyond CICIoT2023-like traffic (§4.2).** On 10 minutes of a laptop's home traffic the
   1 % rule raises 86-89 % false alarms (QUIC 98-99 %, TCP browsing 62-70 %); on smart-grid traffic up to 99.9 %.
-  A locally fitted threshold removes the false alarms only by missing 41-47 % of the dataset's attacks.
+  A locally fitted threshold removes the false alarms only by missing 41-47 % of the dataset's attacks; adding
+  2.6 minutes of the laptop's benign traffic to training removes them (0.45 %) at no detection cost, but was tested
+  only on the same session's traffic.
 
 ## 11. Conclusion
 
@@ -614,7 +641,9 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
   more than the model: at argmax every model flags 19-29 % of benign windows, while a validation-calibrated 1 %-FPR
   threshold still detects 83-86 % of attack windows. HGB is the strongest detector at that threshold. These numbers
   hold for CICIoT2023-like traffic only: on real traffic from a laptop the same 1 % rule flags 86-89 % of benign
-  windows, mostly QUIC (HTTP/3), which the dataset's benign class lacks (§4.2).
+  windows, mostly QUIC (HTTP/3), which the dataset's benign class lacks (§4.2). Adding 2.6 minutes of that
+  laptop's benign traffic to training brings this to 0.45 % with unchanged CICIoT2023 detection: the gap is
+  missing benign data, which is what federated clients on the deployment networks supply.
 * **RQ2 (federation).** With IID or moderately skewed clients, federated training costs little: 0.6-2.5 points of
   detection at 1 % FPR below centralized, closed further by 2 local epochs per round. Strong label skew (α = 0.1)
   breaks FedAvg and FedProx alike, is not cured by 60 instead of 30 rounds, and remains the open problem. A real
@@ -636,7 +665,8 @@ FA per h = false-alarm windows per hour of held-out normal operation (resolution
   fix (calibration, robust aggregation, adversarial training) came with a measurable assumption that an attacker
   can step outside; the report states those boundaries next to each result. The largest boundary is the dataset
   itself: a detector trained and calibrated on one lab's traffic needs that network's own benign traffic before it
-  can be deployed elsewhere (Arp et al., 2022).
+  can be deployed elsewhere (Arp et al., 2022); on the laptop, 2.6 minutes of it removed the false alarms
+  without costing detection (§4.2).
 
 ## References
 Every entry below was checked against the publisher, proceedings or arXiv record (2026-10-26, 2026-11-11 and 2026-11-13).
