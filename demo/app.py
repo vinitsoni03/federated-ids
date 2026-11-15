@@ -14,6 +14,8 @@ from __future__ import annotations
 import csv
 import itertools
 import json
+import os
+import socket
 import sys
 from pathlib import Path
 
@@ -96,6 +98,12 @@ def _check(r: Req) -> None:
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(ROOT / "demo" / "static" / "index.html")
+
+
+@app.get("/api/host")
+def host() -> dict:
+    # FIDS_DEPLOY is set by scripts/azure/serve_dashboard.sh on the Azure VM; unset when run on the laptop.
+    return {"deploy": os.environ.get("FIDS_DEPLOY", ""), "hostname": socket.gethostname()}
 
 
 @app.get("/api/meta")

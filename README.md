@@ -20,7 +20,8 @@ Datasets: `data/README.md`.
 |---|---|---|
 | Final report (every number traced to a table; results matrix, confusion matrices, comparison with published work) | `reports/final_report.md` | `python scripts/build_docs.py reports/final_report.md` |
 | Literature review, with a detailed comparison against the closest published studies | `reports/literature_review.md` | `python scripts/build_docs.py reports/literature_review.md` |
-| Research paper (IEEE conference, LaTeX) | `paper/main.tex`, `paper/refs.bib` | Overleaf (pdfLaTeX + BibTeX) |
+| About the project (short overview: aims, architecture, technology, structure, results) | `reports/about_the_project.md` | `python scripts/build_docs.py reports/about_the_project.md` |
+| Research paper (IEEE conference, LaTeX) | `paper/main.tex`, `paper/refs.bib` | Overleaf (pdfLaTeX + BibTeX) -> `reports/federated_ids_paper.pdf` |
 
 Figures for these documents: `python scripts/make_doc_figures.py`.
 
@@ -56,6 +57,13 @@ windows (40 per class) and the recorded Flower run. Tabs: **Detect** (probabilit
 threshold, scan of all windows), **Evasion attack** (the constrained black-box attacker of §7, query by query, and
 frozen vs. hardened on all 280 attack windows), **Federated training** (replay of the Azure + laptop Flower run),
 **Results** (read live from `reports/tables/`). Binds to localhost only; the secured API endpoint is `serving/app.py`.
+
+The same dashboard also runs on the Azure VM `fids-server` (systemd service, bound to the VM's 127.0.0.1:8000,
+not exposed publicly); the header then shows "Azure VM fids-server". Deploy and open it from Git Bash:
+```bash
+SERVER_IP=<fids-server IP> bash scripts/azure/serve_dashboard.sh    # copy code + bundle, install, start service
+SERVER_IP=<fids-server IP> bash scripts/azure/tunnel_dashboard.sh   # then open http://127.0.0.1:18000
+```
 
 ## Real-traffic test
 

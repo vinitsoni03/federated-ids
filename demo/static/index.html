@@ -90,9 +90,9 @@ svg text{font-family:"Segoe UI",system-ui,sans-serif}
   <div class="top">
     <div>
       <h1>Adversarially Robust Federated Intrusion Detection</h1>
-      <p>Live demo · CICIoT2023 8-class detector (v2 MLP) · Vinit Soni (E23CSEU0437) · everything runs locally from the project's own models and attack code</p>
+      <p>Live demo · CICIoT2023 8-class detector (v2 MLP) · Vinit Soni (E23CSEU0437) · <span id="where">everything runs locally</span> from the project's own models and attack code</p>
     </div>
-    <div class="chips"><span class="chip live">Local · offline</span><span class="chip">Final submission</span></div>
+    <div class="chips"><span class="chip live" id="host-chip">Local · offline</span><span class="chip">Final submission</span></div>
   </div>
   <nav id="tabs">
     <button data-t="detect" class="on">1 · Detect</button>
@@ -393,6 +393,7 @@ function results(r) {
 
 // ---------- INIT ----------
 (async () => {
+  api("/api/host").then(h => { if (h.deploy) { $("#host-chip").textContent = h.deploy; $("#where").textContent = `served from ${h.deploy} (host ${h.hostname})`; } }).catch(() => {});
   META = await api("/api/meta");
   const models = {frozen:MODEL_LABEL.frozen, hardened:MODEL_LABEL.hardened};
   fillClasses($("#d-class"), META.classes); fillWindows($("#d-win"), "Benign");

@@ -17,8 +17,7 @@
 \author{\IEEEauthorblockN{Vinit Soni}
 \IEEEauthorblockA{\textit{School of Computer Science Engineering and Technology} \\
 \textit{Bennett University}\\
-Greater Noida, India \\
-[email]}
+Greater Noida, India}
 % Add the project guide as a second author block here if required:
 % \and
 % \IEEEauthorblockN{[Guide name]}
@@ -300,7 +299,7 @@ The CICIoT2023 test split comes from the same lab as its training data. We there
 
 \textbf{Recalibration is not enough.} We split the laptop windows into halves (the first 2.6 minutes and the remaining 7.4). A threshold fitted so that 1\,\% of the first half is flagged reduces false alarms in the second half to 5.4\,\% (frozen) and 0.1\,\% (hardened). It lies within $10^{-8}$ of 1, and at that threshold the detectors find only 59\,\% and 53\,\% of CICIoT2023 test attacks instead of 85\,\%.
 
-\textbf{Local benign training is.} We added the first half (2,979 windows) to the training split as benign and retrained the 8-class MLP with the same recipe: seeds 0--2, early stopping and thresholds on CICIoT2023 validation, the second half used only for scoring. Without the added windows, retraining reproduces the frozen models exactly. With them, false alarms on the second half fall from 86.9\,\% to 0.45\,\% (TCP 1.8\,\%, QUIC 0.0\,\%). CICIoT2023 test detection at the 1\,\% rule stays at 85.1\,\% (85.2\,\% before) and macro-F1 at 0.609 (0.612). Repeating the windows five times gives 0.10\,\%. Both halves come from one session, so this shows that the detector can learn a site's benign traffic at no detection cost, not that it generalises to other days or networks.
+\textbf{Local benign training works.} We added the first half (2,979 windows) to the training split as benign and retrained the 8-class MLP with the same recipe: seeds 0--2, early stopping and thresholds on CICIoT2023 validation, the second half used only for scoring. Without the added windows, retraining reproduces the frozen models exactly. With them, false alarms on the second half fall from 86.9\,\% to 0.45\,\% (TCP 1.8\,\%, QUIC 0.0\,\%). CICIoT2023 test detection at the 1\,\% rule stays at 85.1\,\% (85.2\,\% before) and macro-F1 at 0.609 (0.612). Repeating the windows five times gives 0.10\,\%. Both halves come from one session, so this shows that the detector can learn a site's benign traffic at no detection cost, not that it generalises to other days or networks.
 
 \begin{table}[t]
 \caption{False-alarm rate on traffic without attacks, 1\,\% rule}\label{tab:live}
