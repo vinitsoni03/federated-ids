@@ -13,6 +13,7 @@ import numpy as np
 from federated_ids.evaluation.metrics import classification_metrics
 
 
+# how "not benign" a row looks: 1 minus the benign probability
 def attack_score(proba: np.ndarray, benign: int) -> np.ndarray:
     return 1.0 - proba[:, benign].astype(np.float64)
 
@@ -20,6 +21,7 @@ def attack_score(proba: np.ndarray, benign: int) -> np.ndarray:
 def threshold_for_fpr(score: np.ndarray, is_benign: np.ndarray, target: float) -> float:
     """Smallest threshold from the benign scores with FPR = mean(score[benign] > t) <= target.
     Ties can make the achieved FPR lower than the target, never higher."""
+    # sort benign scores high to low; the k-th one is the threshold so only k benign rows are above it
     sb = np.sort(score[is_benign])[::-1]  # descending
     if not len(sb):
         raise ValueError("no benign rows to calibrate on")
@@ -27,6 +29,7 @@ def threshold_for_fpr(score: np.ndarray, is_benign: np.ndarray, target: float) -
     return float(sb[min(k, len(sb) - 1)])
 
 
+# if the score is under the threshold -> Benign, otherwise pick the most likely attack class
 def predict_with_threshold(proba: np.ndarray, benign: int, t: float) -> np.ndarray:
     """Benign if attack score <= t, else argmax over the attack classes."""
     masked = proba.astype(np.float64).copy()
@@ -41,10 +44,12 @@ def operating_points(proba: np.ndarray, y: np.ndarray, class_names: list[str], b
     """Metrics at plain argmax and at each target FPR. `thresholds` ({"fpr5": t, ...}) reuses
     previously fitted thresholds (e.g. from validation on test); otherwise they are fitted on y."""
     rows = []
+    # first row is plain argmax, then one row per target false-alarm rate
     m = classification_metrics(y, proba.argmax(1), class_names, benign)
     rows.append(_row("argmax", None, None, m))
     for tgt in targets:
         name = f"fpr{tgt * 100:g}"
+        # on test we pass in the thresholds found on validation; never fit them on test
         t = thresholds[name] if thresholds is not None else threshold_for_fpr(attack_score(proba, benign), y == benign, tgt)
         m = classification_metrics(y, predict_with_threshold(proba, benign, t), class_names, benign)
         rows.append(_row(name, tgt, t, m))

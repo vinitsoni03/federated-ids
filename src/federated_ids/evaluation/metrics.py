@@ -16,6 +16,7 @@ from sklearn.metrics import (accuracy_score, average_precision_score, balanced_a
 def classification_metrics(y_true: np.ndarray, y_pred: np.ndarray, class_names: list[str],
                            benign_index: int | None = 0, proba: np.ndarray | None = None) -> dict:
     labels = list(range(len(class_names)))
+    # per-class precision, recall, F1 and support (how many rows of that class)
     p, r, f, s = precision_recall_fscore_support(y_true, y_pred, labels=labels, zero_division=0)
     present = s > 0
     out = {
@@ -31,6 +32,8 @@ def classification_metrics(y_true: np.ndarray, y_pred: np.ndarray, class_names: 
         "class_names": list(class_names),
     }
     if benign_index is not None:
+        # benign_fpr = share of benign rows we wrongly call an attack (false alarms)
+        # attack_detection_rate = share of attack rows flagged as any attack, even if the type is wrong
         ben = y_true == benign_index
         att = ~ben
         out["benign_fpr"] = float((y_pred[ben] != benign_index).mean()) if ben.any() else None
@@ -38,6 +41,7 @@ def classification_metrics(y_true: np.ndarray, y_pred: np.ndarray, class_names: 
         out["binary_f1"] = float(f1_score(att, y_pred != benign_index, zero_division=0))
     if proba is not None:
         try:
+            # AUC uses probabilities, so it doesn't depend on any threshold
             yk = np.eye(len(class_names))[y_true][:, present]
             pk = proba[:, present]
             out["macro_roc_auc_ovr"] = float(roc_auc_score(yk, pk, average="macro"))

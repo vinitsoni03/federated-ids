@@ -1,3 +1,4 @@
+# federated pieces: client partitions, the four aggregation rules, poisoning, FedProx
 import numpy as np
 import torch
 

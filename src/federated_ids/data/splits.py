@@ -41,6 +41,7 @@ def assign_files(file_ids: list[int], rows: list[int], val_frac: float, test_fra
     Guarantees >= 1 file in each split when len(file_ids) >= 3."""
     if len(file_ids) < 3:
         raise ValueError("file-level split needs at least 3 files")
+    # shuffle the files, then fill test first, then val, everything left goes to train
     order = rng.permutation(len(file_ids))
     total = float(sum(rows))
     out: dict[int, str] = {}
@@ -68,6 +69,7 @@ def assign_files(file_ids: list[int], rows: list[int], val_frac: float, test_fra
 def block_ranges(n: int, val_frac: float, test_frac: float, purge_frac: float,
                  purge_min: int) -> dict[str, tuple[int, int]]:
     """Contiguous [start, end) row ranges for train/val/test with purged gaps between them."""
+    # leave a gap of rows between the blocks so neighbouring (almost identical) rows don't end up in train and test
     gap = max(purge_min, int(round(purge_frac * n)))
     a = int(round((1 - val_frac - test_frac) * n))
     b = int(round((1 - test_frac) * n))
@@ -87,6 +89,7 @@ def plan_split(manifest_files: list[dict], cfg: dict) -> dict:
         by_class.setdefault(f["class34"], []).append(f)
     plan: dict[int, dict[str, tuple[int, int]]] = {}
     method: dict[str, str] = {}
+    # classes with enough capture files get split by whole file (best), the rest by row blocks
     for c34 in sorted(by_class):
         files = sorted(by_class[c34], key=lambda f: f["file_id"])
         if len(files) >= s["min_files_for_file_split"]:
@@ -105,6 +108,7 @@ def plan_split(manifest_files: list[dict], cfg: dict) -> dict:
 
 def pool_indices(plan: dict, offsets: np.ndarray, split: str) -> np.ndarray:
     """Global row indices (into the concatenated row arrays) belonging to `split`."""
+    # turn the plan into one list of global row numbers for this split
     parts = [np.arange(offsets[fid] + s, offsets[fid] + e, dtype=np.int64)
              for fid, rng in sorted(plan.items()) for k, (s, e) in rng.items() if k == split]
     return np.concatenate(parts) if parts else np.empty(0, dtype=np.int64)
@@ -112,11 +116,13 @@ def pool_indices(plan: dict, offsets: np.ndarray, split: str) -> np.ndarray:
 
 def dedup_first(idx: np.ndarray, hashes: np.ndarray) -> np.ndarray:
     """Keep the first occurrence (in idx order) of each distinct feature vector."""
+    # np.unique gives the first index of each distinct hash, sort keeps the original order
     _, first = np.unique(hashes[idx], return_index=True)
     return idx[np.sort(first)]
 
 
 def pair_key(h: np.ndarray, label: np.ndarray) -> np.ndarray:
+    # hash of (row, label) so we can tell "same row, same label" from "same row, different label"
     """One 64-bit key per (row hash, label) pair."""
     from federated_ids.data.ciciot import _splitmix64
 
@@ -132,6 +138,7 @@ def build(cfg: dict, manifest_dir: Path) -> dict:
     hdir = work / "processed" / "ciciot2023"
     man = json.loads((hdir / "file_manifest.json").read_text(encoding="utf-8"))
     files = man["files"]
+    # offsets: where each file's rows start in the one long array of all rows
     rows = np.array([f["rows"] for f in files], dtype=np.int64)
     offsets = np.concatenate([[0], np.cumsum(rows)[:-1]])
     hashes = np.load(hdir / "row_hash.npy")
@@ -143,6 +150,7 @@ def build(cfg: dict, manifest_dir: Path) -> dict:
 
     p = plan_split(files, cfg)
     plan = p["plan"]
+    # seed + 1 so the sampling RNG is different from the file-assignment RNG
     rng = np.random.default_rng(s["seed"] + 1)
     caps = {"train": s["cap_train"], "val": s["cap_val"], "test": s["cap_test"]}
     out_dir = work / "splits" / s["name"]
@@ -155,6 +163,7 @@ def build(cfg: dict, manifest_dir: Path) -> dict:
             assert np.intersect1d(pools[SPLITS[a]], pools[SPLITS[b]]).size == 0
     np.save(out_dir / "test_pool_idx.npy", pools["test"])
 
+    # every distinct row in train, to mark val/test rows that also show up in train
     train_hash_sorted = np.unique(hashes[pools["train"]])
     # (vector, category) keys present in the train pool, for cross-label conflict flags
     train_pair_keys = np.unique(pair_key(hashes[pools["train"]], file_cat[fids[pools["train"]]]))
@@ -166,6 +175,7 @@ def build(cfg: dict, manifest_dir: Path) -> dict:
         sel_parts = []
         counts[split] = {}
         cls = file_c34[fids[idx]]
+        # per class: drop exact duplicates, then sample down to the cap so big DDoS classes don't swamp the rest
         for ci, name in enumerate(CLASS34):
             ci_idx = idx[cls == ci]
             n_pool = ci_idx.size
@@ -196,6 +206,7 @@ def build(cfg: dict, manifest_dir: Path) -> dict:
         h = hashes[idx]
         y34 = file_c34[f_of]
         y8 = file_cat[f_of]
+        # seen_in_train lets us report scores on only "new" test rows, a check that we're not just memorising
         seen = np.isin(h, train_hash_sorted) if split != "train" else np.ones(idx.size, dtype=bool)
         if split != "train":
             # vector seen in train, but never with this category

@@ -28,6 +28,7 @@ import itertools
 
 import numpy as np
 
+# the attacker's options. Padding in bytes per packet, slowdown as a fraction of the original speed
 MTU = 1514.0
 PADDING = [0, 50, 100, 200, 400, 800, 1450]
 SLOWDOWN = [1.0, 0.5, 0.25, 0.1]
@@ -37,6 +38,7 @@ def apply_perturbation(X: np.ndarray, features: list[str], p: float, r: float, t
     """X: raw (unpreprocessed) feature rows. Returns a modified copy satisfying the constraints."""
     Z = np.array(X, dtype=np.float64, copy=True)
     col = {f: i for i, f in enumerate(features)}
+    # padding: every packet gets p bytes bigger, but never past 1514 bytes
     if p:
         mx = Z[:, col["Max"]]
         allowed = np.clip(MTU - mx, 0.0, None)
@@ -46,9 +48,11 @@ def apply_perturbation(X: np.ndarray, features: list[str], p: float, r: float, t
                 Z[:, col[f]] += pp
         if "Tot sum" in col and "Number" in col:
             Z[:, col["Tot sum"]] += pp * Z[:, col["Number"]]
+    # slowing down: fewer packets per second and longer gaps between them
     if r != 1.0:
         Z[:, col["Rate"]] *= r
         Z[:, col["IAT"]] /= r
+    # TTL copied from normal traffic, None = leave it as it was
     if ttl is not None:
         Z[:, col["Time_To_Live"]] = ttl
     return Z
@@ -57,6 +61,7 @@ def apply_perturbation(X: np.ndarray, features: list[str], p: float, r: float, t
 def check_constraints(X0: np.ndarray, Z: np.ndarray, features: list[str], r_min: float) -> dict:
     """Return violations (counts) of the threat-model constraints between original X0 and Z."""
     col = {f: i for i, f in enumerate(features)}
+    # everything except the 8 features the attacker can change must stay exactly the same
     frozen = [f for f in features if f not in ("Min", "Max", "AVG", "Tot size", "Tot sum", "Rate", "IAT",
                                                "Time_To_Live")]
     fi = [col[f] for f in frozen]
@@ -76,17 +81,20 @@ def evade(predict, X: np.ndarray, features: list[str], benign: int, ttl_choices:
           r_min: float, padding=PADDING, slowdown=SLOWDOWN) -> dict:
     """Black-box grid search per window; stops at the first (cheapest-ordered) evading setting.
     Ordering: larger r (less slow-down) first, then smaller padding, original TTL first."""
+    # try the cheapest options first: least slowdown, least padding, original TTL
     rs = sorted([r for r in slowdown if r >= r_min - 1e-12], reverse=True)
     grid = list(itertools.product(rs, padding, ttl_choices))
     n = len(X)
     evaded = np.zeros(n, dtype=bool)
     chosen = np.full((n, 3), np.nan)
     queries = np.zeros(n, dtype=np.int32)
+    # all still-detected windows are tried with one setting at a time; ones that get through are done
     for r, p, t in grid:
         todo = ~evaded
         if not todo.any():
             break
         Z = apply_perturbation(X[todo], features, p, r, t)
+        # the only thing the attacker learns is the predicted label
         pred = predict(Z)
         queries[todo] += 1
         ok = pred == benign

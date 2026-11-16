@@ -30,6 +30,7 @@ from pathlib import Path
 
 import numpy as np
 
+# the 39 columns in the CSV, in file order
 FEATURES = [
     "Header_Length", "Protocol Type", "Time_To_Live", "Rate", "fin_flag_number",
     "syn_flag_number", "rst_flag_number", "psh_flag_number", "ack_flag_number",
@@ -76,18 +77,21 @@ FOLDER_MAP: dict[str, tuple[str, str]] = {
     "Mirai-greip_flood": ("Mirai-greip_flood", "Mirai"),
     "Mirai-udpplain": ("Mirai-udpplain", "Mirai"),
 }
+# sorted so the class index is the same on every machine
 CLASS34 = sorted(v[0] for v in FOLDER_MAP.values())
 CATEGORIES = ["Benign", "BruteForce", "DDoS", "DoS", "Mirai", "Recon", "Spoofing", "Web"]
 CLASS34_TO_CAT = {v[0]: v[1] for v in FOLDER_MAP.values()}
 HASH_SEED = 20235941  # fixed seed of hash_matrix
 
 
+# e.g. "DDoS-SYN_Flood" -> "DDoS"
 def family_of_class34(y34: np.ndarray) -> np.ndarray:
     """Attack family (category name) of each class34 index."""
     lut = np.array([CLASS34_TO_CAT[c] for c in CLASS34])
     return lut[np.asarray(y34, dtype=np.int64)]
 
 
+# the CSVs have no label column, the folder name is the label. Unknown folder = stop, don't guess
 def label_for_folder(folder: str) -> tuple[str, str]:
     if folder not in FOLDER_MAP:
         raise KeyError(f"Unknown CICIoT2023 folder {folder!r}; refusing to guess its label")
@@ -101,6 +105,7 @@ def list_csv_files(root: Path) -> list[Path]:
     return files
 
 
+# file checksum, read in 1 MB chunks so big files don't fill memory
 def sha256_of(path: Path, block: int = 1 << 20) -> str:
     h = hashlib.sha256()
     with open(path, "rb") as fh:
@@ -113,12 +118,14 @@ def read_csv_float(path: Path):
     """Read one CICIoT2023 CSV with every feature as Float64 (values unchanged; 'inf' -> inf)."""
     import polars as pl
 
+    # read everything as float, no type guessing, so values stay exactly as in the file
     df = pl.read_csv(path, schema_overrides={c: pl.Float64 for c in FEATURES}, infer_schema_length=0)
     if df.columns != FEATURES:
         raise ValueError(f"{path}: unexpected header {df.columns}")
     return df
 
 
+# small, well known integer mixer. Written by hand so the hash never changes with a library update
 def _splitmix64(x: np.ndarray) -> np.ndarray:
     x = x + np.uint64(0x9E3779B97F4A7C15)
     x = (x ^ (x >> np.uint64(30))) * np.uint64(0xBF58476D1CE4E5B9)
@@ -129,11 +136,13 @@ def _splitmix64(x: np.ndarray) -> np.ndarray:
 def hash_matrix(x: np.ndarray, seed: int = HASH_SEED) -> np.ndarray:
     """Deterministic, library-version-independent 64-bit hash of each row of a float64 matrix.
     -0.0 is normalised to 0.0 and every NaN to one canonical NaN, so equal rows hash equally."""
+    # make 0.0/-0.0 and all NaNs identical first, otherwise equal rows would get different hashes
     x = np.array(x, dtype=np.float64, copy=True)
     x[x == 0] = 0.0
     x[np.isnan(x)] = np.nan
     bits = x.view(np.uint64)
     h = np.full(len(x), np.uint64(seed), dtype=np.uint64)
+    # mix every column's bits into the running hash, overflow is expected here
     with np.errstate(over="ignore"):
         for j in range(bits.shape[1]):
             h = _splitmix64(h ^ _splitmix64(bits[:, j] + np.uint64(j)))
@@ -144,6 +153,7 @@ def row_hash(df) -> np.ndarray:
     return hash_matrix(df.select(FEATURES).to_numpy())
 
 
+# one pass over all 309 CSVs: save each as parquet and keep a hash of every row for the duplicate check later
 def convert(raw_root: Path, work_dir: Path, compare_root: Path | None = None) -> dict:
     import polars as pl
 
@@ -167,6 +177,7 @@ def convert(raw_root: Path, work_dir: Path, compare_root: Path | None = None) ->
             out_pq / f"{fid:03d}.parquet", compression="zstd")
         entry = {"file_id": fid, "rel_path": rel.as_posix(), "folder": folder, "class34": c34,
                  "category": cat, "rows": n, "bytes": path.stat().st_size, "sha256": sha256_of(path)}
+        # we had two copies of the dataset; this checks they are byte for byte the same
         if compare_root is not None:
             other = compare_root / rel
             entry["copy_exists"] = other.is_file()
@@ -174,6 +185,7 @@ def convert(raw_root: Path, work_dir: Path, compare_root: Path | None = None) ->
         manifest.append(entry)
         print(f"[{fid + 1}/{len(files)}] {rel.as_posix()} rows={n:,} ({time.time() - t0:.0f}s)", flush=True)
 
+    # hashes for all ~46M rows saved together, the audit uses them to find duplicates fast
     hdir = work_dir / "processed" / "ciciot2023"
     np.save(hdir / "row_hash.npy", np.concatenate(hashes))
     np.save(hdir / "row_file_id.npy", np.concatenate(file_ids))

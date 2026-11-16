@@ -1,3 +1,4 @@
+# row counting by newlines: edge cases (empty file, no final newline, newlines split across read blocks) and the per-folder grouping
 import shutil
 from pathlib import Path
 

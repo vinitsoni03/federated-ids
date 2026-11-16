@@ -42,6 +42,7 @@ missing: list[str] = []
 FAMILY_EVAL = True
 
 
+# a missing run is noted and skipped, never filled in with a guess
 def load(p: Path):
     if not p.exists():
         missing.append(str(p.relative_to(ROOT)))
@@ -49,6 +50,7 @@ def load(p: Path):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
+# every table is written twice: csv for code, markdown for the report
 def write_table(name: str, rows: list[dict]) -> None:
     if not rows:
         return
@@ -65,6 +67,7 @@ def write_table(name: str, rows: list[dict]) -> None:
     (TAB / f"{name}.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
 
+# mean and sample std over seeds (std 0 if there's only one seed)
 def mean_sd(xs):
     xs = [x for x in xs if x is not None]
     if not xs:
@@ -90,6 +93,7 @@ def family_benign_rates(run: Path, task: str) -> dict | None:
     cfg = json.loads((run / "config.json").read_text(encoding="utf-8"))
     feats = cfg["features"]
     key = (task, tuple(feats))
+    # load the test split once per task, then reuse it for every run
     if key not in _family_cache:
         te = load_split("test", feats, task)
         _family_cache[key] = (te, family_of_class34(te.y34))
@@ -473,6 +477,7 @@ def gridstrat_no_arp():
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-family-eval", action="store_true", help="skip recomputing per-family rates")
+    # one function per report section; --only rebuilds just some of them
     sections = {"centralized": centralized, "federated": federated, "poisoning": poisoning, "evasion": evasion,
                 "gridstrat": gridstrat, "advtrain": advtrain, "gridstrat_no_arp": gridstrat_no_arp}
     ap.add_argument("--only", nargs="+", choices=list(sections), help="rebuild only these sections")

@@ -39,16 +39,19 @@ CSV_FIELDS = ["task", "config_id", "seed", "hidden", "lr", "class_weighting", "d
               "n_parameters", "train_seconds"]
 
 
+# short readable name per setting, e.g. h256-128_lr0.001_sqrt_inverse_do0.1
 def config_id(hidden, lr, class_weighting, dropout) -> str:
     return f"h{'-'.join(map(str, hidden))}_lr{lr:g}_{class_weighting}_do{dropout:g}"
 
 
+# every combination of hidden sizes, learning rate, class weighting and dropout
 def grid(cfg: dict):
     g = cfg["grid"]
     for hidden, lr, weighting, dropout in itertools.product(g["hidden"], g["lr"], g["class_weighting"], g["dropout"]):
         yield {"hidden": list(hidden), "lr": float(lr), "class_weighting": weighting, "dropout": float(dropout)}
 
 
+# no test data here on purpose, picking settings must not see test
 def load_train_val(task: str, feature_set: str, dcfg: dict):
     """Train + val only (no test). Preprocessor fitted on train, as in the centralized runs."""
     features = select_features(FEATURES, dcfg["features"]["window_dependent"], feature_set)
@@ -93,6 +96,7 @@ def main(argv: list[str] | None = None) -> int:
             top = top_config_ids(root, task, a.top_k)
             configs = [p for p in configs if config_id(**p) in top]
             log(f"[{task}] top-{a.top_k} seed-0 configs: {top}")
+        # skip runs that already have results, so a crash or reboot doesn't lose work
         todo = [(p, s) for p in configs for s in seeds
                 if not (root / task / f"{config_id(**p)}_s{s}" / "metrics_val.json").exists()]
         log(f"[{task}] {len(todo)} runs to do")
@@ -118,6 +122,7 @@ def main(argv: list[str] | None = None) -> int:
                                              lambda m: None, device)
             proba = predict_proba(model, data["val"]["Xp"])
             mv = classification_metrics(data["val"]["y"], proba.argmax(1), class_names, benign, proba)
+            # if the best epoch is the last one the model may still be improving (hit_epoch_cap)
             best_epoch = max(hist, key=lambda h: h["val_macro_f1"])["epoch"]
             meta = {"task": task, "config_id": cid, "seed": seed, **p, "best_epoch": best_epoch,
                     "epochs_run": len(hist), "hit_epoch_cap": len(hist) == cfg["train"]["epochs"],
@@ -137,6 +142,7 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
+# second stage: rerun only the best few settings with more seeds
 def top_config_ids(root, task: str, k: int) -> list[str]:
     """The k config ids with the highest seed-0 val macro-F1 (requires the full seed-0 grid)."""
     res = [json.loads(f.read_text(encoding="utf-8")) for f in (root / task).glob("*_s0/metrics_val.json")]
@@ -166,6 +172,7 @@ def write_table(root) -> None:
         wr.writeheader()
         wr.writerows(rows)
     # per-config aggregate over seeds (the seed re-check selects on mean val macro-F1)
+    # mean and spread over seeds per setting; the final pick is by the mean
     groups = {}
     for r in rows:
         groups.setdefault((r["task"], r["config_id"]), []).append(r)

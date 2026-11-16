@@ -31,6 +31,7 @@ def main() -> int:
         for part, seed in SETTINGS:
             h60 = history(f"fl_{task}_{part}_fedavg_r60_s{seed}")
             h30 = history(f"fl_{task}_{part}_fedavg_s{seed}")
+            # if round 60 is barely better than round 30, stopping at 30 was fine
             r30, r60 = h60.loc[30], h60.loc[60]
             rows.append({
                 "task": task, "partition": part, "seed": seed,
@@ -39,6 +40,7 @@ def main() -> int:
                 "benign_fpr_r30": r30.test_benign_fpr, "benign_fpr_r60": r60.test_benign_fpr,
                 "best_round": int(h60.test_macro_f1.idxmax()), "best_test_macro_f1": h60.test_macro_f1.max(),
                 "comm_MB_r60": r60.comm_MB,
+                # same seed, so the first 30 rounds of the long run must match the short run exactly
                 "r30_matches_30round_run": bool(abs(r30.test_macro_f1 - h30.loc[30].test_macro_f1) < 1e-9),
             })
     df = pd.DataFrame(rows)
@@ -49,6 +51,7 @@ def main() -> int:
     md += ["| " + " | ".join(fmt(v) for v in r) + " |" for r in df.itertuples(index=False)]
     out.with_suffix(".md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
+    # one panel per task, dashed line at round 30
     fig, axes = plt.subplots(1, 3, figsize=(15, 4.2), sharey=True)
     for ax, (task, label) in zip(axes, TASKS.items()):
         for part, seed in SETTINGS:

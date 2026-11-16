@@ -23,6 +23,7 @@ from pathlib import Path
 ROOT_GROUP = "(root)"
 
 
+# count "\n" bytes instead of parsing, much faster on gigabytes of CSVs
 def count_data_rows(path: Path, block: int = 1 << 20) -> int:
     """Rows after the header line. Returns 0 for an empty file or header-only file."""
     newlines, last, size = 0, b"", 0
@@ -32,6 +33,7 @@ def count_data_rows(path: Path, block: int = 1 << 20) -> int:
             last, size = chunk[-1:], size + len(chunk)
     if size == 0:
         return 0
+    # last line may not end with a newline, count it anyway; minus 1 for the header
     lines = newlines + (0 if last == b"\n" else 1)  # final line without trailing newline
     return max(lines - 1, 0)
 
@@ -53,6 +55,7 @@ def build_inventory(root: str | Path) -> dict:
     headers: dict[str, list[str]] = defaultdict(list)
     for f in files:
         rel = f.relative_to(root)
+        # first folder name = class name in this dataset
         group = rel.parts[0] if len(rel.parts) > 1 else ROOT_GROUP
         rows = count_data_rows(f)
         g = groups[group]
@@ -60,9 +63,11 @@ def build_inventory(root: str | Path) -> dict:
         g["rows"] += rows
         g["bytes"] += f.stat().st_size
         g["files"].append({"file": rel.as_posix(), "rows": rows})
+        # collect every distinct header line, they should all be the same
         headers[read_header(f)].append(rel.as_posix())
 
     total = sum(g["rows"] for g in groups.values())
+    # biggest class first
     out_groups = {
         name: {**g, "share_of_total_rows": (g["rows"] / total if total else None)}
         for name, g in sorted(groups.items(), key=lambda kv: -kv[1]["rows"])

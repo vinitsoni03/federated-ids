@@ -33,6 +33,7 @@ def main(grid: Grid, context: Context) -> None:
     names = man["class_names"]
     benign = names.index("Benign")
     n_clients, n_feat = int(rc["n-clients"]), S["Xtest"].shape[1]
+    # same seed as the simulator so round 0 starts from the same weights
     set_seed(int(man["seed"]))
     model = MLP(n_feat, len(names), MODEL["hidden"], MODEL["dropout"])
     n_params = sum(p.numel() for p in model.parameters())
@@ -41,6 +42,7 @@ def main(grid: Grid, context: Context) -> None:
     hist: list[dict] = []
     t0 = time.time()
 
+    # runs on the server after each round: score the averaged model on val and test, keep a history row
     def evaluate(server_round: int, arrays: ArrayRecord) -> MetricRecord:
         m = MLP(n_feat, len(names), MODEL["hidden"], MODEL["dropout"])
         m.load_state_dict(arrays.to_torch_state_dict())
@@ -56,6 +58,7 @@ def main(grid: Grid, context: Context) -> None:
     result = strategy.start(grid=grid, initial_arrays=ArrayRecord(model.state_dict()),
                             train_config=ConfigRecord({"lr": float(rc["learning-rate"])}),
                             num_rounds=int(rc["num-server-rounds"]), evaluate_fn=evaluate)
+    # training done, save the final global model and the full metrics
     wall = time.time() - t0
     model.load_state_dict(result.arrays.to_torch_state_dict())
     torch.save(model.state_dict(), out / "global_model.pt")
@@ -67,6 +70,7 @@ def main(grid: Grid, context: Context) -> None:
            "test": classification_metrics(S["ytest"], pred, names, benign, proba),
            "test_unseen": classification_metrics(S["ytest"][~seen], pred[~seen], names, benign, proba[~seen]),
            "wall_clock_seconds": round(wall, 1),
+           # rough traffic count: every round each client downloads and uploads one full model (4 bytes per weight)
            "communication": {"n_parameters": int(n_params), "bytes_per_model_float32": int(n_params * 4),
                              "total_MB_estimate": round(2 * n_clients * rounds * n_params * 4 / 2**20, 2),
                              "note": "payload estimate (broadcast + upload, float32); excludes transport overhead"},

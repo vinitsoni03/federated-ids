@@ -42,6 +42,7 @@ RUN_NAME = "centralized_v2"
 OP_NAMES = ["argmax"] + [f"fpr{t * 100:g}" for t in TARGETS]
 
 
+# one prediction pass over the whole test pool, then score it with every decision rule
 def full_pool_ops(proba_fn, pre, dcfg, man, features, task, names, benign, thresholds) -> list[dict]:
     """Stream the full test pool once; derive argmax and thresholded predictions from one proba pass."""
     ys, preds = [], {k: [] for k in OP_NAMES}
@@ -115,6 +116,7 @@ def main(argv: list[str] | None = None) -> int:
                 return p
             return f
 
+        # list of (detector, seed, how to build it); built lazily so only one model sits in memory at a time
         jobs = [("v1_mlp", s, lambda s=s: mlp_fn(v1_dir / f"mlp_seed{s}.pt", mc["hidden"], mc["dropout"])) for s in (0, 1, 2)]
         jobs += [("v2_mlp", s, lambda s=s: mlp_fn(out / f"mlp_seed{s}.pt", best["hidden"], best["dropout"])) for s, _ in best["models"]]
         jobs += [("hgb", 0, lambda: tree_fn(__import__("joblib").load(out / "hgb_s0.joblib")))]
@@ -128,6 +130,7 @@ def main(argv: list[str] | None = None) -> int:
         jobs += [("rf", 0, make_rf)]
 
         thresholds_all = json.loads((out / "thresholds.json").read_text()) if (out / "thresholds.json").exists() else {}
+        # test is scored once only: if the result file exists we never run it again
         for det, seed, build in jobs:
             path = out / "eval" / f"{det}_s{seed}.json"
             if path.exists():
@@ -135,6 +138,7 @@ def main(argv: list[str] | None = None) -> int:
                 continue
             fn = build()
             pv = fn(va["Xp"])
+            # refit thresholds on val and check they match the ones from model selection; if not, something changed, stop
             th = {f"fpr{t * 100:g}": threshold_for_fpr(attack_score(pv, benign), va["y"] == benign, t) for t in TARGETS}
             stored = {r["operating_point"]: r["threshold"] for r in
                       json.loads((det_root / task / f"{det}_s{seed}.json").read_text(encoding="utf-8"))["operating_points"]
@@ -142,6 +146,7 @@ def main(argv: list[str] | None = None) -> int:
             mismatch = {k: (th[k], stored[k]) for k in th if abs(th[k] - stored[k]) > 1e-9}
             if mismatch:
                 raise SystemExit(f"{task} {det} s{seed}: val thresholds differ from model selection: {mismatch}")
+            # now apply those val thresholds, unchanged, to test
             pt = fn(te["Xp"])
             seen = te["seen"]
             res = {"task": task, "detector": det, "seed": seed, "thresholds_from": "val", "thresholds": th,

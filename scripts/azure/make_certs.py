@@ -35,6 +35,7 @@ def main() -> int:
     out.mkdir(parents=True, exist_ok=True)
     now = dt.datetime.now(dt.timezone.utc)
 
+    # our own small certificate authority, only used to sign the one server certificate below
     ca_key = ec.generate_private_key(ec.SECP256R1())
     ca_name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "fids private CA")])
     ca = (x509.CertificateBuilder().subject_name(ca_name).issuer_name(ca_name)
@@ -48,6 +49,7 @@ def main() -> int:
                                        encipher_only=False, decipher_only=False), critical=True)
           .sign(ca_key, hashes.SHA256()))
 
+    # server certificate: valid for localhost/127.0.0.1 (laptop via SSH tunnel) and the VM's private IP
     key = ec.generate_private_key(ec.SECP256R1())
     san = x509.SubjectAlternativeName([x509.DNSName("localhost"), x509.DNSName("fids-server"),
                                        x509.IPAddress(ipaddress.ip_address("127.0.0.1")),
@@ -63,6 +65,7 @@ def main() -> int:
             .add_extension(x509.ExtendedKeyUsage([x509.oid.ExtendedKeyUsageOID.SERVER_AUTH]), critical=False)
             .sign(ca_key, hashes.SHA256()))
 
+    # keys are written without a password; they stay outside the repo on the D: drive
     pem = serialization.Encoding.PEM
     nopw = serialization.NoEncryption()
     _write(out / "ca.crt", ca.public_bytes(pem))

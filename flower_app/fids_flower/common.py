@@ -14,22 +14,26 @@ from pathlib import Path
 
 import numpy as np
 
+# the v1 MLP (33 -> 128 -> 64 -> 8), must match what the simulator used or the runs aren't comparable
 MODEL = {"hidden": [128, 64], "dropout": 0.1}   # = configs/federated.yaml
 CLASS_WEIGHTING = "sqrt_inverse"
 
 
+# cached so the files are read once per process, not every round
 @lru_cache(maxsize=2)
 def manifest(data_dir: str) -> dict:
     return json.loads((Path(data_dir) / "manifest.json").read_text(encoding="utf-8"))
 
 
 @lru_cache(maxsize=2)
+# a client only ever opens its own file, the raw data never leaves the machine
 def client_data(data_dir: str, pid: int) -> tuple[np.ndarray, np.ndarray]:
     d = np.load(Path(data_dir) / f"client_{pid}.npz")
     return d["X"], d["y"]
 
 
 @lru_cache(maxsize=1)
+# the server only has the validation/test sets, used to score the global model
 def server_data(data_dir: str) -> dict:
     d = np.load(Path(data_dir) / "server_eval.npz")
     return {k: d[k] for k in d.files}

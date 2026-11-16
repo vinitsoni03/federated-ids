@@ -7,6 +7,7 @@ cd "$(dirname "$0")/../.."
 source scripts/azure/common.sh
 PORT=${PORT:-18443}
 PY=${PY:-.venv/Scripts/python.exe}
+# tunnel in the background; trap closes it when the script ends
 ssh -p "$SSH_PORT" "${SSH_OPTS[@]}" -N -L "$PORT:127.0.0.1:8443" "$ADMIN@$SERVER_IP" & TP=$!
 trap 'kill $TP 2>/dev/null' EXIT
 sleep 4

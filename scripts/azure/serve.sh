@@ -12,8 +12,10 @@ PY=${PY:-.venv/Scripts/python.exe}
 BUNDLE="$KEYDIR/stage/model_bundle"
 rm -rf "$BUNDLE"
 "$PY" scripts/package_model.py --run "artifacts/runs/$RUN_NAME" --data-dir "$DATA" --out "$BUNDLE"
+# random API key, made once and kept on the D: drive
 [ -f "$KEYDIR/api_key" ] || "$PY" -c "import secrets; print(secrets.token_urlsafe(32))" > "$KEYDIR/api_key"
 
+# copy the model bundle and key to the server
 on_server "rm -rf ~/fids/model && mkdir -p ~/fids/model ~/fids/build"
 scp_any "$BUNDLE"/* "$ADMIN@$SERVER_IP:fids/model/"
 scp_any "$KEYDIR/api_key" "$ADMIN@$SERVER_IP:fids/api_key"

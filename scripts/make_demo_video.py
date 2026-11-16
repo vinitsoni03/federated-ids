@@ -160,6 +160,7 @@ Write-Output "status=$status seconds=$t"
 def main(gif: str, out: str) -> int:
     fr = frames(Path(gif))
     tmp = Path(tempfile.mkdtemp(prefix="demo_video_"))
+    # title card, then one captioned frame per segment, then a closing card
     slides = [(card(TITLE[2:], TITLE[0], TITLE[1]), 5)]
     slides += [(caption_slide(fr[k], sec, cap), secs) for k, secs, sec, cap in SEGMENTS]
     slides += [(card(CLOSING, "What the demo shows"), 10)]
@@ -174,6 +175,7 @@ def main(gif: str, out: str) -> int:
     ps1.write_text(PS.replace("__LIST__", str(lst)).replace("__OUT__", str(Path(out).resolve())), encoding="ascii")
     total = sum(s for _, s in slides)
     print(f"{len(slides)} slides, {total} s; exporting with PowerPoint ...")
+    # PowerPoint does the actual video export (see the PS script above)
     res = subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(ps1)],
                          capture_output=True, text=True, timeout=1200)
     print(res.stdout.strip(), res.stderr.strip())

@@ -56,6 +56,7 @@ def main() -> int:
                     "omitted = insecure (loopback-only testing)")
     a = ap.parse_args()
 
+    # use the run name from --run-config so logs land next to the results
     m = re.search(r"run-name='([^']+)'", a.run_config)
     run_name = m.group(1) if m else "flower_category_iid_fedavg_s0"
     logs = ROOT / "artifacts" / "runs" / run_name / "flower_logs"
@@ -64,6 +65,7 @@ def main() -> int:
     home = Path(a.flwr_home)
     home.mkdir(parents=True, exist_ok=True)
     tls = Path(a.tls_dir) if a.tls_dir else None
+    # with --tls-dir everything uses certificates, without it plain connections (only OK on 127.0.0.1)
     conn = f'root-certificates = "{(tls / "ca.crt").as_posix()}"\n' if tls else "insecure = true\n"
     (home / "config.toml").write_text(
         f'[superlink.local-deployment]\naddress = "127.0.0.1:{a.superlink_port}"\n' + conn, encoding="utf-8")
@@ -80,11 +82,13 @@ def main() -> int:
     procs: list[subprocess.Popen] = []
     t0 = time.time()
     try:
+        # 1) start the SuperLink (the server side that coordinates rounds)
         fh = open(logs / "superlink.log", "w", encoding="utf-8")
         procs.append(subprocess.Popen([*exe(py, "flower-superlink"), *link_sec, "--host", "127.0.0.1",
                                        "--port", str(a.superlink_port), "--disable-runtime-dependency-installation"],
                                       stdout=fh, stderr=subprocess.STDOUT, env=env, cwd=ROOT))
         time.sleep(a.startup_wait)
+        # 2) start one SuperNode per client, each told which partition file is its own
         for i in range(a.n_clients):
             fh = open(logs / f"supernode_{i}.log", "w", encoding="utf-8")
             procs.append(subprocess.Popen([*exe(py, "flower-supernode"), *node_sec,
@@ -94,10 +98,12 @@ def main() -> int:
                                            f"partition-id={i} num-partitions={a.n_clients} data-dir='{Path(a.data_dir).as_posix()}'"],
                                           stdout=fh, stderr=subprocess.STDOUT, env=env, cwd=ROOT))
         time.sleep(a.startup_wait)
+        # if anything died during startup, stop now instead of waiting for a run that can't finish
         dead = [p.args[0] for p in procs if p.poll() is not None]
         if dead:
             raise SystemExit(f"processes exited during startup: {dead}; see {logs}")
         print(f"started 1 SuperLink + {a.n_clients} SuperNodes (pids {[p.pid for p in procs]}); logs in {logs}", flush=True)
+        # 3) submit the app: this runs server_app.py's main() for all the rounds
         cmd = [*exe(py, "flwr"), "run", str(APP), "local-deployment", "--stream"]
         rcfg = (f"server-data-dir='{Path(a.data_dir).as_posix()}' n-clients={a.n_clients} "
                 f"out-dir='{(ROOT / 'artifacts' / 'runs').as_posix()}' " + a.run_config).strip()
@@ -109,6 +115,7 @@ def main() -> int:
         print("metrics.json written" if ok else "metrics.json NOT written - check flwr_run.log / superlink.log")
         return 0 if (rc == 0 and ok) else 1
     finally:
+        # always shut every process down, even on errors
         for p in procs:
             p.terminate()
         for p in procs:

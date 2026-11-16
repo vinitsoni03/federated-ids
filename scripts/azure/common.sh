@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Shared settings for the Azure scripts (sourced, not executed).
 export MSYS_NO_PATHCONV=1   # Git Bash: keep /home/... and /subscriptions/... arguments as they are
+# every value can be overridden from the environment, e.g. SERVER_IP=... bash deploy.sh
 RG=${RG:-fids-rg}
 KEYDIR=${KEYDIR:-D:/federated-ids-work/azure}
 TLS=${TLS:-$KEYDIR/tls}
@@ -13,6 +14,7 @@ SERVER_PRIV=10.20.1.4
 SSH_OPTS=(-i "$KEYDIR/id_ed25519" -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$KEYDIR/known_hosts"
           -o ServerAliveInterval=30)
 
+# look up the VMs' public IPs with az (skipped when SERVER_IP / CLIENTS_IP are already set)
 server_ip()  { az vm show -d -g "$RG" -n fids-server  --query publicIps -o tsv; }
 clients_ip() { az vm show -d -g "$RG" -n fids-clients --query publicIps -o tsv; }
 # SSH runs on port 443: the operator's network blocks ~50 % of outbound port-22 connections
@@ -21,6 +23,7 @@ clients_ip() { az vm show -d -g "$RG" -n fids-clients --query publicIps -o tsv; 
 SSH_PORT=${SSH_PORT:-443}
 SERVER_IP=${SERVER_IP:-$(server_ip)}
 CLIENTS_IP=${CLIENTS_IP:-$(clients_ip)}
+# run a command on a VM over SSH with our own key
 on_server()  { ssh -p "$SSH_PORT" "${SSH_OPTS[@]}" "$ADMIN@$SERVER_IP" "$@"; }
 on_clients() { ssh -p "$SSH_PORT" "${SSH_OPTS[@]}" "$ADMIN@$CLIENTS_IP" "$@"; }
 scp_any()    { scp -P "$SSH_PORT" "${SSH_OPTS[@]}" "$@"; }   # targets: $ADMIN@$SERVER_IP:path / $ADMIN@$CLIENTS_IP:path

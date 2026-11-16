@@ -33,6 +33,7 @@ ALL_FEATURES = ["Header_Length", "Protocol Type", "Time_To_Live", "Rate", "fin_f
                 "IRC", "TCP", "UDP", "DHCP", "ARP", "ICMP", "IGMP", "IPv", "LLC", "Tot sum", "Min", "Max", "AVG",
                 "Std", "Tot size", "IAT", "Number", "Variance"]
 
+# no payload inspection, the app type is guessed from the port number only (like the dataset does)
 PORTS = {"HTTP": {80}, "HTTPS": {443}, "DNS": {53}, "Telnet": {23}, "SMTP": {25}, "SSH": {22},
          "IRC": {194, 6660, 6661, 6662, 6663, 6664, 6665, 6666, 6667, 6668, 6669}, "DHCP": {67, 68}}
 FLAGS = {"fin": FIN, "syn": SYN, "rst": RST, "psh": PSH, "ack": ACK, "ece": ECE, "cwr": CWR}
@@ -44,10 +45,12 @@ def gaps(packets: list[Packet]) -> np.ndarray:
     return np.concatenate([[np.nan], np.diff(ts)]) if len(ts) else ts
 
 
+# turn 10 packets into one row of the same 39 features the CICIoT2023 CSVs have
 def window_row(packets: list[Packet], gap: np.ndarray) -> dict[str, float]:
     n = len(packets)
     tcp = [p for p in packets if p.is_ip and p.proto == 6]
     lengths = np.array([p.length for p in packets], dtype=np.float64)
+    # most common protocol number in the window; ARP has no IP protocol so it counts as 0
     protos = Counter(0 if p.is_arp else p.proto for p in packets)
     top = max(protos.values())
     row: dict[str, float] = {
@@ -55,9 +58,11 @@ def window_row(packets: list[Packet], gap: np.ndarray) -> dict[str, float]:
         "Protocol Type": float(min(k for k, v in protos.items() if v == top)),
         "Time_To_Live": float(np.mean([p.ttl for p in packets])),
     }
+    # the first packet of the capture has no gap before it, skip that NaN
     g = gap[~np.isnan(gap)]
     with np.errstate(divide="ignore"):
         row["Rate"] = float(np.mean(1.0 / g)) if len(g) else float("nan")
+    # *_flag_number = share of packets with that flag, *_count = how many
     for name, bit in FLAGS.items():
         row[f"{name}_flag_number"] = sum(bool(p.tcp_flags & bit) for p in tcp) / n
     for name in ("ack", "syn", "fin", "rst"):
@@ -71,6 +76,7 @@ def window_row(packets: list[Packet], gap: np.ndarray) -> dict[str, float]:
     row["ICMP"] = sum(p.is_ip and p.proto in (1, 58) for p in packets) / n
     row["IGMP"] = sum(p.is_ip and p.proto == 2 for p in packets) / n
     row["IPv"] = row["LLC"] = sum(p.is_ip for p in packets) / n
+    # ddof=1 (sample std) is what matched the dataset when we checked it
     std = float(np.std(lengths, ddof=1)) if n > 1 else 0.0
     row.update({"Tot sum": float(lengths.sum()), "Min": float(lengths.min()), "Max": float(lengths.max()),
                 "AVG": float(lengths.mean()), "Std": std, "Tot size": float(lengths.mean()),
@@ -83,6 +89,7 @@ def windows(packets: list[Packet], size: int = 10) -> tuple[np.ndarray, np.ndarr
     start time. A trailing partial window is dropped."""
     gap = gaps(packets)
     rows, starts = [], []
+    # windows don't overlap: packets 0-9, 10-19, ...
     for i in range(0, len(packets) - size + 1, size):
         rows.append(list(window_row(packets[i:i + size], gap[i:i + size]).values()))
         starts.append(packets[i].ts)

@@ -8,11 +8,14 @@ cd "$(dirname "$0")/../.."
 source scripts/azure/common.sh
 STAGE="$KEYDIR/stage"
 rm -rf "$STAGE" && mkdir -p "$STAGE/server/data" "$STAGE/clients/data"
+# pack only the code the VMs need
 tar --force-local -czf "$STAGE/code.tgz" --exclude='__pycache__' --exclude='*.egg-info' pyproject.toml src flower_app serving
 cp "$STAGE/code.tgz" "$STAGE/server/"; cp "$STAGE/code.tgz" "$STAGE/clients/"
 cp "$DATA/server_eval.npz" "$DATA/manifest.json" "$DATA/preprocessor.json" "$STAGE/server/data/"
+# the client VM gets only the partitions it runs (0-4), the laptop keeps 5-9
 for i in $AZURE_CLIENTS; do cp "$DATA/client_$i.npz" "$STAGE/clients/data/"; done
 cp "$DATA/manifest.json" "$STAGE/clients/data/"
+# the server gets its certificate and key, the client VM only the CA to check the server
 cp "$TLS/ca.crt" "$TLS/server.pem" "$TLS/server.key" "$STAGE/server/"
 cp "$TLS/ca.crt" "$STAGE/clients/"
 for r in server clients; do cp scripts/azure/vm_setup.sh scripts/azure/self_deallocate.sh "$STAGE/$r/"; done
@@ -25,6 +28,7 @@ on_clients "mkdir -p ~/fids/tls"
 scp_any -r "$STAGE/clients/code.tgz" "$STAGE/clients/vm_setup.sh" "$STAGE/clients/self_deallocate.sh" "$STAGE/clients/data" "$ADMIN@$CLIENTS_IP:fids/"
 scp_any "$STAGE/clients/ca.crt" "$ADMIN@$CLIENTS_IP:fids/tls/"
 
+# install on both VMs at the same time
 on_server "bash ~/fids/vm_setup.sh server" & P1=$!
 on_clients "bash ~/fids/vm_setup.sh clients" & P2=$!
 wait $P1; wait $P2

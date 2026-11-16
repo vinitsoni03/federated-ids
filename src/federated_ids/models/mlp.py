@@ -7,6 +7,8 @@ import torch
 from torch import nn
 
 
+# plain feed-forward net: Linear -> ReLU -> Dropout for each hidden size, then one output per class
+# v1 uses hidden (128, 64), v2 uses (256, 128)
 class MLP(nn.Module):
     def __init__(self, n_in: int, n_out: int, hidden: list[int] = (128, 64), dropout: float = 0.1):
         super().__init__()
@@ -17,10 +19,12 @@ class MLP(nn.Module):
         layers.append(nn.Linear(d, n_out))
         self.net = nn.Sequential(*layers)
 
+    # returns raw scores (logits); softmax is done in predict_proba / inside the loss
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.net(x)
 
 
+# fix every random generator so a run can be repeated exactly
 def set_seed(seed: int) -> None:
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -39,6 +43,7 @@ def resolve_device(name: str = "auto") -> torch.device:
     if dev.type == "cuda":
         if not torch.cuda.is_available():
             raise RuntimeError("device 'cuda' requested but torch.cuda.is_available() is False")
+        # needed for repeatable results on the GPU
         os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
         torch.use_deterministic_algorithms(True, warn_only=True)
     return dev
@@ -53,6 +58,8 @@ def as_tensor(X, device: torch.device, dtype=torch.float32) -> torch.Tensor:
 def class_weights(y: np.ndarray, n_classes: int, scheme: str = "sqrt_inverse") -> np.ndarray:
     """Loss weights from label counts; absent classes get weight 0. Mean weight over present
     classes is normalised to 1."""
+    # rare classes get a bigger weight so the loss doesn't just learn DDoS.
+    # sqrt_inverse is the softer version of 1/count, plain inverse over-boosts tiny classes
     counts = np.bincount(y, minlength=n_classes).astype(np.float64)
     w = np.zeros(n_classes)
     present = counts > 0
@@ -68,6 +75,7 @@ def class_weights(y: np.ndarray, n_classes: int, scheme: str = "sqrt_inverse") -
     return w
 
 
+# all weights as one long vector, used by the poisoning attacks and the robust aggregators
 def flat_params(model: nn.Module) -> torch.Tensor:
     return torch.cat([p.detach().reshape(-1) for p in model.parameters()]).clone()
 
@@ -90,22 +98,26 @@ def train_epochs(model: nn.Module, X, y, weights: np.ndarray, epochs: int,
     label_map optionally relabels y (used by label-flip poisoning). Shuffles are drawn on the
     CPU from `seed`, so the batch order is identical on CPU and GPU."""
     dev = next(model.parameters()).device
+    # shuffle order comes from our own seeded generator, not the global one
     g = torch.Generator().manual_seed(seed)
     Xt = as_tensor(X, dev)
     y_np = y.cpu().numpy() if isinstance(y, torch.Tensor) else np.asarray(y)
     yt = torch.as_tensor((label_map[y_np] if label_map is not None else y_np).astype(np.int64), device=dev)
+    # cross-entropy with the class weights from above
     crit = nn.CrossEntropyLoss(weight=torch.tensor(weights, dtype=torch.float32, device=dev))
     opt = (torch.optim.Adam(model.parameters(), lr=lr) if optimizer == "adam"
            else torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9))
     model.train()
     last = 0.0
     for _ in range(epochs):
+        # new random batch order every epoch
         perm = torch.randperm(len(yt), generator=g).to(dev)
         tot, nb = torch.zeros((), device=dev), 0
         for s in range(0, len(perm), batch_size):
             b = perm[s:s + batch_size]
             opt.zero_grad()
             loss = crit(model(Xt[b]), yt[b])
+            # FedProx: extra penalty for drifting far from the global model, helps when clients' data differ a lot
             if prox_mu > 0 and global_params is not None:
                 loss = loss + 0.5 * prox_mu * torch.sum((torch.cat([p.reshape(-1) for p in model.parameters()])
                                                          - global_params) ** 2)
@@ -117,6 +129,7 @@ def train_epochs(model: nn.Module, X, y, weights: np.ndarray, epochs: int,
     return last
 
 
+# inference only: no gradients, eval mode, big batches so it's fast
 @torch.no_grad()
 def predict_proba(model: nn.Module, X, batch_size: int = 65536) -> np.ndarray:
     model.eval()

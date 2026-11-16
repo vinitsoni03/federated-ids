@@ -13,12 +13,14 @@ from federated_ids.config import REPO_ROOT
 from federated_ids.evaluation.metrics import classification_metrics
 
 
+# every run gets its own folder under artifacts/runs/ with config, metrics and model
 def run_dir(name: str) -> Path:
     d = REPO_ROOT / "artifacts" / "runs" / name
     d.mkdir(parents=True, exist_ok=True)
     return d
 
 
+# save library versions and hardware with each run, so results can be traced back
 def environment() -> dict:
     import psutil
     import sklearn
@@ -33,6 +35,7 @@ def environment() -> dict:
             "cuda_runtime": torch.version.cuda, "numpy": np.__version__, "sklearn": sklearn.__version__}
 
 
+# peak memory used (peak_wset exists on Windows only)
 def peak_rss_mb() -> float:
     import psutil
 
@@ -44,6 +47,7 @@ def write_json(path: Path, obj) -> None:
     path.write_text(json.dumps(obj, indent=2, default=float), encoding="utf-8")
 
 
+# score val and test, time the inference, plus the "unseen" test subset as a leakage check
 def evaluate_bundle(predict_proba, data: dict, class_names: list[str], benign: int) -> dict:
     """data: {"val": SplitData, "test": SplitData}; predict_proba takes PREPROCESSED X."""
     out = {}

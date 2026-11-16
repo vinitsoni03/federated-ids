@@ -27,6 +27,7 @@ from pathlib import Path, PurePosixPath
 BLOCK = 1 << 20
 
 
+# a downloaded archive could contain "../../something", refuse those paths
 def _safe_relpath(name: str) -> PurePosixPath:
     p = PurePosixPath(name)
     if p.is_absolute() or ".." in p.parts:
@@ -53,6 +54,7 @@ def verify_tar(tar_path: Path, dest: Path | None, skip_extract: list[str]) -> di
     extracted: list[str] = []
     manifest_text = None
     bag_root = None
+    # 6.5 GB tar, read it once from start to end: hash every file and copy it out in the same pass
     with tarfile.open(tar_path, mode="r|") as tf:  # stream mode: sequential, low memory
         for m in tf:
             rel = _safe_relpath(m.name)
@@ -70,6 +72,7 @@ def verify_tar(tar_path: Path, dest: Path | None, skip_extract: list[str]) -> di
                 out_path.parent.mkdir(parents=True, exist_ok=True)
                 out_fh = open(out_path, "wb")
             try:
+                # keep the manifest file's text, it holds the expected MD5 of every other file
                 buf = b"" if inner == "manifest-md5.txt" else None
                 while chunk := fh.read(BLOCK):
                     md5.update(chunk)
@@ -90,6 +93,7 @@ def verify_tar(tar_path: Path, dest: Path | None, skip_extract: list[str]) -> di
         raise ValueError("manifest-md5.txt not found in bag")
     manifest = read_manifest(manifest_text)
     results = []
+    # compare our MD5 with the one the publisher listed, any mismatch = corrupt download
     for path, expected in sorted(manifest.items()):
         got = hashes.get(path)
         results.append({"path": path, "bytes": sizes.get(path), "md5_expected": expected,
@@ -107,6 +111,7 @@ def unzip_safely(zip_path: Path, out_dir: Path) -> dict:
     """Extract one zip into out_dir, verifying each member's CRC; refuses unsafe paths."""
     members = []
     with zipfile.ZipFile(zip_path) as zf:
+        # testzip returns the first broken member, or None if all CRCs match
         bad = zf.testzip()  # CRC check of every member
         for info in zf.infolist():
             _safe_relpath(info.filename)

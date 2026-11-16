@@ -44,8 +44,10 @@ class Packet:
 
 
 # ------------------------------------------------------------------------------------- readers
+# classic .pcap: 24-byte file header, then 16-byte header + bytes for each packet
 def _read_pcap(f: BinaryIO, head: bytes) -> Iterator[Frame]:
     magic = head[:4]
+    # the magic number tells the byte order and whether timestamps are micro- or nanoseconds
     endian = {b"\xd4\xc3\xb2\xa1": "<", b"\xa1\xb2\xc3\xd4": ">", b"\x4d\x3c\xb2\xa1": "<",
               b"\xa1\xb2\x3c\x4d": ">"}[magic]
     nano = magic in (b"\x4d\x3c\xb2\xa1", b"\xa1\xb2\x3c\x4d")
@@ -63,6 +65,7 @@ def _read_pcap(f: BinaryIO, head: bytes) -> Iterator[Frame]:
         yield Frame(sec + frac / div, orig, linktype, data)
 
 
+# .pcapng (Wireshark's default) is a list of blocks; we only need interface and packet blocks
 def _read_pcapng(f: BinaryIO, head: bytes) -> Iterator[Frame]:
     endian = "<"
     interfaces: list[tuple[int, float]] = []  # (linktype, seconds per timestamp unit)
@@ -96,6 +99,7 @@ def _read_pcapng(f: BinaryIO, head: bytes) -> Iterator[Frame]:
         block = f.read(8)
 
 
+# how long one timestamp tick is for this interface (usually 1 microsecond)
 def _tsresol(options: bytes, endian: str) -> float:
     """if_tsresol option (code 9); default is microseconds."""
     i = 0
@@ -110,6 +114,7 @@ def _tsresol(options: bytes, endian: str) -> float:
     return 1e-6
 
 
+# look at the first 4 bytes to see which format it is
 def read_frames(path: str | Path) -> Iterator[Frame]:
     """Yield every captured frame of a pcap or pcapng file, in file order."""
     with open(path, "rb") as f:
@@ -126,6 +131,7 @@ def read_frames(path: str | Path) -> Iterator[Frame]:
 _IPV6_EXT = {0, 43, 60, 51}  # hop-by-hop, routing, destination options, AH (fragment 44 handled apart)
 
 
+# read just the header fields we need from the raw bytes; nothing of the payload, no addresses
 def parse(frame: Frame) -> Packet | None:
     """Header fields of one frame, or None for frames that are neither IP nor ARP (e.g. EAPOL, LLDP)."""
     d, length = frame.data, max(frame.wire_len, MIN_FRAME)
@@ -133,6 +139,7 @@ def parse(frame: Frame) -> Packet | None:
         if len(d) < 14:
             return None
         etype, off = struct.unpack("!H", d[12:14])[0], 14
+        # skip VLAN tags if there are any
         while etype in (0x8100, 0x88A8) and len(d) >= off + 4:  # VLAN tags
             etype, off = struct.unpack("!H", d[off + 2:off + 4])[0], off + 4
     elif frame.linktype in (RAW_IP, RAW_IPV4, RAW_IPV6):
@@ -145,11 +152,13 @@ def parse(frame: Frame) -> Packet | None:
 
     if etype == 0x0806:
         return Packet(frame.ts, length, True, False, 0, 0, 0, 0, 0, 0)
+    # IPv4: TTL and protocol sit at fixed positions; fragments after the first have no TCP/UDP header
     if etype == 0x0800 and len(d) >= off + 20:
         ihl = (d[off] & 0x0F) * 4
         ttl, proto = d[off + 8], d[off + 9]
         frag_offset = struct.unpack("!H", d[off + 6:off + 8])[0] & 0x1FFF
         l4 = off + ihl if frag_offset == 0 else None
+    # IPv6: walk past any extension headers to reach TCP/UDP
     elif etype == 0x86DD and len(d) >= off + 40:
         proto, ttl, l4 = d[off + 6], d[off + 7], off + 40
         while proto in _IPV6_EXT | {44} and l4 is not None and len(d) >= l4 + 8:
@@ -164,6 +173,7 @@ def parse(frame: Frame) -> Packet | None:
 
     header_len = flags = sport = dport = 0
     if l4 is not None:
+        # TCP: ports, header length and flags. UDP: ports only, header is always 8 bytes
         if proto == 6 and len(d) >= l4 + 14:
             sport, dport = struct.unpack("!HH", d[l4:l4 + 4])
             header_len, flags = (d[l4 + 12] >> 4) * 4, d[l4 + 13]

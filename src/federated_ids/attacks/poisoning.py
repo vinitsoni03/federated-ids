@@ -38,6 +38,7 @@ class PoisonConfig:
     seed: int = 0
 
 
+# pick which clients are the attackers, same ones every round and every rerun
 def choose_malicious(n_clients: int, fraction: float, seed: int) -> list[int]:
     m = int(round(fraction * n_clients))
     if m == 0:
@@ -45,6 +46,7 @@ def choose_malicious(n_clients: int, fraction: float, seed: int) -> list[int]:
     return sorted(np.random.default_rng(seed + 7919).choice(n_clients, size=m, replace=False).tolist())
 
 
+# label-flip: the attacker's own data says e.g. "all Mirai is Benign"
 def relabel_families(y: np.ndarray, families: np.ndarray, targets: list[str], benign: int) -> np.ndarray:
     """Copy of y with every row whose attack family is in `targets` set to the Benign label."""
     out = np.array(y, copy=True)
@@ -54,8 +56,10 @@ def relabel_families(y: np.ndarray, families: np.ndarray, targets: list[str], be
 
 def poison_update(cfg: PoisonConfig, delta: torch.Tensor, n_clients: int, n_malicious: int) -> torch.Tensor:
     """Transform the malicious client's locally trained delta into the submitted update."""
+    # push the model the opposite way, scaled up so it outweighs the honest clients
     if cfg.kind == "sign_flip":
         return -cfg.scale * delta
+    # scale up so the bad update survives being averaged with K honest ones (default boost = K / m)
     if cfg.kind == "label_flip_boost":
         boost = cfg.boost if cfg.boost is not None else n_clients / max(n_malicious, 1)
         return boost * delta

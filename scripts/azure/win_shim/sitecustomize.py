@@ -18,6 +18,7 @@ _ENTRY = {
 _Popen = subprocess.Popen
 
 
+# same Popen, but if the program is one of the blocked Flower launchers, run it via python -c instead
 class _EntryPointPopen(_Popen):
     def __init__(self, args, *a, **kw):
         if isinstance(args, (list, tuple)) and args and args[0] in _ENTRY:

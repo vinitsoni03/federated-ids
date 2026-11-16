@@ -10,6 +10,7 @@ import numpy as np
 from federated_ids.config import REPO_ROOT, data_config
 from federated_ids.data.ciciot import CATEGORIES, CLASS34, FEATURES
 
+# category = 8 classes (main task), class34 = every attack type, binary = attack or not
 TASKS = ("category", "class34", "binary")
 
 
@@ -17,6 +18,7 @@ TASKS = ("category", "class34", "binary")
 class SplitData:
     X: np.ndarray            # raw features restricted to the chosen feature set (float64)
     y: np.ndarray            # labels for the task (int64)
+    # extra columns kept for analysis: which file/row it came from, and whether the same row also sits in train
     y34: np.ndarray
     file_id: np.ndarray
     row: np.ndarray
@@ -28,6 +30,7 @@ def task_labels(task: str) -> list[str]:
     return {"category": CATEGORIES, "class34": CLASS34, "binary": ["Benign", "Attack"]}[task]
 
 
+# the split files store both 34-class and 8-class labels, pick the one the task needs
 def labels_for(task: str, y34: np.ndarray, y8: np.ndarray) -> np.ndarray:
     if task == "category":
         return y8.astype(np.int64)
@@ -46,6 +49,7 @@ def feature_indices(features: list[str]) -> list[int]:
     return [FEATURES.index(f) for f in features]
 
 
+# load train/val/test from the fixed split, keeping only the chosen feature columns
 def load_split(split: str, features: list[str], task: str, cfg: dict | None = None) -> SplitData:
     cfg = cfg or data_config()
     d = np.load(Path(cfg["work_dir"]) / "splits" / cfg["split"]["name"] / f"{split}.npz")

@@ -35,6 +35,7 @@ TABLES = ROOT / "reports" / "tables"
 TIMING = [ALL_FEATURES.index("Rate"), ALL_FEATURES.index("IAT")]
 
 
+# share of windows that raise an alarm; on known-normal traffic that's the false-alarm rate
 def alarm(det: Detector, X: np.ndarray, model: str, rule: str) -> float:
     if not len(X):
         return float("nan")
@@ -43,8 +44,10 @@ def alarm(det: Detector, X: np.ndarray, model: str, rule: str) -> float:
 
 def capture_rows(det: Detector, name: str, df: pd.DataFrame) -> list[dict]:
     X = df[ALL_FEATURES].to_numpy(np.float64)
+    # split by window type to see where the false alarms come from
     tcp, udp = (df.TCP >= 0.5).to_numpy(), (df.UDP >= 0.5).to_numpy()
     Xt = X.copy()
+    # test: blank out the timing features; if alarms drop a lot, timing is what confuses the model
     Xt[:, TIMING] = np.nan  # -> imputed with the training median by the preprocessor
     rows = []
     for model in det.models:
@@ -63,6 +66,7 @@ def capture_rows(det: Detector, name: str, df: pd.DataFrame) -> list[dict]:
 
 def recalibration(det: Detector, df: pd.DataFrame) -> list[dict]:
     X = df[ALL_FEATURES].to_numpy(np.float64)
+    # fit a 1 % threshold on the first half of the capture, test it on the second half
     half = len(X) // 2
     test = np.load(work_dir(data_config(ROOT / "configs" / "data.yaml")) / "splits" / "ciciot_v1" / "test.npz")
     Xtest, y8 = test["X"], test["y8"]
@@ -73,6 +77,7 @@ def recalibration(det: Detector, df: pd.DataFrame) -> list[dict]:
         s_test = det.verdicts(Xtest)[model]["score"]
         t_val = det.meta["models"][model]["thresholds"]["fpr1"]
         t_loc = threshold_for_fpr(s_live[:half], np.ones(half, bool), 0.01)
+        # compare the original threshold with the local one, also on CICIoT2023 test to see what detection it costs
         for label, t in (("validation 1 % FPR (CICIoT2023)", t_val), ("local 1 % FPR (first half of capture)", t_loc)):
             rows.append({"model": model, "threshold": label, "one_minus_t": f"{1 - t:.1e}",
                          "local_fpr_second_half": round(float((s_live[half:] > t).mean()), 4),

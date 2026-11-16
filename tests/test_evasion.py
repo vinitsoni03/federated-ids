@@ -1,3 +1,4 @@
+# evasion attack: the disguise only touches allowed features, stays under the MTU, and evade() picks the cheapest option
 import numpy as np
 
 from federated_ids.attacks.evasion import MTU, apply_perturbation, check_constraints, evade

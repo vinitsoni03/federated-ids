@@ -154,6 +154,7 @@ FOOTER = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
           '<w:r><w:fldChar w:fldCharType="end"/></w:r></w:p></w:ftr>')
 
 
+# pandoc copies its fonts and spacing from a "reference" Word file, so we write one with our styles
 def make_reference_docx(out: Path) -> None:
     """Pandoc's default reference.docx with the report styles, A4 page and page numbers."""
     raw = subprocess.run([PANDOC, "--print-default-data-file", "reference.docx"],
@@ -241,6 +242,7 @@ div[data-custom-style="Cover"] p { text-align: center; margin: 0 0 8pt; }
 """
 
 
+# one markdown file -> .docx with pandoc, and -> HTML -> PDF through headless Chrome
 def build(md: Path, ref_docx: Path, tmp: Path) -> None:
     filt = tmp / "deliverables.lua"
     filt.write_text(FILTER, encoding="utf8")

@@ -42,6 +42,7 @@ def main() -> int:
     cfg = json.loads((v2dir / "config.json").read_text(encoding="utf-8"))
     features, names, benign = cfg["features"], task_labels(TASK), benign_index(TASK)
 
+    # thresholds come from the existing runs, nothing is recalculated here
     th_frozen = json.loads((v2dir / "thresholds.json").read_text(encoding="utf-8"))["v2_mlp_s0"]
     th_hard = json.loads((wp5dir / "eval_mlp_s0_r2.json").read_text(encoding="utf-8"))["thresholds"]
     shutil.copy(v2dir / "mlp_seed0.pt", out / "frozen.pt")
@@ -50,10 +51,12 @@ def main() -> int:
 
     tr = load_split("train", features, TASK)
     te = load_split("test", features, TASK)
+    # the attacker's TTL choices, same as in WP5
     ttl_col = features.index("Time_To_Live")
     ttl_choices = [None] + [float(np.nanquantile(tr.X[tr.y == benign, ttl_col], q)) for q in (0.1, 0.5, 0.9)]
     del tr
 
+    # 40 windows per class: attack ones from the fixed WP5 test sample, benign ones picked at random from test
     rng = np.random.default_rng(0)
     test_idx = np.load(wp5dir / "test_sample_idx.npy")
     fam = family_of_class34(te.y34)
@@ -65,6 +68,7 @@ def main() -> int:
     windows = [{"id": int(i), "family": names[int(te.y[i])], "attack": CLASS34[int(te.y34[i])],
                 "x": [None if np.isnan(v) else float(v) for v in te.X[i]]} for i in idx]
 
+    # the real Flower run (Azure VM + laptop), replayed in the Federated tab
     with open(RUNS / "flower_azure_hybrid_category_iid_s0" / "history.csv", encoding="utf-8") as fh:
         fl_hist = [{k: float(v) for k, v in r.items()} for r in csv.DictReader(fh)]
     fl_metrics = json.loads((RUNS / "flower_azure_hybrid_category_iid_s0" / "metrics.json").read_text(encoding="utf-8"))

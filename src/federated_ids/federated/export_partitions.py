@@ -43,22 +43,26 @@ def sha256(p: Path) -> str:
 
 
 def export(task: str, partition: str, alpha: float | None, n_clients: int, seed: int, out: Path) -> dict:
+    # same preprocessing and partition call as the simulator, so client i gets the exact same rows
     features, pre, data = prepare({"task": task, "feature_set": FEATURE_SET}, data_config())
     ytr = data["train"]["y"]
     parts = make_partition(partition, ytr, n_clients, seed, alpha if partition == "dirichlet" else None, 100)
     out.mkdir(parents=True, exist_ok=True)
     K = len(task_labels(task))
     files = {}
+    # one small file per client, this is what gets copied to the laptop / VM
     for i, idx in enumerate(parts):
         p = out / f"client_{i}.npz"
         np.savez_compressed(p, X=data["train"]["Xp"][idx].astype(np.float32), y=ytr[idx].astype(np.int64))
         files[p.name] = {"rows": int(len(idx)), "label_histogram": np.bincount(ytr[idx], minlength=K).tolist()}
+    # the server only gets val and test, never any client's training rows
     p = out / "server_eval.npz"
     np.savez_compressed(p, Xval=data["val"]["Xp"].astype(np.float32), yval=data["val"]["y"],
                         Xtest=data["test"]["Xp"].astype(np.float32), ytest=data["test"]["y"],
                         seen_test=data["test"]["seen"], y34_test=data["test"]["y34"])
     files[p.name] = {"val_rows": int(len(data["val"]["y"])), "test_rows": int(len(data["test"]["y"]))}
     pre.to_json(out / "preprocessor.json")
+    # checksums so we can confirm the files arrived on the other machine unchanged
     for name in list(files) + ["preprocessor.json"]:
         files.setdefault(name, {})["sha256"] = sha256(out / name)
     manifest = {"created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),

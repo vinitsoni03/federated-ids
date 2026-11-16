@@ -6,15 +6,19 @@ PY=${PY:-D:/federated-ids-work/venv-cuda/Scripts/python.exe}
 LOG=${LOG:-D:/federated-ids-work/tmp/phase2}
 mkdir -p "$LOG"
 export PYTHONIOENCODING=utf-8
+# centralized baselines for each task
 for task in category class34 binary; do
   "$PY" -m federated_ids.experiments.centralized --task "$task" --device cuda > "$LOG/central_$task.log" 2>&1
   echo "central_$task=$?"
 done
+# same model with all 39 features, to show what the 6 window-size columns do
 "$PY" -m federated_ids.experiments.centralized --task category --feature-set all39 --seeds 0 --device cuda > "$LOG/central_all39.log" 2>&1
 echo "central_all39=$?"
+# evasion attack against each baseline
 for task in category class34 binary; do
   "$PY" -m federated_ids.experiments.evasion_exp --baseline-run "centralized_${task}_window_invariant" > "$LOG/evasion_$task.log" 2>&1
   echo "evasion_$task=$?"
 done
+# all the federated and poisoning runs
 "$PY" scripts/run_fl_grid.py --tasks category class34 binary m5 m5_mu m6 m6_frac m6_seeds > "$LOG/fl_grid.log" 2>&1
 echo "fl_grid=$?"

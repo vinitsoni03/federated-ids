@@ -20,6 +20,7 @@ from pathlib import Path
 import numpy as np
 
 
+# small HTTPS helper; returns the status code even on 401/422 so we can check them
 def call(url: str, ctx, key: str | None, payload: dict | None = None):
     data = None if payload is None else json.dumps(payload).encode()
     req = urllib.request.Request(url, data=data, method="POST" if data else "GET",
@@ -45,15 +46,18 @@ def main() -> int:
     from serving.bundle import Bundle
 
     key = Path(a.api_key_file).read_text().strip()
+    # trust only our own CA, so a wrong server certificate fails the test
     ctx = ssl.create_default_context(cafile=a.ca)
     st, h = call(a.url + "/health", ctx, None)
     print("health:", st, h)
+    # without the key the endpoint must refuse (401)
     st_noauth, _ = call(a.url + "/predict", ctx, None, {"rows": [{}]})
     print("predict without key ->", st_noauth, "(expected 401)")
 
     b = Bundle(Path(a.bundle))
     te = load_split("test", b.features, b.meta["task"])
     rng = np.random.default_rng(0)
+    # same number of windows from each class
     per = max(1, a.n // len(b.classes))
     idx = np.concatenate([rng.choice(np.flatnonzero(te.y == k), min(per, int((te.y == k).sum())), replace=False)
                           for k in range(len(b.classes)) if (te.y == k).any()])
@@ -62,6 +66,7 @@ def main() -> int:
     st, out = call(a.url + "/predict", ctx, key, {"rows": rows})
     print("predict with key ->", st)
     served = np.array([b.classes.index(p["label"]) for p in out["predictions"]])
+    # the endpoint must give exactly what the model gives locally, row for row
     offline = b.predict(X).argmax(1)
     agree = float((served == offline).mean())
     y = te.y[idx]

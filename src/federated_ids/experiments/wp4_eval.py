@@ -30,10 +30,12 @@ from federated_ids.experiments.wp3_detectors import TARGETS, load_mlp
 from federated_ids.models.mlp import predict_proba, resolve_device
 
 RUNS = REPO_ROOT / "artifacts" / "runs"
+# run folder names look like fl_category_v2_dir0.1_fedavg_s0; this pulls task/arch/partition/seed out of them
 NAME = re.compile(r"^fl_(?P<task>category|class34|binary)_(?P<v2>v2_)?(?P<part>iid|dir1\.0|dir0\.1)_fedavg"
                   r"(?:_(?P<variant>part0\.5|c20|le2))?_s(?P<seed>\d+)$")
 
 
+# first round where val macro-F1 reaches the target, and how many MB had been sent by then
 def rounds_to(history: list[dict], target: float):
     for h in history:
         if float(h["val_macro_f1"]) >= target:
@@ -52,6 +54,7 @@ def main(argv: list[str] | None = None) -> int:
     for task in a.tasks:
         names, benign = task_labels(task), benign_index(task)
         v2cfg = json.loads((RUNS / "centralized_v2" / task / "config.json").read_text(encoding="utf-8"))
+        # "converged" = 95 % of what the centralized v2 model gets on val
         target = 0.95 * v2cfg["mlp_val_macro_f1_mean"]
         runs = sorted(d for d in RUNS.iterdir() if (m := NAME.match(d.name)) and m["task"] == task
                       and (d / "metrics.json").exists())
@@ -62,6 +65,7 @@ def main(argv: list[str] | None = None) -> int:
         for d in runs:
             m = NAME.match(d.name)
             cfg = json.loads((d / "config.json").read_text(encoding="utf-8"))["experiment"]
+            # only clean FedAvg runs here; poisoning runs are analysed separately
             if cfg["poison"].get("kind", "none") != "none" or cfg["federated"]["aggregator"] != "fedavg":
                 continue
             if json.loads((d / "preprocessor.json").read_text(encoding="utf-8")) != json.loads(json.dumps(asdict(pre))):
@@ -69,6 +73,7 @@ def main(argv: list[str] | None = None) -> int:
             model = load_mlp(d / "global_model.pt", va["Xp"].shape[1], len(names), cfg["model"]["hidden"],
                              cfg["model"]["dropout"], device)
             pv, pt = predict_proba(model, va["Xp"]), predict_proba(model, te["Xp"])
+            # same recipe as centralized: thresholds from val, then applied to test
             th = {r["operating_point"]: r["threshold"] for r in operating_points(pv, va["y"], names, benign, TARGETS)
                   if r["threshold"] is not None}
             met = json.loads((d / "metrics.json").read_text(encoding="utf-8"))

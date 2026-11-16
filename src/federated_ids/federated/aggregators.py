@@ -14,15 +14,18 @@ from __future__ import annotations
 import torch
 
 
+# normal FedAvg: average of the updates, a client with more data counts more
 def fedavg(updates: torch.Tensor, weights: torch.Tensor) -> torch.Tensor:
     w = weights / weights.sum()
     return (updates * w[:, None]).sum(0)
 
 
+# per weight, take the middle value across clients, a few crazy updates can't move it
 def median(updates: torch.Tensor, weights: torch.Tensor | None = None) -> torch.Tensor:
     return updates.median(dim=0).values if updates.shape[0] % 2 else updates.quantile(0.5, dim=0)
 
 
+# per weight, drop the top and bottom beta share, then average what's left
 def trimmed_mean(updates: torch.Tensor, weights: torch.Tensor | None = None, beta: float = 0.2) -> torch.Tensor:
     n = updates.shape[0]
     k = int(beta * n)
@@ -32,6 +35,7 @@ def trimmed_mean(updates: torch.Tensor, weights: torch.Tensor | None = None, bet
     return s[k:n - k].mean(0)
 
 
+# shrink any update that's longer than the median one, then plain FedAvg
 def norm_clip(updates: torch.Tensor, weights: torch.Tensor, max_norm: float | None = None) -> torch.Tensor:
     norms = updates.norm(dim=1)
     bound = norms.median() if max_norm is None else torch.tensor(max_norm, device=updates.device)

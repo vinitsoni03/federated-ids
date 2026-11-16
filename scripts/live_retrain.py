@@ -43,6 +43,7 @@ V2 = ROOT / "artifacts" / "runs" / "centralized_v2" / "category"
 TARGETS = (0.05, 0.01)
 
 
+# training takes a while; stop the laptop from going to sleep halfway
 def keep_awake(on: bool) -> None:
     """Ask Windows not to sleep while this process runs (no power-setting change)."""
     if sys.platform == "win32":
@@ -75,6 +76,7 @@ def main(argv: list[str] | None = None) -> int:
     names, benign = task_labels(task), benign_index(task)
     v2cfg = json.loads((V2 / "config.json").read_text(encoding="utf-8"))
     search = load_yaml(ROOT / "configs" / "hparam_search.yaml")
+    # exact same model settings as the frozen v2 detector, the only change is the extra data
     run_cfg = {"model": {"hidden": v2cfg["mlp"]["hidden"], "dropout": v2cfg["mlp"]["dropout"]},
                "train": {**search["train"], "lr": v2cfg["mlp"]["lr"], "class_weighting": v2cfg["mlp"]["class_weighting"]}}
     features, pre, data = prepare({"task": task, "feature_set": search["feature_set"]}, dcfg)
@@ -85,6 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     # local capture: chronological halves, model features in v2 order, the original train-only preprocessor
     df = pd.read_csv(a.features)
     half = len(df) // 2
+    # local windows go through the ORIGINAL preprocessor, same as everything else
     X_loc = pre.transform(df[ALL_FEATURES].to_numpy(np.float64)[:, [ALL_FEATURES.index(f) for f in features]])
     services = np.array([service(r) for r in df[ALL_FEATURES].to_dict("records")])
     udp = (df.UDP >= 0.5).to_numpy()
@@ -99,6 +102,7 @@ def main(argv: list[str] | None = None) -> int:
     n_in, n_cls = len(features), len(names)
     rows = []
 
+    # for each model: false alarms on the unseen second half, and detection on CICIoT2023 test (did it get worse?)
     def evaluate(variant: str, factor: int, seed: int, model, epochs: str):
         pv = predict_proba(model, va["Xp"])
         th = {f"fpr{t * 100:g}": threshold_for_fpr(attack_score(pv, benign), va["y"] == benign, t) for t in TARGETS}
@@ -124,11 +128,13 @@ def main(argv: list[str] | None = None) -> int:
               f"CICIoT test fpr1: benign FPR {row['ciciot_test_benign_fpr_fpr1']:.2%} det {row['ciciot_test_attack_det_fpr1']:.1%} "
               f"F1 {row['ciciot_test_macro_f1_fpr1']:.4f} | val F1 {row['val_macro_f1_argmax']:.4f}", flush=True)
 
+    # control: the original models, trained without any local traffic
     for seed in a.seeds:
         model = MLP(n_in, n_cls, run_cfg["model"]["hidden"], run_cfg["model"]["dropout"]).to(device)
         model.load_state_dict(torch.load(V2 / f"mlp_seed{seed}.pt", map_location=device))
         evaluate("frozen v2 (no local data)", 0, seed, model, "-")
 
+    # add the first half of the capture as extra Benign rows (factor = how many copies), retrain from scratch
     for factor in a.factors:
         Xl, yl = np.repeat(X_loc[first], factor, axis=0), np.full(half * factor, benign, dtype=tr["y"].dtype)
         aug = {"train": {"Xp": np.concatenate([tr["Xp"], Xl]), "y": np.concatenate([tr["y"], yl])}, "val": va}

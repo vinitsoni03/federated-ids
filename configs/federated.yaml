@@ -12,6 +12,7 @@ train:
   lr: 0.001                 # Adam, re-initialised at every round on each client
   batch_size: 512
   class_weighting: sqrt_inverse   # computed from each client's OWN labels
+# 10 clients, all train every round, 30 rounds, 1 local epoch each
 federated:
   n_clients: 10
   participation: 1.0        # fraction of clients sampled per round

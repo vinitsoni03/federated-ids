@@ -25,6 +25,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
+# repo root, and add src/ to the path so we can import our own package without installing it
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -33,44 +34,55 @@ from federated_ids.data.preprocess import Preprocessor  # noqa: E402
 from federated_ids.evaluation.calibration import attack_score, predict_with_threshold  # noqa: E402
 from federated_ids.models.mlp import MLP, predict_proba  # noqa: E402
 
+# bundle = everything the dashboard needs (models, thresholds, 320 test windows), made by build_demo_bundle.py
+# R_MIN is the biggest slowdown the attacker is allowed (r=0.1 means traffic 10x slower at most)
 BUNDLE = ROOT / "demo" / "bundle"
 TABLES = ROOT / "reports" / "tables"
 R_MIN = min(SLOWDOWN)
 RULES = {"argmax": "argmax (most probable class)", "fpr5": "5 % benign-FPR threshold", "fpr1": "1 % benign-FPR threshold"}
 
+# load once at startup, not per request
 META = json.loads((BUNDLE / "meta.json").read_text(encoding="utf-8"))
 FEATURES, CLASSES, BENIGN = META["features"], META["class_names"], META["benign"]
 PRE = Preprocessor.from_json(BUNDLE / "preprocessor.json")
 WINDOWS = {w["id"]: w for w in json.loads((BUNDLE / "windows.json").read_text(encoding="utf-8"))}
+# keep torch from grabbing every core, the VM is small
 TTL_CHOICES = META["ttl_choices"]
 torch.set_num_threads(2)
 
 
+# rebuild the MLP with the same sizes it was trained with, then load the saved weights
 def _load(name: str) -> MLP:
     m = MLP(len(FEATURES), len(CLASSES), META["hidden"], META["dropout"])
     m.load_state_dict(torch.load(BUNDLE / META["models"][name]["file"], map_location="cpu"))
     return m.eval()
 
 
+# two models: "frozen" = normal training, "hardened" = after adversarial training
 MODELS = {k: _load(k) for k in META["models"]}
 
 
+# raw features -> same preprocessing as training -> class probabilities
 def proba(model: str, X: np.ndarray) -> np.ndarray:
     return predict_proba(MODELS[model], PRE.transform(X))
 
 
+# argmax just takes the top class. The fpr rules flag "attack" when the attack score
+# crosses the threshold we picked on validation data for 5 % or 1 % false alarms
 def decide(model: str, rule: str, P: np.ndarray) -> np.ndarray:
     if rule == "argmax":
         return P.argmax(1)
     return predict_with_threshold(P, BENIGN, META["models"][model]["thresholds"][rule])
 
 
+# JSON can't hold NaN so missing values are stored as null; turn them back into NaN here
 def raw(wid: int) -> np.ndarray:
     if wid not in WINDOWS:
         raise HTTPException(404, f"unknown window {wid}")
     return np.array([[np.nan if v is None else v for v in WINDOWS[wid]["x"]]], dtype=np.float64)
 
 
+# one window -> label, attack or not, attack score, and all class probabilities for the bar chart
 def verdict(model: str, rule: str, X: np.ndarray) -> dict:
     P = proba(model, X)
     k = int(decide(model, rule, P)[0])
@@ -79,9 +91,11 @@ def verdict(model: str, rule: str, X: np.ndarray) -> dict:
             "proba": {c: float(p) for c, p in zip(CLASSES, P[0])}}
 
 
+# docs pages switched off, nobody needs swagger in the demo
 app = FastAPI(title="Federated IDS demo", docs_url=None, redoc_url=None)
 
 
+# what the browser sends: which window, which model, which decision rule
 class Req(BaseModel):
     id: int
     model: str = "frozen"
@@ -95,6 +109,7 @@ def _check(r: Req) -> None:
         raise HTTPException(422, f"rule must be one of {list(RULES)}")
 
 
+# the whole UI is one static html page
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(ROOT / "demo" / "static" / "index.html")
@@ -113,6 +128,7 @@ def meta() -> dict:
             "windows": [{"id": w["id"], "family": w["family"], "attack": w["attack"]} for w in WINDOWS.values()]}
 
 
+# Detect tab: classify one window
 @app.post("/api/detect")
 def detect(r: Req) -> dict:
     _check(r)
@@ -132,12 +148,15 @@ def attack(r: Req) -> dict:
     start = verdict(r.model, r.rule, X0)
     if not start["is_attack"]:
         return {"start": start, "detected": False, "trace": [], "evaded": False}
+    # try the strongest slowdown first, then smaller padding, original TTL first (same order as evade())
     rs = sorted([s for s in SLOWDOWN if s >= R_MIN - 1e-12], reverse=True)
     trace, found = [], None
+    # each loop = one query to the model. We only see the label, nothing inside the model
     for s, p, t in itertools.product(rs, PADDING, TTL_CHOICES):
         Z = apply_perturbation(X0, FEATURES, p, s, t)
         v = verdict(r.model, r.rule, Z)
         trace.append({"r": s, "padding": p, "ttl": t, "label": v["label"], "attack_score": v["attack_score"]})
+        # stop at the first disguise that gets called benign
         if not v["is_attack"]:
             found = (s, p, t, Z)
             break
@@ -146,6 +165,7 @@ def attack(r: Req) -> dict:
     if found:
         s, p, t, Z = found
         out["perturbation"] = {"r": s, "padding": p, "ttl": t}
+        # should always be empty: proves the disguised traffic is still physically possible
         out["constraint_violations"] = check_constraints(X0, Z, FEATURES, R_MIN)
         out["changed_features"] = [{"feature": f, "before": None if np.isnan(a) else float(a),
                                     "after": None if np.isnan(b) else float(b)}
@@ -161,6 +181,7 @@ class BatchReq(BaseModel):
     rule: str = "fpr1"
 
 
+# "scan all windows" button: how many get flagged per class
 @app.post("/api/scan")
 def scan(r: BatchReq) -> dict:
     """Classify all demo windows: benign false alarms and per-class detection."""
@@ -178,6 +199,7 @@ def scan(r: BatchReq) -> dict:
     return {"per_class": out}
 
 
+# frozen vs hardened comparison on all 280 attack windows
 @app.post("/api/attack_all")
 def attack_all(r: BatchReq) -> dict:
     """Run the attacker on every detected attack window (same search as /api/attack and evade())."""
@@ -185,6 +207,7 @@ def attack_all(r: BatchReq) -> dict:
     _check(Req(id=0, model=r.model, rule=r.rule))
     ids = [i for i, w in WINDOWS.items() if w["family"] != "Benign"]
     X = np.vstack([raw(i) for i in ids])
+    # the attacker only gets this function, i.e. label in, label out
     dec = lambda Z: decide(r.model, r.rule, proba(r.model, Z))  # noqa: E731
     det = dec(X) != BENIGN
     e = evade(dec, X[det], FEATURES, BENIGN, TTL_CHOICES, R_MIN)
@@ -200,6 +223,7 @@ def attack_all(r: BatchReq) -> dict:
             "mean_queries": float(e["queries"].mean()) if len(e["queries"]) else 0.0}
 
 
+# read a results csv; missing file just means an empty table instead of a crash
 def _rows(name: str) -> list[dict]:
     p = TABLES / f"{name}.csv"
     if not p.exists():
@@ -208,6 +232,7 @@ def _rows(name: str) -> list[dict]:
         return list(csv.DictReader(fh))
 
 
+# Federated tab: the recorded Flower run plus the simulation numbers at 1 % false alarms
 @app.get("/api/federated")
 def federated() -> dict:
     fl = META["flower"]
@@ -219,6 +244,7 @@ def federated() -> dict:
     return {"flower": fl, "wp4_detection_at_1pct": {k: float(np.mean(v)) for k, v in by_part.items()}}
 
 
+# Results tab: read straight from reports/tables so the numbers match the report
 @app.get("/api/results")
 def results() -> dict:
     det: dict = {}

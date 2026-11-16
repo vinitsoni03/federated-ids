@@ -25,14 +25,14 @@ BAR = 38
 
 # (output name, file, first line, last line)
 CODE = [
-    ("code_aggregators", "src/federated_ids/federated/aggregators.py", 17, 51),
-    ("code_poisoning", "src/federated_ids/attacks/poisoning.py", 55, 64),
-    ("code_evasion_constraints", "src/federated_ids/attacks/evasion.py", 57, 72),
-    ("code_flower_client", "flower_app/fids_flower/client_app.py", 13, 36),
-    ("code_flower_server", "flower_app/fids_flower/server_app.py", 44, 58),
+    ("code_aggregators", "src/federated_ids/federated/aggregators.py", 17, 55),
+    ("code_poisoning", "src/federated_ids/attacks/poisoning.py", 57, 68),
+    ("code_evasion_constraints", "src/federated_ids/attacks/evasion.py", 61, 77),
+    ("code_flower_client", "flower_app/fids_flower/client_app.py", 13, 41),
+    ("code_flower_server", "flower_app/fids_flower/server_app.py", 45, 60),
     ("code_leakage_test", "tests/test_ciciot_and_splits.py", 85, 103),
-    ("code_serving_endpoint", "serving/app.py", 47, 82),
-    ("code_run_hybrid", "scripts/azure/run_hybrid.sh", 30, 50),
+    ("code_serving_endpoint", "serving/app.py", 49, 89),
+    ("code_run_hybrid", "scripts/azure/run_hybrid.sh", 31, 54),
 ]
 # (output name, text file, window title)
 TERMINAL = [
@@ -111,6 +111,7 @@ def main() -> None:
     args = ap.parse_args()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
+    # code images are cut straight from the source files, so they always show the real code
     for name, path, a, b in CODE:
         render_code(path, a, b).save(out / f"{name}.png")
         print("wrote", out / f"{name}.png")

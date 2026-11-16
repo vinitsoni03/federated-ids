@@ -148,6 +148,7 @@ def usecase() -> None:
     plt.close(fig)
 
 
+# our numbers come from the csv tables; the papers' numbers are typed in from their own tables
 def lit_comparison() -> None:
     m4 = pd.read_csv(TAB / "m4_centralized.csv")
 
@@ -212,6 +213,7 @@ def confusion() -> None:
     for ax, (run, fname, title) in zip(axes, panels):
         t = json.loads((runs / run / fname).read_text())["test"]
         cm = np.array(t["confusion_matrix"], dtype=float)
+        # each row divided by its total, so a cell = share of that true class
         cm = cm / cm.sum(axis=1, keepdims=True)
         names = t["class_names"]
         im = ax.imshow(cm, cmap="Blues", vmin=0, vmax=1)

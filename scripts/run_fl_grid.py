@@ -25,6 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PY = sys.executable
+# building blocks for the grids: data splits, FedAvg vs FedProx, aggregation rules, attacks
 PARTS = {"iid": ["--partition", "iid"], "dir1.0": ["--partition", "dirichlet", "--alpha", "1.0"],
          "dir0.1": ["--partition", "dirichlet", "--alpha", "0.1"]}
 ALGOS = {"fedavg": ["--algorithm", "fedavg"], "fedprox": ["--algorithm", "fedprox", "--mu", "0.01"]}
@@ -33,6 +34,7 @@ ATTACKS = {"clean": [], "signflip": ["--attack", "sign_flip", "--malicious-fract
            "targeted": ["--attack", "label_flip_boost", "--malicious-fraction", "0.2", "--targets", "DDoS"]}
 
 
+# each grid = list of (run name, command-line args) for simulation.py
 def grid(name: str) -> list[tuple[str, list[str]]]:
     runs = []
     if name == "m5":
@@ -103,17 +105,20 @@ def main() -> int:
     for g in argv:
         for task in tasks:
             for run_name, args in grid(g):
+                # put the task name into the run name
                 prefix, rest = run_name.split("_", 1)  # fl_iid_... -> fl_<task>_iid_...
                 extra = v2_model_args(task) if g.startswith("wp4") else []
                 jobs.append((f"{prefix}_{task}_{rest}", args + extra + ["--task", task]))
     print(f"{len(jobs)} runs planned", flush=True)
     for run_name, args in jobs:
         out = ROOT / "artifacts" / "runs" / run_name
+        # already done -> skip, so the grid can be restarted after a crash
         if (out / "metrics.json").exists():
             print(f"skip {run_name} (done)", flush=True)
             continue
         out.mkdir(parents=True, exist_ok=True)
         t = time.time()
+        # each run is its own process, so GPU memory is freed after every run
         cmd = [PY, "-m", "federated_ids.federated.simulation", "--run-name", run_name, "--device", DEVICE] + args
         with open(out / "log.txt", "w", encoding="utf-8") as fh:
             fh.write(" ".join(cmd[1:]) + "\n")

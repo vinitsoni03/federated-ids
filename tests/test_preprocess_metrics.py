@@ -1,3 +1,4 @@
+# preprocessing is fitted on train only and survives a save/load; metrics checked against numbers done by hand
 import numpy as np
 
 from federated_ids.data.ciciot import FEATURES

@@ -18,6 +18,7 @@ OUT=artifacts/runs/$RUN_NAME
 mkdir -p "$OUT/flower_logs"
 REMOTE_ENV='export PATH=$HOME/fids/venv/bin:$PATH FLWR_HOME=$HOME/fids/flwr_home PYTHONIOENCODING=utf-8'
 pids=()
+# runs on exit (also on errors): kill every Flower process here and on both VMs
 cleanup() {
   set +e
   for p in "${pids[@]}"; do kill "$p" 2>/dev/null; done
@@ -28,6 +29,7 @@ cleanup() {
 trap cleanup EXIT
 
 echo "[hybrid] starting SuperLink on fids-server"
+# 1) server: SuperLink with TLS, listening on the private network
 on_server "$REMOTE_ENV; cd ~/fids; nohup flower-superlink --ssl-ca-certfile tls/ca.crt --ssl-certfile tls/server.pem \
   --ssl-keyfile tls/server.key --host 0.0.0.0 --port 8000 --disable-runtime-dependency-installation \
   > runs/superlink_$RUN_NAME.log 2>&1 &"
@@ -35,6 +37,7 @@ sleep 8
 
 echo "[hybrid] starting Azure SuperNodes ($AZURE_CLIENTS) on fids-clients"
 port=9094
+# 2) client VM: SuperNodes 0-4, each with its own partition file, connecting over the private network
 for i in $AZURE_CLIENTS; do
   on_clients "$REMOTE_ENV; cd ~/fids; nohup flower-supernode --root-certificates tls/ca.crt --superlink $SERVER_PRIV:8000 \
     --host 127.0.0.1 --port $port --node-config \"partition-id=$i num-partitions=$N_CLIENTS data-dir='/home/$ADMIN/fids/data'\" \
@@ -43,6 +46,7 @@ for i in $AZURE_CLIENTS; do
 done
 
 echo "[hybrid] opening SSH tunnel localhost:$LOCAL_PORT -> $SERVER_PRIV:8000"
+# 3) the laptop can't reach port 8000 directly, so tunnel it through SSH
 ssh -p "$SSH_PORT" "${SSH_OPTS[@]}" -N -L "$LOCAL_PORT:127.0.0.1:8000" "$ADMIN@$SERVER_IP" & pids+=($!)
 sleep 5
 
@@ -59,6 +63,7 @@ mkdir -p "$FLWR_HOME"
 printf '[superlink.azure]\naddress = "127.0.0.1:%s"\nroot-certificates = "%s"\n' "$LOCAL_PORT" "$TLS/ca.crt" > "$FLWR_HOME/config.toml"
 echo "[hybrid] starting laptop SuperNodes ($LAPTOP_CLIENTS)"
 port=9104
+# 4) laptop: SuperNodes 5-9 through the tunnel
 for i in $LAPTOP_CLIENTS; do
   # inline (not flwr_entry) so that $! is the Python process itself and cleanup() can stop it
   "$PY" -c "import sys; sys.argv[0] = 'flower-supernode'; from flwr.supernode.cli import flower_supernode; flower_supernode()" \
@@ -71,11 +76,13 @@ sleep 10
 
 echo "[hybrid] flwr run ($ROUNDS rounds, $N_CLIENTS clients)"
 t0=$(date +%s)
+# 5) submit the run; the server does 30 rounds of FedAvg across all 10 SuperNodes
 flwr_entry flwr flwr.cli.app app run flower_app azure --stream --run-config \
   "server-data-dir='/home/$ADMIN/fids/data' out-dir='/home/$ADMIN/fids/runs' run-name='$RUN_NAME' n-clients=$N_CLIENTS num-server-rounds=$ROUNDS device='cpu'" \
   > "$OUT/flower_logs/flwr_run.log" 2>&1
 echo "[hybrid] flwr run finished in $(( $(date +%s) - t0 ))s"
 
+# copy results and logs back to the laptop
 scp_any -r "$ADMIN@$SERVER_IP:fids/runs/$RUN_NAME/*" "$OUT/"
 scp_any "$ADMIN@$SERVER_IP:fids/runs/superlink_$RUN_NAME.log" "$OUT/flower_logs/" || true
 for i in $AZURE_CLIENTS; do scp_any "$ADMIN@$CLIENTS_IP:fids/supernode_$i.log" "$OUT/flower_logs/azure_supernode_$i.log" || true; done

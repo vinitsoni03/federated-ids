@@ -8,6 +8,7 @@ from __future__ import annotations
 import numpy as np
 
 
+# IID: shuffle and cut into equal pieces, every client sees roughly the same mix
 def iid_partition(n: int, n_clients: int, rng: np.random.Generator) -> list[np.ndarray]:
     return [np.sort(p) for p in np.array_split(rng.permutation(n), n_clients)]
 
@@ -16,6 +17,7 @@ def dirichlet_partition(y: np.ndarray, n_clients: int, alpha: float, rng: np.ran
                         min_size: int = 100, max_tries: int = 100) -> list[np.ndarray]:
     """Re-draws until every client has >= min_size rows (raises if impossible)."""
     classes = np.unique(y)
+    # non-IID: each class is shared out with random proportions, so some clients get lots of one class and none of another
     for _ in range(max_tries):
         parts: list[list[np.ndarray]] = [[] for _ in range(n_clients)]
         for c in classes:
@@ -25,6 +27,7 @@ def dirichlet_partition(y: np.ndarray, n_clients: int, alpha: float, rng: np.ran
             for k, chunk in enumerate(np.split(idx, cuts)):
                 parts[k].append(chunk)
         out = [np.sort(np.concatenate(p)) for p in parts]
+        # a client with almost no data is useless, try again in that case
         if min(len(p) for p in out) >= min_size:
             return out
     raise ValueError(f"could not draw a Dirichlet({alpha}) partition with min_size={min_size}")

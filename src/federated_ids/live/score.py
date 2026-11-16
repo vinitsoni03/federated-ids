@@ -32,6 +32,7 @@ BUNDLE = ROOT / "demo" / "bundle"
 RULES = ("argmax", "fpr5", "fpr1")
 
 
+# loads both demo models (frozen and hardened) with their thresholds, same files the dashboard uses
 class Detector:
     def __init__(self, bundle: Path = BUNDLE):
         self.meta = json.loads((bundle / "meta.json").read_text(encoding="utf-8"))
@@ -43,6 +44,7 @@ class Detector:
             net.load_state_dict(torch.load(bundle / m["file"], map_location="cpu"))
             self.models[name] = net.eval()
 
+    # the capture gives all 39 features, the model wants its 33 in its own order
     def columns(self, X_all: np.ndarray) -> np.ndarray:
         """Select the model's 33 features from a matrix in ALL_FEATURES order."""
         return X_all[:, [ALL_FEATURES.index(f) for f in self.features]]
@@ -59,6 +61,7 @@ class Detector:
         return out
 
 
+# label each window by what it mostly is (HTTPS, DNS, ...) so we can see which traffic causes false alarms
 def service(row: dict[str, float]) -> str:
     """Name of the dominant traffic type of a window, from its own feature values."""
     apps = {k: row[k] for k in PORTS if row[k] > 0}
@@ -70,6 +73,7 @@ def service(row: dict[str, float]) -> str:
     return best if kinds[best] >= 0.5 else "mixed"
 
 
+# capture file -> packets -> windows -> both models -> summary of how many windows raised an alarm
 def score_capture(path: Path, det: Detector, size: int, out_root: Path) -> dict:
     packets, counts = read_packets(path)
     X_all, starts = windows(packets, size)
@@ -92,6 +96,7 @@ def score_capture(path: Path, det: Detector, size: int, out_root: Path) -> dict:
     V = det.verdicts(X_all)
     for name, v in V.items():
         m = {"mean_attack_score": round(float(v["score"].mean()), 4)}
+        # this is normal traffic, so any alarm here is a false alarm
         for rule in RULES:
             alarm = v[rule] != det.benign
             m[rule] = {"alarms": int(alarm.sum()), "alarm_rate": round(float(alarm.mean()), 4),

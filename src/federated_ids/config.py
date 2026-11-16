@@ -6,9 +6,11 @@ from pathlib import Path
 
 import yaml
 
+# two levels up from src/federated_ids/ = the repo folder
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
+# relative paths are taken from the repo root, so scripts work from any folder
 def load_yaml(path: str | Path) -> dict:
     p = Path(path)
     if not p.is_absolute():
@@ -18,6 +20,7 @@ def load_yaml(path: str | Path) -> dict:
 
 def data_config(path: str | Path = "configs/data.yaml") -> dict:
     cfg = load_yaml(path)
+    # the big data lives outside the repo (D: drive), env var lets the VM point somewhere else
     cfg["work_dir"] = os.environ.get("FIDS_WORK_DIR", cfg["work_dir"])
     return cfg
 

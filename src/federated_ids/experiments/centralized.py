@@ -26,6 +26,7 @@ from federated_ids.experiments.common import environment, evaluate_bundle, peak_
 from federated_ids.models.mlp import MLP, as_tensor, class_weights, predict_proba, resolve_device, set_seed, train_epochs
 
 
+# load the three splits and preprocess them; this function is reused by the federated code too
 def prepare(cfg: dict, dcfg: dict):
     features = select_features(FEATURES, dcfg["features"]["window_dependent"], cfg["feature_set"])
     tr = load_split("train", features, cfg["task"], dcfg)
@@ -38,6 +39,7 @@ def prepare(cfg: dict, dcfg: dict):
     return features, pre, data
 
 
+# train one epoch at a time and check val macro-F1 after each one
 def train_mlp(cfg: dict, data: dict, n_classes: int, seed: int, class_names, benign, log, device=None):
     device = device or resolve_device(cfg.get("device", "auto"))
     set_seed(seed)
@@ -54,6 +56,7 @@ def train_mlp(cfg: dict, data: dict, n_classes: int, seed: int, class_names, ben
         hist.append({"epoch": ep + 1, "train_loss": loss, "val_macro_f1": mv["macro_f1"],
                      "val_benign_fpr": mv.get("benign_fpr"), "elapsed_s": round(time.time() - t0, 1)})
         log(f"  seed {seed} epoch {ep + 1}: loss {loss:.4f} val macroF1 {mv['macro_f1']:.4f}")
+        # early stopping: keep the best weights, stop after `patience` epochs with no improvement
         if mv["macro_f1"] > best + 1e-4:
             best, bad = mv["macro_f1"], 0
             best_state = {k: v.clone() for k, v in model.state_dict().items()}
@@ -61,6 +64,7 @@ def train_mlp(cfg: dict, data: dict, n_classes: int, seed: int, class_names, ben
             bad += 1
             if bad >= cfg["train"]["patience"]:
                 break
+    # go back to the best epoch, not the last one
     model.load_state_dict(best_state)
     return model, hist, time.time() - t0
 
@@ -114,6 +118,7 @@ def main(argv: list[str] | None = None) -> int:
     log(f"run {name}: train {len(data['train']['y'])} val {len(data['val']['y'])} test {len(data['test']['y'])}, "
         f"{len(features)} features")
     rows = []
+    # same model, several seeds, to see how much the score moves just from randomness
     for seed in cfg["seeds"]:
         model, hist, train_s = train_mlp(cfg, data, len(class_names), seed, class_names, benign, log, device)
         torch.save(model.state_dict(), out / f"mlp_seed{seed}.pt")
@@ -126,6 +131,7 @@ def main(argv: list[str] | None = None) -> int:
         res["train_seconds"] = round(train_s, 1)
         res["epochs_run"] = len(hist)
         res["n_parameters"] = int(sum(p.numel() for p in model.parameters()))
+        # full test pool is slow, do it for the first seed only
         if cfg["full_test"] and seed == cfg["seeds"][0]:
             t = time.time()
             yt, yp = predict_full_test(dcfg, man, features, cfg["task"],
@@ -140,6 +146,7 @@ def main(argv: list[str] | None = None) -> int:
         log(f"seed {seed}: test macroF1 {res['test']['macro_f1']:.4f} unseen {res['test_unseen']['macro_f1']:.4f}"
             f" FPR {res['test']['benign_fpr']:.4f} ({train_s:.0f}s)")
 
+    # Random Forest baseline, same features and split as the MLP so the comparison is fair
     rf_cfg = cfg["random_forest"]
     if rf_cfg["enabled"]:
         from sklearn.ensemble import RandomForestClassifier
@@ -151,6 +158,7 @@ def main(argv: list[str] | None = None) -> int:
         rf.fit(data["train"]["Xp"], data["train"]["y"])
         train_s = time.time() - t
 
+        # RF only knows the classes it saw; put its probabilities in the right columns
         def rf_proba(X):
             p = np.zeros((len(X), len(class_names)))
             p[:, rf.classes_] = rf.predict_proba(X)

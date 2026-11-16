@@ -45,6 +45,7 @@ from pathlib import Path
 
 import numpy as np
 
+# windows are 10 s long; windows within 20 s of an attack are left out because they're half-and-half
 WINDOW_S = 10
 GUARD_S = 20
 NORMAL = "20260225_normal"
@@ -60,6 +61,7 @@ def dataset_dirs(root: Path) -> dict[str, Path]:
     return {p.name: p / p.name for p in sorted(root.iterdir()) if p.is_dir()}
 
 
+# one row per attack session: which LLM planned it, what it targeted, and when it was actually active
 def sessions(d: Path):
     import polars as pl
 
@@ -67,6 +69,7 @@ def sessions(d: Path):
     es = pl.read_parquet(d / "attack_exec_steps.parquet")
     if s.height == 0:
         return s
+    # active time = first to last executed step, not the planned times
     iv = es.group_by("attack_session_id").agg(pl.col("exec_ts").min().alias("act_start"),
                                              pl.col("exec_ts").max().alias("act_end"))
     steps = s.select("id", "plan").with_columns(
@@ -82,9 +85,11 @@ def window_features(d: Path):
 
     lf = pl.scan_parquet(d / "packet_metadata.parquet").select(
         "ts", "size", "transport", "ethertype", "mac_src", "src_ip", "src_port", "dst_port")
+    # window number = seconds since the start of the capture // 10
     t0 = lf.select(pl.col("ts").min()).collect().item()
     lf = lf.with_columns(((pl.col("ts") - pl.lit(t0)).dt.total_microseconds() // (WINDOW_S * 1_000_000)).alias("w"),
                          pl.col("ts").dt.epoch("us").alias("t_us"))
+    # port 102 = Siemens S7, port 502 = Modbus: the industrial control traffic in this testbed
     is_s7 = (pl.col("transport") == "tcp") & ((pl.col("dst_port") == 102) | (pl.col("src_port") == 102))
     is_mb = (pl.col("transport") == "tcp") & ((pl.col("dst_port") == 502) | (pl.col("src_port") == 502))
     base = lf.group_by("w").agg(
@@ -101,6 +106,7 @@ def window_features(d: Path):
     s7 = (lf.filter(is_s7).sort("t_us").with_columns(pl.col("t_us").diff().alias("iat"))
           .group_by("w").agg((pl.col("iat").mean() / 1e6).alias("s7_iat_mean"),
                              (pl.col("iat").std() / 1e6).alias("s7_iat_std")).collect(engine="streaming"))
+    # one IP address answering from more than one MAC address = classic sign of ARP spoofing
     multi = (lf.filter(pl.col("src_ip").is_not_null()).group_by("w", "src_ip").agg(pl.col("mac_src").n_unique().alias("k"))
              .filter(pl.col("k") > 1).group_by("w").agg(pl.len().alias("n_ip_multi_mac")).collect(engine="streaming"))
     feats = base.join(s7, on="w", how="left").join(multi, on="w", how="left")
@@ -123,6 +129,7 @@ def label_windows(feats, sess, t0_s: float):
     """label 1 = overlaps an active session, 0 = >= GUARD_S from all sessions, -1 = excluded."""
     import polars as pl
 
+    # for each window: inside an attack -> 1, too close to one -> -1 (dropped), otherwise 0
     ws = feats["w_start_s"].to_numpy()
     we = ws + WINDOW_S
     lab = np.zeros(len(ws), dtype=np.int8)
@@ -160,6 +167,7 @@ def evaluate_fold(train, test, feats: list[str], seed: int = 0) -> dict:
 
     Xtr, ytr = train.select(feats).to_numpy(), train["label"].to_numpy()
     Xte, yte = test.select(feats).to_numpy(), test["label"].to_numpy()
+    # 300-tree Random Forest, balanced weights since attack windows are the minority
     clf = RandomForestClassifier(n_estimators=300, min_samples_leaf=2, class_weight="balanced",
                                  n_jobs=6, random_state=seed).fit(Xtr, ytr)
     sc = clf.predict_proba(Xte)[:, 1]
@@ -180,6 +188,7 @@ def session_detection(test, pred: np.ndarray, sess) -> dict:
     """A session is detected if >= 1 of its windows is flagged. Broken down by metadata."""
     import polars as pl
 
+    # a session counts as caught if at least one of its windows is flagged
     df = test.select("dataset", "session_idx", "label").with_columns(pl.Series("pred", pred))
     det = (df.filter(pl.col("label") == 1).group_by("dataset", "session_idx")
            .agg(pl.col("pred").max().alias("detected"), pl.len().alias("windows")))
@@ -233,6 +242,7 @@ def main(argv: list[str] | None = None) -> int:
     (out / "inventory.json").write_text(json.dumps(inventory, indent=2, default=str), encoding="utf-8")
 
     # normal operation: time split
+    # normal capture: first 60 % in time for training, last 40 % to count false alarms per hour
     nw = W.filter(pl.col("dataset") == NORMAL).sort("w")
     cut = int(a.normal_train_frac * nw.height)
     normal_train, normal_test = nw[:cut], nw[cut:]
@@ -243,6 +253,7 @@ def main(argv: list[str] | None = None) -> int:
     results = {"window_s": WINDOW_S, "guard_s": GUARD_S, "normal_test_hours": round(normal_test_hours, 3),
                "folds": {}, "rules": {}}
     # simple rules (no training): binding inconsistency and Zeek weird events
+    # baseline rules that need no training at all, for comparison
     for rule, expr in {"ip_with_multiple_macs>0": pl.col("n_ip_multi_mac") > 0,
                        "arp_packets>0": pl.col("n_arp") > 0,
                        "zeek_weird>0": pl.col("n_zeek_weird") > 0}.items():
@@ -257,6 +268,7 @@ def main(argv: list[str] | None = None) -> int:
                     "false_alarm_windows_per_hour_normal_test": round(fa / normal_test_hours, 2)}
         results["rules"][rule] = r
 
+    # leave-one-LLM-out: train on attacks planned by the other LLMs, test on the one held out
     for group, feats in FEATURE_GROUPS.items():
         results["folds"][group] = {}
         for m in models:

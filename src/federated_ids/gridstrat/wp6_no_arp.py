@@ -39,9 +39,11 @@ import numpy as np
 from federated_ids.gridstrat.analysis import (NORMAL, VOLUME, WINDOW_S, dataset_dirs, evaluate_fold,
                                               session_detection, sessions)
 
+# volume features without the host counts, so no "which machine is it" signal is left
 NOID = [f for f in VOLUME if f not in ("n_src_mac", "n_src_ip")]
 
 
+# the SCADA values are nested JSON; turn them into flat columns like "scada/pv.power"
 def _flatten(obj, prefix: str, out: dict) -> None:
     """Numeric leaves of a nested JSON object -> {"a.b.c": float}; booleans become 0/1."""
     if isinstance(obj, dict):
@@ -70,6 +72,7 @@ def process_features(d: Path, t0_s: float):
         ts = sub["ts"].dt.epoch("us").to_numpy() / 1e6
         vals = vals.with_columns(pl.Series("w", ((ts - t0_s) // WINDOW_S).astype(np.int64)))
         fields = [c for c in vals.columns if c != "w"]
+        # per window: how much each value moves (std, range, number of changes), not the value itself
         aggs = [pl.len().alias(f"rate.{src}")]
         for f in fields:
             c = pl.col(f)
@@ -101,6 +104,7 @@ def main(argv: list[str] | None = None) -> int:
     W_all = pl.read_csv(a.windows)
     dirs = dataset_dirs(Path(a.root))
     frames, sess_frames, proc_cols = [], [], None
+    # reuse the windows and labels from analysis.py and add the process features next to them
     for name, d in dirs.items():
         w = W_all.filter(pl.col("dataset") == name)
         r0 = w.row(0, named=True)
@@ -127,6 +131,7 @@ def main(argv: list[str] | None = None) -> int:
     normal_test_hours = normal_test.height * WINDOW_S / 3600
     attack = W.filter(pl.col("dataset") != NORMAL)
     models = sorted(attack["model_name"].unique().to_list())
+    # volume_m8_reference should give exactly the old numbers; if not, something in the pipeline changed
     sets = {"volume_m8_reference": VOLUME, "timing_volume_noid": NOID, "process": PROC,
             "timing_volume_noid+process": NOID + PROC}
 

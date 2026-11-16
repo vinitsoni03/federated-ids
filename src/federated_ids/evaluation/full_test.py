@@ -16,6 +16,7 @@ from federated_ids.data.ciciot import CATEGORIES, CLASS34
 from federated_ids.data.dataset import feature_indices, labels_for
 
 
+# one file at a time, only the rows in that file's test range, so memory stays low
 def iter_test_pool(cfg: dict, manifest: dict, features: list[str]):
     import polars as pl
 
@@ -36,6 +37,7 @@ def iter_test_pool(cfg: dict, manifest: dict, features: list[str]):
         yield X, y34, y8
 
 
+# run the model over the whole test pool (duplicates and real class imbalance kept)
 def predict_full_test(cfg: dict, manifest: dict, features: list[str], task: str,
                       predict: Callable[[np.ndarray], np.ndarray]) -> tuple[np.ndarray, np.ndarray]:
     """predict: raw-feature matrix -> predicted label indices."""

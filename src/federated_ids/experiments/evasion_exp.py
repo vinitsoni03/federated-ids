@@ -50,9 +50,11 @@ def main(argv: list[str] | None = None) -> int:
     rf = RandomForestClassifier(n_estimators=rfc["n_estimators"], max_depth=rfc["max_depth"],
                                 min_samples_leaf=rfc["min_samples_leaf"], class_weight=rfc["class_weight"],
                                 n_jobs=rfc["n_jobs"], random_state=rfc["seed"]).fit(pre.transform(tr.X), tr.y)
+    # the attacker only gets a "predict" function for each model
     targets = {"mlp": lambda Z: predict_proba(mlp, pre.transform(Z)).argmax(1),
                "random_forest": lambda Z: rf.classes_[rf.predict_proba(pre.transform(Z)).argmax(1)]}
 
+    # TTL options for the attacker: the 10th, 50th and 90th percentile of benign TTLs in train, or unchanged
     ttl_col = features.index("Time_To_Live")
     ben_ttl = tr.X[tr.y == benign, ttl_col]
     ttl_q = [float(np.nanquantile(ben_ttl, q)) for q in (0.1, 0.5, 0.9)]
@@ -68,6 +70,7 @@ def main(argv: list[str] | None = None) -> int:
         res_t = {"task": cfg["task"], "clean_benign_fpr": float((clean_pred[te.y == benign] != benign).mean()), "budgets": {}}
         # attack windows the IDS currently detects (predicted as some attack class), grouped by
         # attack FAMILY so results are comparable across the 8-class, 34-class and binary tasks
+        # only attack windows the model already catches count; can't "evade" something that wasn't detected
         fam = family_of_class34(te.y34)
         pool = {}
         for cname in CATEGORIES:
@@ -78,6 +81,7 @@ def main(argv: list[str] | None = None) -> int:
                 idx = np.sort(rng.choice(idx, a.per_class, replace=False))
             pool[cname] = idx
             res_t.setdefault("clean_detection_rate", {})[cname] = float((clean_pred[fam == cname] != benign).mean())
+        # r_min = how much slowdown the attacker accepts; 1.0 = none, 0.1 = 10x slower
         for r_min in a.budgets:
             per = {}
             for cname, idx in pool.items():
@@ -108,6 +112,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{tname} r_min={r_min}: overall evasion {res_t['budgets'][str(r_min)]['overall_evasion_rate']:.3f} "
                   + " ".join(f"{k}:{v['evasion_rate']:.2f}" for k, v in per.items()), flush=True)
         # knob ablation at the loosest budget
+        # which knob does the work? try padding only, slowdown only, TTL only
         ab = {}
         for knob, kw in {"padding_only": dict(padding=[0, 50, 100, 200, 400, 800, 1450], slowdown=[1.0], tt=[None]),
                          "slowdown_only": dict(padding=[0], slowdown=[1.0, 0.5, 0.25, 0.1], tt=[None]),

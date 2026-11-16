@@ -198,20 +198,25 @@ svg text{font-family:"Segoe UI",system-ui,sans-serif}
 
 <script>
 const $ = s => document.querySelector(s);
+// GET when there's no body, POST with JSON otherwise; any non-200 becomes an error
 const api = (p, body) => fetch(p, body ? {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)} : {}).then(r => {
   if (!r.ok) throw new Error(p + " " + r.status); return r.json(); });
 const pct = (x, d=1) => (100 * x).toFixed(d) + " %";
+// escape text before putting it into HTML
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let META;
+// d = Detect tab choices, a = Attack tab choices
 const state = {d:{model:"frozen", rule:"fpr1"}, a:{model:"frozen", rule:"fpr1"}};
 const MODEL_LABEL = {frozen:"Frozen v2", hardened:"Hardened (WP5)"};
 const RULE_LABEL = {argmax:"argmax", fpr5:"5 % FPR", fpr1:"1 % FPR"};
 
+// tab switching: show the section whose id matches the clicked button
 document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => {
   document.querySelectorAll("#tabs button").forEach(x => x.classList.toggle("on", x === b));
   document.querySelectorAll("section").forEach(s => s.classList.toggle("on", s.id === b.dataset.t));
 });
 
+// small toggle-button group (model / rule pickers)
 function seg(el, opts, key, obj, cb) {
   el.innerHTML = Object.entries(opts).map(([k, v]) => `<button data-k="${k}" class="${obj[key] === k ? "on" : ""}">${v}</button>`).join("");
   el.querySelectorAll("button").forEach(b => b.onclick = () => {
@@ -224,6 +229,7 @@ function fillWindows(sel, cls) {
 }
 
 // ---------- DETECT ----------
+// ask the server to classify the chosen window and draw the score bar + class probabilities
 async function detect() {
   const id = +$("#d-win").value; if (!id && id !== 0) return;
   const r = await api("/api/detect", {id, model:state.d.model, rule:state.d.rule});
@@ -234,6 +240,7 @@ async function detect() {
   $("#d-line").innerHTML = `Predicted <b>${res.label}</b> · true class <b>${truth}</b> ${right ? "✓" : "✗"}`;
   $("#d-sub").textContent = `attack score ${res.attack_score.toFixed(4)}` +
     (res.threshold === null ? " · argmax rule (no threshold)" : ` · threshold ${res.threshold.toFixed(4)} (${RULE_LABEL[state.d.rule]})`);
+  // marker on the 0..1 bar shows the attack score, the red line is the threshold
   $("#d-pt").style.left = `calc(${(100 * res.attack_score).toFixed(2)}% - 2px)`;
   const th = $("#d-th");
   if (res.threshold === null) th.classList.add("hidden");
@@ -242,6 +249,7 @@ async function detect() {
     <div class="track"><div class="fill" style="width:${(100 * p).toFixed(1)}%;background:${c === "Benign" ? "var(--benign)" : c === res.label ? "var(--attack)" : "var(--accent)"}"></div></div>
     <span class="mono" style="text-align:right">${p.toFixed(3)}</span></div>`).join("");
 }
+// classify all 320 windows at once and fill the table
 async function scan() {
   const b = $("#d-scan"); b.disabled = true;
   const r = await api("/api/scan", {model:state.d.model, rule:state.d.rule});
@@ -258,6 +266,7 @@ async function scan() {
 }
 
 // ---------- ATTACK ----------
+// line chart of the attack score after each query, with the threshold as a dashed line
 function scoreChart(svg, trace, thr) {
   const W = 720, H = 200, L = 46, R = 10, T = 10, B = 26;
   const n = Math.max(trace.length, 1), ys = trace.map(t => t.attack_score);
@@ -275,6 +284,7 @@ function scoreChart(svg, trace, thr) {
   svg.innerHTML = s;
 }
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+// the server already ran the whole search; here we just replay its queries one by one so you can watch it
 async function launch() {
   const id = +$("#a-win").value, b = $("#a-go"); b.disabled = true;
   $("#a-trace").innerHTML = ""; $("#a-final").innerHTML = ""; scoreChart($("#a-chart"), [], null);
@@ -287,6 +297,7 @@ async function launch() {
     }
     $("#a-status").innerHTML = `Start: detected as <b>${r.start.label}</b> (score ${r.start.attack_score.toFixed(4)}). Searching ${r.grid_size} allowed perturbations, cheapest first…`;
     const shown = [];
+    // keep the replay around 2-3 seconds total no matter how many queries it took
     const delay = Math.max(8, Math.min(60, 2400 / r.trace.length));
     for (const [i, t] of r.trace.entries()) {
       shown.push(t);
@@ -310,6 +321,7 @@ async function launch() {
     }
   } finally { b.disabled = false; }
 }
+// per attack family: share evaded, frozen (red) next to hardened (green)
 function familyBars(svg, fr, hd) {
   const fams = Object.keys(fr), W = 900, H = 260, L = 46, B = 30, T = 10, bw = (W - L - 10) / fams.length;
   const y = v => T + (H - T - B) * (1 - v);
@@ -338,6 +350,7 @@ async function attackAll() {
 
 // ---------- FEDERATED ----------
 let FED;
+// server in the middle, 10 clients around it: C0-C4 on Azure (blue), C5-C9 on the laptop (purple)
 function topo(active) {
   const cx = 180, cy = 160, sv = $("#f-topo"); let s = "";
   const nodes = [...Array(10).keys()].map(i => { const a = -Math.PI / 2 + i * 2 * Math.PI / 10;
@@ -349,6 +362,7 @@ function topo(active) {
   nodes.forEach(n => s += `<circle cx="${n.x}" cy="${n.y}" r="19" fill="${n.azure ? "#2a78d6" : "#7a52c7"}"/><text x="${n.x}" y="${n.y + 4}" fill="#fff" font-size="11" text-anchor="middle" font-weight="700">C${n.i}</text>`);
   sv.innerHTML = s;
 }
+// macro-F1 (blue) and benign false-alarm rate (red) for the first k rounds of the recorded Flower run
 function fedChart(k) {
   const h = FED.flower.history.slice(0, k), W = 720, H = 260, L = 44, R = 10, T = 10, B = 28;
   const x = r => L + (W - L - R) * (r - 1) / 29, y = v => T + (H - T - B) * (1 - v / 0.8);
@@ -371,6 +385,7 @@ async function play() {
 }
 
 // ---------- RESULTS ----------
+// Results tab: three small tables built from the csv numbers the server sends
 function results(r) {
   const det = r.detection.map(d => `<tr><td>${d.task === "category" ? "8-class" : d.task === "class34" ? "34-class" : "binary"}</td><td>${d.detector === "v2_mlp" ? "v2 MLP" : "HGB"}</td>
     <td>${d.rule === "fpr1" ? "1 % FPR" : "argmax"}</td><td class="num">${pct(d.detection)}</td><td class="num">${pct(d.benign_fpr)}</td></tr>`).join("");
@@ -392,7 +407,9 @@ function results(r) {
 }
 
 // ---------- INIT ----------
+// startup: read the meta, fill the dropdowns, wire up the buttons, load the other tabs
 (async () => {
+  // on Azure the header shows where it's running; on the laptop this stays empty
   api("/api/host").then(h => { if (h.deploy) { $("#host-chip").textContent = h.deploy; $("#where").textContent = `served from ${h.deploy} (host ${h.hostname})`; } }).catch(() => {});
   META = await api("/api/meta");
   const models = {frozen:MODEL_LABEL.frozen, hardened:MODEL_LABEL.hardened};

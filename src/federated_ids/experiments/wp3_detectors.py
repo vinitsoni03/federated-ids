@@ -44,6 +44,7 @@ TARGETS = (0.05, 0.01)
 V1_SEEDS = (0, 1, 2)
 
 
+# only configs that were run with the most seeds count, then the best average wins
 def best_v2_config(task: str) -> dict:
     """Best grid config for a task: among configs with the most seeds, highest mean val macro-F1."""
     groups = {}
@@ -100,15 +101,18 @@ def main(argv: list[str] | None = None) -> int:
         features, pre, data = load_train_val(task, feature_set, dcfg)
         # every task must share the v1 preprocessing (same train rows -> identical fit)
         v1_dir = REPO_ROOT / "artifacts" / "runs" / f"centralized_{task}_window_invariant"
+        # if the scaling differs, comparing v1 and v2 scores would mean nothing
         if json.loads((v1_dir / "preprocessor.json").read_text(encoding="utf-8")) != json.loads(json.dumps(asdict(pre))):
             raise SystemExit(f"{task}: preprocessor differs from the v1 run; refusing to compare")
         Xtr, ytr, Xva, yva = data["train"]["Xp"], data["train"]["y"], data["val"]["Xp"], data["val"]["y"]
+        # smoke mode: tiny sample just to see the code runs end to end
         if a.smoke:
             rng = np.random.default_rng(0)
             itr, iva = rng.choice(len(ytr), a.smoke, replace=False), rng.choice(len(yva), a.smoke, replace=False)
             Xtr, ytr, Xva, yva = Xtr[itr], ytr[itr], Xva[iva], yva[iva]
         log(f"[{task}] train {len(ytr)} val {len(yva)}, {len(names)} classes")
 
+        # score one detector on val at argmax, 5 % FPR and 1 % FPR, and save it
         def record(detector, seed, proba, extra=None):
             path = out / f"{detector}_s{seed}.json"
             ops = operating_points(proba, yva, names, benign, TARGETS)
@@ -155,6 +159,7 @@ def main(argv: list[str] | None = None) -> int:
             import joblib
             from sklearn.ensemble import HistGradientBoostingClassifier
 
+            # early stopping inside HGB uses 10 % of train, so val stays untouched
             params = {"max_iter": 300, "learning_rate": 0.1, "max_leaf_nodes": 31, "early_stopping": True,
                       "validation_fraction": 0.1, "n_iter_no_change": 10, "class_weight": "balanced", "random_state": 0}
             t = time.time()
@@ -165,6 +170,7 @@ def main(argv: list[str] | None = None) -> int:
             joblib.dump(hgb, out / "hgb_s0.joblib")
             record("hgb", 0, p, {"train_seconds": round(train_s, 1), "n_iter": int(hgb.n_iter_), "params": params})
 
+        # two-stage: first "attack or not", then a second model that only names the attack type
         if "two_stage" in a.detectors and task != "binary":
             stage1 = best_v2_config("binary")
             best = best_v2_config(task)
@@ -189,6 +195,7 @@ def main(argv: list[str] | None = None) -> int:
                     m2, _, train_s = train_mlp(s2_cfg, sub, len(attack_cls), s, sub_names, None,
                                                lambda m: None, device)
                     torch.save(m2.state_dict(), m2_path)
+                # combine: P(class) = P(attack) * P(class | attack), benign gets 1 - P(attack)
                 p_att = mlp_proba(p1_path, Xva, 2, stage1["hidden"], stage1["dropout"], device)[:, 1]
                 p2 = predict_proba(m2, Xva)
                 proba = np.zeros((len(Xva), len(names)))

@@ -52,6 +52,7 @@ RUN_NAME = "wp5_advtrain"
 R_MIN = min(SLOWDOWN)
 BUDGETS = sorted(SLOWDOWN, reverse=True)  # 1.0, 0.5, 0.25, 0.1
 OPS = ["argmax"] + [f"fpr{t * 100:g}" for t in TARGETS]
+# new training examples are made by attacking the 1 % false-alarm rule, the one we'd actually deploy
 GEN_OP = "fpr1"  # decision rule attacked when generating training examples
 HGB_PARAMS = {"max_iter": 300, "learning_rate": 0.1, "max_leaf_nodes": 31, "early_stopping": True,
               "validation_fraction": 0.1, "n_iter_no_change": 10, "class_weight": "balanced", "random_state": 0}
@@ -62,6 +63,7 @@ def evasion_by_budget(detected: np.ndarray, evaded: np.ndarray, chosen_r: np.nda
     also evaded under every budget r_min <= r. Returns per-budget evasion rate (among detected) and
     robust detection (detected and not evaded, among all windows)."""
     out = {}
+    # one attack run gives the answer for every budget, because big r is tried first
     n, nd = len(detected), int(detected.sum())
     for b in budgets:
         ev = evaded & detected & (chosen_r >= b - 1e-12)
@@ -73,6 +75,7 @@ def evasion_by_budget(detected: np.ndarray, evaded: np.ndarray, chosen_r: np.nda
 def rebuild(X: np.ndarray, chosen: np.ndarray, features: list[str]) -> np.ndarray:
     """Re-apply each row's chosen (r, p, ttl) perturbation; vectorised per unique setting."""
     Z = np.empty((len(X), X.shape[1]))
+    # group rows that got the same (r, padding, ttl) and perturb each group in one go
     keys = np.nan_to_num(chosen, nan=-1.0)
     for k in np.unique(keys, axis=0):
         m = (keys == k).all(1)
@@ -92,6 +95,7 @@ def sample_per_family(fam: np.ndarray, mask: np.ndarray, k: int, rng) -> np.ndar
 
 
 class Detector:
+    # wraps a model so the attacker can call it on raw features, at any of the three decision rules
     """A model + preprocessor + val-calibrated thresholds; decides on RAW feature rows."""
 
     def __init__(self, proba_fn, pre: Preprocessor, Xva_p, yva, benign):
@@ -142,6 +146,7 @@ def main(argv: list[str] | None = None) -> int:
         ttl_col = features.index("Time_To_Live")
         ttl_choices = [None] + [float(np.nanquantile(tr.X[tr.y == benign, ttl_col], q)) for q in (0.1, 0.5, 0.9)]
         fam_tr, fam_te = family_of_class34(tr.y34), family_of_class34(te.y34)
+        # fixed samples: TRAIN attack windows to create new examples from, TEST attack windows to measure on
         gen_idx = sample_per_family(fam_tr, tr.y != benign, a.train_per_family, np.random.default_rng(0))
         test_idx = sample_per_family(fam_te, te.y != benign, a.test_per_family, np.random.default_rng(0))
         np.save(out / "test_sample_idx.npy", test_idx)
@@ -151,6 +156,7 @@ def main(argv: list[str] | None = None) -> int:
                    "train": {"epochs": 50, "batch_size": 512, "patience": 5, "lr": mcfg["lr"],
                              "class_weighting": mcfg["class_weighting"]}}
 
+        # score one model: clean test results (does the defence cost accuracy?) and evasion against it
         def evaluate(det: Detector, tag: str, extra: dict):
             path = out / f"eval_{tag}.json"
             if path.exists():
@@ -161,6 +167,7 @@ def main(argv: list[str] | None = None) -> int:
                    "clean_val": operating_points(det.proba_fn(Xva_p), va.y, names, benign, TARGETS, det.th),
                    "evasion": {}}
             X0, f0 = te.X[test_idx], fam_te[test_idx]
+            # the attacker searches again against each new model (adaptive attacker, not replaying old disguises)
             for op in OPS:
                 decide = det.decide(op)
                 detected = decide(X0) != benign
@@ -191,6 +198,7 @@ def main(argv: list[str] | None = None) -> int:
                     f"{op} {res['evasion'][op]['by_budget']['0.1']['evasion_rate']:.3f}" for op in OPS)
                 + f" | robust@0.1 fpr1 {res['evasion']['fpr1']['by_budget']['0.1']['robust_detection']:.3f}")
 
+        # attack the current model on the train sample, keep the disguised windows that got through
         def generate(det: Detector, pool_path):
             """Attack the detector's 1 %-FPR rule on the train sample; returns successful windows (raw) + true labels."""
             if pool_path.exists():
@@ -231,9 +239,11 @@ def main(argv: list[str] | None = None) -> int:
             det = Detector(proba_fn, pre, Xva_p, va.y, benign)
             evaluate(det, f"{tag0}_r0", {"model": kind, "seed": seed, "round": 0, "pool_size": 0})
             pool_Z, pool_y = np.empty((0, len(features))), np.empty(0, dtype=np.int64)
+            # each round: add the new disguised windows WITH their real attack label, retrain from scratch, test again
             for rnd in range(1, a.rounds + 1):
                 Z, yz = generate(det, out / f"pool_{tag0}_r{rnd}.npz")
                 pool_Z, pool_y = np.vstack([pool_Z, Z]), np.concatenate([pool_y, yz])
+                # training set = all clean train rows + every adversarial window collected so far
                 Xa, ya = np.vstack([Xtr_p, pre.transform(pool_Z)]), np.concatenate([tr.y, pool_y])
                 t = time.time()
                 if kind == "mlp":

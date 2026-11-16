@@ -34,6 +34,7 @@ LABEL_NAME_HINTS = ("label", "class", "attack", "target", "category")
 
 
 @dataclass
+# running totals for one column. Files are read in chunks, so we can't just call .mean() on everything
 class ColumnStats:
     """Mergeable streaming statistics for one column."""
 
@@ -60,6 +61,7 @@ class ColumnStats:
         notna = s.notna().to_numpy()
         self.missing += int((~notna).sum())
 
+        # anything that isn't a number becomes NaN here, which is how we count "unparseable" values
         arr = pd.to_numeric(s, errors="coerce").to_numpy(dtype="float64", na_value=np.nan)
         is_nan = np.isnan(arr)
         self.numeric_parseable += int((~is_nan).sum())
@@ -75,6 +77,7 @@ class ColumnStats:
             self._merge_moments(finite.size, mean, m2)
             self._merge_range(float(finite.min()), float(finite.max()))
 
+        # keep exact value counts only while there are few distinct values (needed to spot the label column)
         if self.distinct is not None:
             vc = s.value_counts(dropna=True)
             if len(vc) > DISTINCT_CAP:
@@ -85,6 +88,7 @@ class ColumnStats:
                 if len(self.distinct) > DISTINCT_CAP:
                     self.distinct = None
 
+    # combine mean/variance of two chunks without keeping the data (Chan's formula)
     def _merge_moments(self, n: int, mean: float, m2: float) -> None:
         total = self.n_finite + n
         delta = mean - self.mean
@@ -96,6 +100,7 @@ class ColumnStats:
         self.min = lo if self.min is None else min(self.min, lo)
         self.max = hi if self.max is None else max(self.max, hi)
 
+    # add another file's stats for the same column into this one
     def merge(self, other: ColumnStats) -> None:
         self.rows += other.rows
         self.missing += other.missing
@@ -117,6 +122,7 @@ class ColumnStats:
                 self.distinct = None
 
     @property
+    # rough type of the column after seeing all of it
     def kind(self) -> str:
         non_missing = self.rows - self.missing
         if non_missing == 0:
@@ -227,6 +233,7 @@ def audit_file(path: Path, file_index: int, opts: AuditOptions) -> tuple[dict, d
     hashes: list[np.ndarray] = []
 
     try:
+        # read 100k rows at a time so even the biggest CSV fits in memory
         with pd.read_csv(path, chunksize=opts.chunksize) as reader:
             for chunk_idx, chunk in enumerate(reader):
                 if not header:
@@ -243,6 +250,7 @@ def audit_file(path: Path, file_index: int, opts: AuditOptions) -> tuple[dict, d
                     if len(chunk) > remaining:
                         chunk = chunk.iloc[:remaining]
                         truncated = True
+                # seed depends on file and chunk, so the same sample comes back every run
                 elif opts.mode == "random_fraction":
                     rng = np.random.default_rng([opts.seed, file_index, chunk_idx])
                     chunk = chunk[rng.random(len(chunk)) < opts.sample_frac]
@@ -295,6 +303,7 @@ def find_label_candidates(columns: list[ColumnStats]) -> list[dict]:
     """
     last_pos = max((c.position for c in columns), default=-1)
     out = []
+    # label column hunt: few distinct values, text or whole numbers. Floats like Rate are skipped
     for c in columns:
         if c.distinct is None or not 2 <= len(c.distinct) <= MAX_LABEL_CLASSES:
             continue
@@ -338,6 +347,7 @@ def audit_paths(paths: list[str | Path], opts: AuditOptions | None = None) -> di
     presence: Counter = Counter()
     ok_column_lists: list[tuple[str, ...]] = []
 
+    # audit each file, then fold its column stats into the dataset-wide totals
     for idx, f in enumerate(files):
         info, stats = audit_file(f, idx, opts)
         file_reports.append(info)
@@ -360,6 +370,7 @@ def audit_paths(paths: list[str | Path], opts: AuditOptions | None = None) -> di
     candidates = find_label_candidates(cols)
     schema_identical = len(set(ok_column_lists)) <= 1
 
+    # list every column with something odd: missing, inf, negatives, constant, etc.
     issues = []
     for c in cols:
         d = c.to_dict()
@@ -413,6 +424,7 @@ def audit_paths(paths: list[str | Path], opts: AuditOptions | None = None) -> di
         "columns": [c.to_dict() for c in cols],
         "issues": issues,
         "label_candidates": candidates,
+        # for CICIoT2023 this warning fires: there is no label column, labels are in the folder names
         "label_warnings": (
             []
             if any("text-valued" in c["reasons"] for c in candidates)

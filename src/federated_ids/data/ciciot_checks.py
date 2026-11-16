@@ -46,6 +46,7 @@ def duplicate_report(hashes: np.ndarray, file_ids: np.ndarray, file_class: np.nd
                      file_cat: np.ndarray, class_names: list[str]) -> dict:
     """Exact-duplicate structure. file_class/file_cat map file_id -> class index."""
     n = len(hashes)
+    # sort by hash so identical rows sit next to each other, then number each run of equal hashes (gid)
     order = np.argsort(hashes, kind="stable")
     h = hashes[order]
     f = file_ids[order]
@@ -64,10 +65,12 @@ def duplicate_report(hashes: np.ndarray, file_ids: np.ndarray, file_class: np.nd
         up = np.unique(pair)
         return np.bincount(up // 1_000_000, minlength=n_groups)
 
+    # for each group of identical rows: how many files, classes and categories it shows up in
     files_per_group = n_distinct_per_group(f)
     classes_per_group = n_distinct_per_group(c)
     cats_per_group = n_distinct_per_group(k)
 
+    # a conflict = the exact same feature row labelled as two different classes. No model can get both right
     row_conflict34 = classes_per_group[gid] > 1
     row_conflict8 = cats_per_group[gid] > 1
     per_class = []
@@ -121,6 +124,7 @@ def duplicate_report(hashes: np.ndarray, file_ids: np.ndarray, file_class: np.nd
 def semantic_report(parquet_dir: Path, manifest: dict) -> dict:
     import polars as pl
 
+    # lazy scan: polars streams over all parquet files instead of loading 46M rows at once
     lf = pl.scan_parquet(str(parquet_dir / "*.parquet"))
     fmap = pl.DataFrame({"file_id": [m["file_id"] for m in manifest["files"]],
                          "class34": [m["class34"] for m in manifest["files"]]},
@@ -128,6 +132,7 @@ def semantic_report(parquet_dir: Path, manifest: dict) -> dict:
     lf = lf.join(fmap.lazy(), on="file_id", how="left")
     col = pl.col
     tol = 1e-6
+    # sanity rules that should never fail for real traffic stats (e.g. average can't be above max)
     checks = {
         "max_lt_min": (col("Max") < col("Min")),
         "avg_lt_min": (col("AVG") < col("Min") - tol),
@@ -141,12 +146,14 @@ def semantic_report(parquet_dir: Path, manifest: dict) -> dict:
         "iat_negative": col("IAT") < 0,
         "rate_pos_inf": col("Rate") == float("inf"),
         "any_missing": pl.any_horizontal([col(c).is_null() | col(c).is_nan() for c in FEATURES]),
+        # 1514 = biggest normal Ethernet frame
         "max_gt_1514_bytes": col("Max") > 1514,
     }
     agg = lf.select([e.fill_null(False).sum().alias(k) for k, e in checks.items()] + [pl.len().alias("rows")]).collect(engine="streaming")
     totals = {k: int(v) for k, v in agg.row(0, named=True).items()}
     by_class = (lf.group_by("class34").agg([e.fill_null(False).sum().alias(k) for k, e in checks.items()]
                                           + [pl.len().alias("rows")]).sort("class34").collect(engine="streaming"))
+    # "Number" = packets per window. If it differs by class the model can cheat by reading it
     number_dist = (lf.group_by("class34", "Number").len().collect(engine="streaming")
                    .sort(["class34", "len"], descending=[False, True]))
     number_summary = (lf.group_by("class34").agg(
@@ -167,6 +174,7 @@ def plausibility_report(parquet_dir: Path, manifest: dict):
                         schema={"file_id": pl.Int16, "class34": pl.String, "category": pl.String})
     lf = lf.join(fmap.lazy(), on="file_id", how="left").with_columns(
         pl.col("Rate").replace(float("inf"), None))
+    # average protocol/flag values per class, e.g. SYN flood should have syn_flag near 1
     exprs = [pl.col(c).mean().alias(c) for c in PLAUSIBILITY_COLS]
     return (lf.group_by("category", "class34").agg(exprs + [pl.len().alias("rows")])
             .sort("category", "class34").collect(engine="streaming"))

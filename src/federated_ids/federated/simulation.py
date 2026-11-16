@@ -39,6 +39,7 @@ from federated_ids.models.mlp import (MLP, as_tensor, class_weights, flat_params
                                      set_flat_params, set_seed, train_epochs)
 
 
+# for the targeted attack: how much of e.g. Mirai now gets called Benign
 def target_metrics(y: np.ndarray, y34: np.ndarray, pred: np.ndarray, benign: int, targets: list[str]) -> dict:
     """Per target attack FAMILY (works for every task): share of that family's test rows predicted
     Benign, and share predicted correctly (task label)."""
@@ -59,18 +60,22 @@ def run(cfg: dict, name: str, log=print) -> dict:
     class_names = task_labels(cfg["task"])
     benign = benign_index(cfg["task"])
     K = len(class_names)
+    # load + preprocess train/val/test once, same as the centralized baseline
     features, pre, data = prepare(cfg, dcfg)
     Xtr, ytr = data["train"]["Xp"], data["train"]["y"]
     seed = cfg["seed"]
     fl = cfg["federated"]
+    # split the training rows between the 10 clients (IID or Dirichlet)
     parts = make_partition(fl["partition"], ytr, fl["n_clients"], seed, fl.get("alpha"), fl.get("min_client_size", 100))
     pstats = partition_stats(parts, ytr, K)
+    # poisoning setup; with kind "none" this is a clean run
     pc = PoisonConfig(**{**cfg.get("poison", {}), "seed": seed})
     malicious = choose_malicious(fl["n_clients"], pc.malicious_fraction, seed) if pc.kind != "none" else []
     fam_tr = family_of_class34(data["train"]["y34"])
 
     set_seed(seed)
     model = MLP(Xtr.shape[1], K, cfg["model"]["hidden"], cfg["model"]["dropout"]).to(device)
+    # all clients live in one process here, each one just indexes its own rows
     Xtr_dev = as_tensor(Xtr, device)  # whole training split on the device once
     parts_dev = [torch.as_tensor(p, device=device) for p in parts]
     n_params = sum(p.numel() for p in model.parameters())
@@ -81,13 +86,16 @@ def run(cfg: dict, name: str, log=print) -> dict:
     bytes_per_model = n_params * 4
     hist, comm_bytes = [], 0
     t0 = time.time()
+    # one federated round: pick clients, each trains locally, server combines the changes
     for rnd in range(1, fl["rounds"] + 1):
         n_part = max(1, int(round(fl["participation"] * fl["n_clients"])))
         chosen = sorted(rng.choice(fl["n_clients"], size=n_part, replace=False).tolist())
         chosen = sorted(set(chosen) | set(malicious))  # attacker clients always participate
+        # g = global weights at the start of this round
         g = flat_params(model)
         ups, ws = [], []
         for k in chosen:
+            # every client starts from its own copy of the global model
             local = copy.deepcopy(model)
             is_mal = k in malicious
             y_k = ytr[parts[k]]
@@ -100,16 +108,20 @@ def run(cfg: dict, name: str, log=print) -> dict:
             train_epochs(local, Xtr_dev[parts_dev[k]], y_k, w_k, fl["local_epochs"], cfg["train"]["lr"],
                          cfg["train"]["batch_size"], seed * 100000 + rnd * 100 + k, prox_mu=mu,
                          global_params=g if mu > 0 else None)
+            # what the client sends back is the change in weights, not the data
             delta = flat_params(local) - g
             if is_mal:
                 delta = poison_update(pc, delta, fl["n_clients"], len(malicious))
             ups.append(delta)
             ws.append(float(len(parts[k])))
+        # combine all updates with the chosen rule (fedavg / median / trimmed_mean / norm_clip)
         U = torch.stack(ups)
         agg = aggregate(fl["aggregator"], U, torch.tensor(ws, device=U.device), trim_beta=fl.get("trim_beta", 0.2),
                         clip_norm=fl.get("clip_norm"))
+        # new global model = old one + combined update
         set_flat_params(model, g + fl.get("server_lr", 1.0) * agg)
         comm_bytes += 2 * len(chosen) * bytes_per_model  # broadcast + upload, float32, uncompressed
+        # score on val and test every few rounds so we can plot learning curves
         if rnd % fl["eval_every"] == 0 or rnd == fl["rounds"]:
             pv = predict_proba(model, data["val"]["Xp"]).argmax(1)
             mv = classification_metrics(data["val"]["y"], pv, class_names, benign)
@@ -125,6 +137,7 @@ def run(cfg: dict, name: str, log=print) -> dict:
                 f"FPR {mt['benign_fpr']:.4f} ({row['elapsed_s']}s)")
     wall = time.time() - t0
 
+    # final scores on test, also on only the test rows never seen in train
     proba = predict_proba(model, data["test"]["Xp"])
     pred = proba.argmax(1)
     res = {"test": classification_metrics(data["test"]["y"], pred, class_names, benign, proba)}

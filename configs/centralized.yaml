@@ -2,6 +2,7 @@
 task: category            # category (Benign + 7 families) | class34 | binary
 device: auto              # auto | cpu | cuda (Phase 2 runs pass --device cuda)
 feature_set: window_invariant
+# v1 MLP: 33 inputs -> 128 -> 64 -> 8 classes
 model:
   hidden: [128, 64]
   dropout: 0.1
@@ -12,6 +13,7 @@ train:
   class_weighting: sqrt_inverse
   patience: 5             # early stopping on validation macro-F1
 seeds: [0, 1, 2]
+# baseline settings close to the dataset paper's Random Forest
 random_forest:
   enabled: true
   n_estimators: 100
