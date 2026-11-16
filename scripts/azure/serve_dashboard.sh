@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Deploy the demo dashboard (demo/app.py) to fids-server and run it as a systemd service bound to
-# 127.0.0.1:8000 there. Like the endpoint it is NOT exposed publicly (the NSG stays tcp/443 SSH only);
-# open it through an SSH tunnel with scripts/azure/tunnel_dashboard.sh.
+# 127.0.0.1:8000 there. Like the endpoint it is NOT exposed publicly by this script; open it through an SSH
+# tunnel with scripts/azure/tunnel_dashboard.sh, or make it public with scripts/azure/public_dashboard.sh.
 #
 #   SERVER_IP=<ip> bash scripts/azure/serve_dashboard.sh
 set -euo pipefail

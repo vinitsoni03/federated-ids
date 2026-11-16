@@ -58,12 +58,16 @@ threshold, scan of all windows), **Evasion attack** (the constrained black-box a
 frozen vs. hardened on all 280 attack windows), **Federated training** (replay of the Azure + laptop Flower run),
 **Results** (read live from `reports/tables/`). Binds to localhost only; the secured API endpoint is `serving/app.py`.
 
-The same dashboard also runs on the Azure VM `fids-server` (systemd service, bound to the VM's 127.0.0.1:8000,
-not exposed publicly); the header then shows "Azure VM fids-server". Deploy and open it from Git Bash:
+The same dashboard also runs on the Azure VM `fids-server` (systemd service, bound to the VM's 127.0.0.1:8000);
+the header then shows "Azure VM fids-server". Deploy and open it from Git Bash:
 ```bash
 SERVER_IP=<fids-server IP> bash scripts/azure/serve_dashboard.sh    # copy code + bundle, install, start service
 SERVER_IP=<fids-server IP> bash scripts/azure/tunnel_dashboard.sh   # then open http://127.0.0.1:18000
+SERVER_IP=<fids-server IP> bash scripts/azure/public_dashboard.sh   # optional public link: Caddy on port 80
 ```
+For the public link the VM's public IP gets an Azure DNS name label (`<label>.<region>.cloudapp.azure.com`) and
+the NSG an inbound rule for TCP 80 (both in the portal). Only the dashboard is public, over plain http; the
+secured endpoint (8443) and SSH stay restricted. Undo: delete the port-80 rule (`UNDO=1` also removes Caddy).
 
 ## Real-traffic test
 
