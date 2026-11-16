@@ -595,6 +595,33 @@ in brackets (round 0 -> 2). MLP = mean of 3 seeds (sd <= 0.032).
   model, but the same perturbation space); a stronger or different attacker was not tested. HGB has one seed.
   Perturbations remain feature-space only (§7).
 
+### 7.2 Proposed improved model: attacker-invariant inputs - `scripts/invariant_model.py`, `reports/tables/invariant_model.csv`
+The evasion attacker can only pad its packets (+p bytes on Min, Max, AVG, Tot size), slow down (Rate x r,
+IAT / r) and set the TTL. The improved detector replaces these 7 inputs with 3 that these changes cannot move:
+**Max - Min** and **AVG - Min** (the same p is added to both terms, also when capped at the MTU) and **Rate x IAT**
+(the r cancels); the TTL is dropped. The other 26 inputs are not attacker-controlled. Architecture, training
+recipe, early stopping and the validation thresholds are those of the frozen v2 MLP, so any difference comes from
+the inputs. The attacker still perturbs the raw traffic; the model only sees the invariant inputs.
+
+| 8-class, 1 % rule, 3 seeds | v2 MLP | v2 MLP, adversarially trained (2 rounds) | **Invariant model** |
+|---|---|---|---|
+| Inputs | 33 | 33 | 29 |
+| Clean detection | 0.852 +- 0.003 | 0.852 +- 0.004 | 0.812 +- 0.004 |
+| Achieved benign FPR | 1.3 % | 1.2 % | 0.9 % |
+| Evasion rate (r >= 0.1) | 0.359 +- 0.032 | 0.122 +- 0.030 | **0.000** (all seeds) |
+| Detected under attack | 0.450 +- 0.027 | 0.617 +- 0.018 | 0.614 +- 0.008 |
+| Adversarial examples needed | - | 2 rounds | none |
+| Holds for any p, r, TTL | no | no | yes |
+
+* **Evasion is impossible by construction** under this threat model: for every allowed perturbation the model
+  receives exactly the same input. This holds for any padding, slow-down factor and TTL, not only the grid the
+  attacker searched, which adversarial training cannot promise.
+* **Under attack it matches adversarial training** (61.4 % vs 61.7 % of sampled attack windows still detected)
+  and far exceeds the undefended model (45.0 %), without generating any adversarial examples.
+* **Cost:** absolute packet sizes are no longer available, so clean detection at 1 % FPR falls by 4 points
+  (0.852 -> 0.812) and argmax macro-F1 from 0.691 to 0.620.
+* **Limit:** an attacker who can also add packets or change flags is outside this threat model.
+
 ## 8. LLM-coordinated attacks - GridStratLLM (RQ5) - `reports/tables/m8_gridstrat*.csv`, `reports/figures/m8_gridstrat_auc.png`
 
 Setup:

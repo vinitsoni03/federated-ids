@@ -1,0 +1,14 @@
+{
+  "python": "3.14.6",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+  "logical_cpus": 12,
+  "ram_gb": 15.3,
+  "torch": "2.14.1+cu130",
+  "torch_threads": 6,
+  "cuda_available": true,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "cuda_runtime": "13.0",
+  "numpy": "2.5.3",
+  "sklearn": "1.9.1"
+}

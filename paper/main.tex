@@ -32,7 +32,7 @@ An audit of the local CICIoT2023 release found 55.0\,\% exact duplicate rows and
 Under this split, test macro-F1 is $0.687\pm0.005$ (8 classes) for a multilayer perceptron, within 0.01--0.03 of the dataset authors' own benchmark, while recent federated studies on balanced or random samples report 0.92--0.99. At a validation-calibrated 1\,\% benign false-positive rate (FPR), the detectors still find 83--86\,\% of attack windows; loosening the target to 2--3\,\% adds only 1--3 points of detection for two to three times the false alarms.
 Federated averaging costs 0.6--2.5 points of detection with IID or moderately skewed clients, but strong label skew (Dirichlet $\alpha=0.1$) breaks both FedAvg and FedProx.
 Two malicious clients out of ten collapse FedAvg. Coordinate-wise median and trimmed mean neutralise the attacks with IID clients, but only partially with non-IID clients.
-A label-only black-box attacker that can only pad, slow down and re-TTL its own packets evades the deployable 1\,\%-FPR rule for 24--49\,\% of detected windows. Two rounds of adversarial training reduce this to 8--17\,\%.
+A label-only black-box attacker that can only pad, slow down and re-TTL its own packets evades the deployable 1\,\%-FPR rule for 24--49\,\% of detected windows. Two rounds of adversarial training reduce this to 8--17\,\%. We then propose an attacker-invariant detector that replaces the seven inputs the attacker controls with three it cannot change ($\texttt{Max}-\texttt{Min}$, $\texttt{AVG}-\texttt{Min}$, $\texttt{Rate}\cdot\texttt{IAT}$): evasion falls to 0\,\% by construction, for any padding, slow-down or TTL, and it detects as many attacks under attack as adversarial training (61\,\%) without any adversarial examples, at a cost of 4 points of clean detection.
 On GridStratLLM, LLM-planned attacks are detected across planning LLMs (leave-one-LLM-out AUC 0.90--1.00), even without the ARP signature.
 A Flower deployment across two Azure virtual machines and a laptop reproduces the simulator to four decimals.
 On real traffic without attacks from a laptop on home Wi-Fi, however, the same 1\,\% rule flags 86--89\,\% of windows, mostly HTTP/3 (QUIC). Adding 2.6 minutes of that laptop's benign traffic to training lowers this to 0.45\,\% on held-out traffic from the same session without reducing CICIoT2023 detection.
@@ -66,6 +66,7 @@ It makes the following contributions:
 \item An operating-point view of detection: thresholds fitted on validation for 5\,\% and 1\,\% benign FPR, a workload argument for 1\,\%, and a 0.5--10\,\% sensitivity analysis. We show that the deployable threshold is also the most evadable one, and that loosening it does not fix this while adversarial training does.
 \item FedAvg and FedProx under IID and Dirichlet label skew for 2, 8 and 34 classes. Poisoning is evaluated with three robust aggregators and a malicious-fraction sweep, and compared with Nayak and Reddy~\cite{nayak2026byzantine}.
 \item A realisable label-only evasion attack with adversarial training, evaluated on the same detectors.
+\item An improved detector with attacker-invariant inputs, which makes the evasion threat model ineffective by construction (0\,\% evasion for any perturbation value) and matches adversarial training under attack without needing adversarial examples (Section~\ref{sec:inv}).
 \item A leave-one-LLM-out evaluation on GridStratLLM~\cite{kellerer2026gridstratdata}, with and without the ARP signature.
 \item A Flower deployment across Azure and a laptop that reproduces the simulator, and an authenticated model endpoint.
 \end{itemize}
@@ -467,6 +468,36 @@ Evasion, MLP adv.\ trained & -- & 0.153 & 0.115 & 0.101 & 0.096 & -- \\
 \label{fig:sweep}
 \end{figure*}
 
+\subsection{Proposed improvement: attacker-invariant inputs}\label{sec:inv}
+The analyses above use the detector as trained. We now change the detector itself so that the evasion threat model cannot affect it. The attacker of Section~\ref{sec:evasion} can only (i)~add $p$ bytes to every packet, which adds the same $p$ to \texttt{Min}, \texttt{Max}, \texttt{AVG} and \texttt{Tot size}; (ii)~slow down by a factor $r$, which multiplies \texttt{Rate} by $r$ and divides \texttt{IAT} by $r$; and (iii)~set the TTL. We therefore replace these seven inputs by three that the perturbations leave unchanged,
+\begin{equation}
+\texttt{Max}-\texttt{Min},\qquad \texttt{AVG}-\texttt{Min},\qquad \texttt{Rate}\cdot\texttt{IAT},
+\end{equation}
+since $(\texttt{Max}+p)-(\texttt{Min}+p)=\texttt{Max}-\texttt{Min}$ and $(r\,\texttt{Rate})(\texttt{IAT}/r)=\texttt{Rate}\cdot\texttt{IAT}$, and drop the TTL. The padding cap at the MTU adds the same clipped amount to all four size features, so the differences stay exact. The other 26 inputs (flags, protocol shares, header length, \texttt{Std}, \texttt{Variance}) are untouched by the attacker. The resulting 29-input model keeps the v2 architecture, training recipe, early stopping and validation-calibrated thresholds unchanged, so any difference comes from the inputs alone.
+
+\textbf{Invariance holds by construction.} For every allowed perturbation the model receives exactly the same input, so its output cannot change. Unlike adversarial training, this does not depend on the attacker's search grid: it holds for any padding, any slow-down factor and any TTL. Empirically, the same label-only attacker on the same fixed test sample evades 0\,\% of detected windows for all three seeds (Table~\ref{tab:inv}).
+
+\textbf{Cost and benefit.} Removing absolute packet sizes costs clean accuracy: detection at the 1\,\% rule falls from 0.852 to 0.812 and argmax macro-F1 from 0.691 to 0.620. Under attack, however, the invariant model detects 61.4\,\% of the sampled attack windows, as many as the MLP after two rounds of adversarial training (61.7\,\%) and far more than the undefended MLP (45.0\,\%), without generating any adversarial examples. Adversarial training is the better choice when only these perturbation values are expected; the invariant model is the better choice when the attacker may pick any value within the same capabilities. The guarantee is limited to this threat model: an attacker who can also inject extra packets or change flags is outside it.
+
+\begin{table}[t]
+\caption{Proposed attacker-invariant model vs.\ the v2 MLP, 8-class, 1\,\% FPR rule, mean $\pm$ s.d.\ over 3 seeds}\label{tab:inv}
+\centering\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & v2 MLP & v2 MLP, adv.\ trained & Invariant (ours) \\
+\midrule
+Inputs & 33 & 33 & 29 \\
+Clean detection & $0.852\pm.003$ & $0.852\pm.004$ & $0.812\pm.004$ \\
+Achieved benign FPR & $1.3\pm0.2$\,\% & $1.2\pm0.0$\,\% & $0.9\pm0.2$\,\% \\
+Evasion rate ($r\ge0.1$) & $0.359\pm.032$ & $0.122\pm.030$ & $\mathbf{0.000}$ \\
+Detected under attack & $0.450\pm.027$ & $0.617\pm.018$ & $0.614\pm.008$ \\
+Adversarial examples needed & -- & 2 rounds & none \\
+Guarantee for any $p, r$, TTL & no & no & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{LLM-planned attacks}\label{sec:llm}
 \textbf{Results.} Leave-one-LLM-out volume features reach AUC 0.903--1.000 and detect every session. A one-line rule (``IP address with more than one source MAC'') flags 89--99\,\% of attack windows with no false alarms on held-out normal operation.
 
@@ -545,7 +576,7 @@ Smart grid, normal op. & hardened & 35.5\,\% & 35.5\,\% & -- \\
 \end{itemize}
 
 \section{Conclusion}
-Under a leakage-aware protocol, CICIoT2023 multi-class detection is about 0.69 macro-F1, consistent with the dataset authors' benchmark and well below recent federated reports. A calibrated 1\,\% FPR operating point makes the detectors usable, but it is also where evasion is easiest. Loosening it to 2--3\,\% would double or triple the alarm load for 1--3 points of detection and leaves MLP evasion unchanged; adversarial training cuts evasion 2--3$\times$ at the same threshold and at negligible clean cost.
+Under a leakage-aware protocol, CICIoT2023 multi-class detection is about 0.69 macro-F1, consistent with the dataset authors' benchmark and well below recent federated reports. A calibrated 1\,\% FPR operating point makes the detectors usable, but it is also where evasion is easiest. Loosening it to 2--3\,\% would double or triple the alarm load for 1--3 points of detection and leaves MLP evasion unchanged; adversarial training cuts evasion 2--3$\times$ at the same threshold and at negligible clean cost. Our attacker-invariant detector goes further: it removes this evasion entirely, for any perturbation value, at a cost of 4 points of clean detection.
 
 Federated training matches centralised training under mild heterogeneity, and a real cross-cloud deployment reproduced the simulation exactly. Strong label skew remains unsolved. Robust aggregation stops two poisoning clients only within its assumptions. LLM-planned attacks on a smart-grid testbed are detectable because their signature is set by the attack toolkit.
 
