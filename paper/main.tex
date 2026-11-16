@@ -29,7 +29,7 @@ Greater Noida, India}
 \begin{abstract}
 Federated intrusion detection for IoT networks is commonly reported with F1-scores of 0.92--0.99 on CICIoT2023. We re-examine it under a stricter protocol and against three threats in one pipeline: model-update poisoning, inference-time evasion and attacks planned by large language models (LLMs).
 An audit of the local CICIoT2023 release found 55.0\,\% exact duplicate rows and 30.6\,\% of rows that share their feature vector with another class. We therefore use a file- and time-aware, de-duplicated split.
-Under this split, test macro-F1 is $0.687\pm0.005$ (8 classes) for a multilayer perceptron, within 0.01--0.03 of the dataset authors' own benchmark, while recent federated studies on balanced or random samples report 0.92--0.99. At a validation-calibrated 1\,\% benign false-positive rate (FPR), the detectors still find 83--86\,\% of attack windows.
+Under this split, test macro-F1 is $0.687\pm0.005$ (8 classes) for a multilayer perceptron, within 0.01--0.03 of the dataset authors' own benchmark, while recent federated studies on balanced or random samples report 0.92--0.99. At a validation-calibrated 1\,\% benign false-positive rate (FPR), the detectors still find 83--86\,\% of attack windows; loosening the target to 2--3\,\% adds only 1--3 points of detection for two to three times the false alarms.
 Federated averaging costs 0.6--2.5 points of detection with IID or moderately skewed clients, but strong label skew (Dirichlet $\alpha=0.1$) breaks both FedAvg and FedProx.
 Two malicious clients out of ten collapse FedAvg. Coordinate-wise median and trimmed mean neutralise the attacks with IID clients, but only partially with non-IID clients.
 A label-only black-box attacker that can only pad, slow down and re-TTL its own packets evades the deployable 1\,\%-FPR rule for 24--49\,\% of detected windows. Two rounds of adversarial training reduce this to 8--17\,\%.
@@ -52,10 +52,18 @@ Three facts make these numbers hard to act on:
 \item \textbf{LLM-planned attacks.} Attacks are beginning to be planned by LLM agents~\cite{kellerer2026gridstrat}, and it is not known whether their network signatures depend on the planner.
 \end{enumerate}
 
-This paper evaluates all of these in one reproducible pipeline. It makes the following contributions:
+This paper evaluates all of these in one reproducible pipeline. It asks five questions:
+\begin{enumerate}
+\item[RQ1] How well do IoT intrusion detectors perform on CICIoT2023 when duplicates and time order are handled, and at a false-alarm rate an operator can live with? (Sections~\ref{sec:data}, \ref{sec:det})
+\item[RQ2] What does federated training cost, and when does client heterogeneity break it? (Section~\ref{sec:fl})
+\item[RQ3] How many malicious clients does it take to corrupt the shared model, and which aggregation rules stop them? (Section~\ref{sec:pois})
+\item[RQ4] Can an attacker who only shapes its own packets evade the deployed detector, and does adversarial training help? (Section~\ref{sec:evasion})
+\item[RQ5] Do the detectors and their signatures carry over to LLM-planned attacks and to real traffic? (Sections~\ref{sec:llm}, \ref{sec:live})
+\end{enumerate}
+It makes the following contributions:
 \begin{itemize}
 \item A provenance and leakage audit of the local CICIoT2023 release, and a file- and time-aware, de-duplicated split. We show that our multi-class results agree with the dataset authors' benchmark, and we explain the gap to recent federated studies by protocol differences (Section~\ref{sec:lit}).
-\item An operating-point view of detection: thresholds fitted on validation for 5\,\% and 1\,\% benign FPR. We show that the deployable threshold is also the most evadable one.
+\item An operating-point view of detection: thresholds fitted on validation for 5\,\% and 1\,\% benign FPR, a workload argument for 1\,\%, and a 0.5--10\,\% sensitivity analysis. We show that the deployable threshold is also the most evadable one, and that loosening it does not fix this while adversarial training does.
 \item FedAvg and FedProx under IID and Dirichlet label skew for 2, 8 and 34 classes. Poisoning is evaluated with three robust aggregators and a malicious-fraction sweep, and compared with Nayak and Reddy~\cite{nayak2026byzantine}.
 \item A realisable label-only evasion attack with adversarial training, evaluated on the same detectors.
 \item A leave-one-LLM-out evaluation on GridStratLLM~\cite{kellerer2026gridstratdata}, with and without the ARP signature.
@@ -70,6 +78,10 @@ This paper evaluates all of these in one reproducible pipeline. It makes the fol
 \textbf{Poisoning.} Nayak and Reddy~\cite{nayak2026byzantine} compare five aggregators on a balanced binary sample of CICIoT2023 with 20 clients ($\alpha=0.3$), over 641 runs with five seeds and corrected significance tests. FedAvg collapses under 30\,\% sign-flipping. The median and trimmed mean break at 20\,\%, while multi-Krum and FLTrust hold. Client-level differential privacy destroyed utility at every budget they tested.
 
 \textbf{LLMs and attacks.} Kampourakis et al.~\cite{kampourakis2026k2d} use LLMs to \emph{generate} synthetic AWID3 traffic (F1 up to 0.956 when transferred to real data). GridStratLLM~\cite{kellerer2026gridstrat} instead records attacks \emph{planned} by LLMs on a hardware-in-the-loop smart-grid testbed.
+
+\textbf{Evaluation pitfalls.} Sommer and Paxson~\cite{sommer2010closedworld} argued that anomaly detection works well in closed-world benchmarks but struggles in real networks, mainly because the cost of a false alarm is high and normal traffic is diverse. Axelsson~\cite{axelsson2000baserate} showed with Bayes' rule that, because attacks are rare, an IDS needs a very low false-alarm rate before its alarms become trustworthy. Arp et al.~\cite{arp2022dos} list data snooping, spurious correlations and an inappropriate base rate among the most common errors in ML security papers. Our protocol addresses the first two through de-duplication and the window-feature ablation, and the third through a fixed benign FPR and the real-traffic test.
+
+\textbf{Robust aggregation beyond coordinate-wise rules.} Krum and multi-Krum~\cite{blanchard2017krum} select the updates closest to their neighbours, and FLTrust~\cite{cao2021fltrust} scores each update against one computed by the server on a small clean root dataset. Both were the strongest rules in~\cite{nayak2026byzantine}; we compare only coordinate-wise rules, which need no server-side data.
 
 \textbf{Methods.} Robust aggregation by median and trimmed mean follows~\cite{yin2018byzantine}, targeted poisoning with boosting follows~\cite{bagdasaryan2020backdoor,sun2019backdoor}, and Dirichlet partitions follow~\cite{hsu2019noniid}. The problem-space constraints on evasion follow~\cite{apruzzese2022realistic,pierazzi2020problemspace}.
 
@@ -95,7 +107,7 @@ Multi-seed & -- & -- & \checkmark & -- & \checkmark \\
 \end{tabular}
 \end{table}
 
-\section{Data and Leakage-Aware Protocol}
+\section{Data and Leakage-Aware Protocol}\label{sec:data}
 \textbf{CICIoT2023 audit.} The local release has 309 CSV files with 46,776,700 windows and 39 features, and no label column. Labels come from folder names and were checked against traffic content. The audit found:
 \begin{itemize}
 \item 55.0\,\% exact duplicate rows;
@@ -103,6 +115,33 @@ Multi-seed & -- & -- & \checkmark & -- & \checkmark \\
 \item six features that encode the per-family extraction window (100 or 10 packets);
 \item rows that are time-ordered within files.
 \end{itemize}
+Table~\ref{tab:audit} lists the audit in detail. All counts are exact over the 46.8\,M rows and were reproduced by a second, independent run with zero differences.
+
+\begin{table}[t]
+\caption{Audit of the local CICIoT2023 release (exact counts, 46,776,700 rows)}\label{tab:audit}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Check & Rows \\
+\midrule
+Exact duplicate rows & 25,720,426 (55.0\,\%) \\
+Vector also under another 34-class label & 14,321,020 (30.6\,\%) \\
+\quad \ldots{} under another 8-class category & 13,807,710 (29.5\,\%) \\
+Most shared: DDoS-SYN / DDoS-SynonymousIP & 174,712 vectors \\
+\quad DDoS-TCP / DoS-TCP & 174,396 vectors \\
+\texttt{Max} above an Ethernet frame (1514\,B) & 716,937 \\
+\texttt{Rate} $=+\infty$ & 1,037 \\
+Any missing value & 705 \\
+Negative \texttt{IAT}, \texttt{Max}$<$\texttt{Min} & 2, 1 \\
+\texttt{Variance}$=$\texttt{Std}$^2$, \texttt{Tot size}$=$\texttt{AVG} & redundant in all rows \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Consequences.} Identical inputs with different labels set a ceiling on achievable accuracy: DDoS-$X$ and DoS-$X$ of the same flood type are partly not separable from these features. Rows are also time-ordered within each file: the mean squared difference between consecutive standardised rows is about half that of shuffled rows (e.g.\ 5.03 vs 10.01 for benign traffic), so a random row split places near-identical neighbouring windows in training and test. Finally, \texttt{Number} is 100 for at least 99.1\,\% of DDoS, DoS and Mirai rows and 10 for at least 99.9\,\% of the others, because the dataset authors extracted features over different window sizes per family. \texttt{Number}, \texttt{Tot sum} and the four \texttt{*\_count} columns therefore encode the extraction setting rather than the traffic, and we exclude them. Keeping them as an ablation raises 8-class test macro-F1 only slightly (MLP 0.696 vs 0.687, RF 0.712 vs 0.709), so the shortcut is real but small under our split.
+
+\textbf{Labels.} The release has no label column; labels come from the 34 folder names through an explicit table, and an unknown folder stops the pipeline. The folder labels agree with the traffic content: ICMP floods have an ICMP share of 0.996, UDP floods 0.98--0.99, SYN floods a SYN-flag share of 0.95--1.00. Benign, Recon, Spoofing, Web and Brute-force windows have very similar protocol mixes, which is where most later errors occur.
 
 \textbf{Split.} Classes with three or more capture files are split by file. The 17 classes with one or two files are split into purged 70/15/15 time blocks. Rows are de-duplicated within each split and capped per class, giving 664,187 training, 132,923 validation and 253,328 test windows.
 
@@ -126,7 +165,28 @@ Fig.~\ref{fig:arch} shows the pipeline.
 \item \emph{v2 MLP:} 256-128 hidden units with dropout 0.1, selected by a 24-configuration search on validation with three seeds.
 \item \emph{Tree baselines:} RF and HistGradientBoosting (HGB).
 \end{itemize}
+The v2 search covered hidden layers \{128-64, 256-128, 256-128-64\}, learning rate \{$10^{-3}$, $3\cdot10^{-4}$\}, class weighting \{square-root inverse, inverse\} and dropout \{0.1, 0.3\}, i.e.\ 24 configurations per task. All were trained with seed 0 on the training split and ranked by validation macro-F1; the three best per task were re-run with seeds 1 and 2, and the configuration with the highest three-seed mean was kept. Square-root inverse weighting won in every task: full inverse weighting raised benign recall but cost 3--10 points of macro-F1. Training uses batch size 512 and at most 50 epochs with early stopping (patience 5); the test split is never loaded during the search. The RF uses 100 trees with balanced-subsample class weights, as in the dataset benchmark~\cite{neto2023ciciot}; HGB uses up to 300 boosting iterations with balanced class weights and early stopping on an internal 10\,\% of the training data.
+
+\textbf{Preprocessing.} Infinite values are treated as missing and imputed with the training median of each feature; 15 heavy-tailed features (rates, sizes, counts and inter-arrival times) are transformed with a signed logarithm, and all features are standardised with training statistics. The fitted parameters are stored as plain JSON and reused unchanged for validation, test, every federated client, the attacks, the endpoint and the real-traffic scoring.
 The attack score is $1-P(\text{Benign})$. Thresholds are set on validation so that at most 5\,\% or 1\,\% of benign windows are flagged; above the threshold, the most probable attack class is assigned.
+
+\textbf{Choice of operating point.} The 1\,\% target (with 5\,\% as a looser alternative) was fixed in the project plan before any test-set evaluation; it was not tuned on test data. The reason is analyst workload. Attacks are rare in operational traffic, so the number of false alarms, not the attack recall, decides whether an IDS is usable: this is the base-rate fallacy described by Axelsson~\cite{axelsson2000baserate}, and a recurring pitfall in ML-based detection~\cite{sommer2010closedworld,arp2022dos}. Our real-traffic capture (Section~\ref{sec:live}) produced 5,958 ten-packet windows in 10 minutes, about 9.9 windows per second, or 35,700 per hour from a single laptop. Each percentage point of benign FPR therefore adds about 357 false alarms per device per hour (Table~\ref{tab:workload}). At 2\,\% or 3\,\% a single device would produce 700--1,100 false alarms per hour, which no operator can triage; even 1\,\% is only tolerable if alarms are aggregated per host and time window. Lower targets (e.g.\ 0.1\,\%) cannot be calibrated reliably: with 5,000 benign validation windows, a 0.1\,\% threshold rests on only 5 windows. We therefore treat 1\,\% as the strictest operating point the validation data support, and report 5\,\% to show what looser alarms buy. Section~\ref{sec:sweep} measures detection and evasion between these points.
+
+\begin{table}[t]
+\caption{False alarms implied by the benign FPR for one device producing 9.9 windows/s (rate measured on the laptop capture)}\label{tab:workload}
+\centering\footnotesize
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Benign FPR & False alarms per hour & per 8-hour day \\
+\midrule
+0.5\,\% & 179 & 1,430 \\
+1\,\% & 357 & 2,860 \\
+2\,\% & 715 & 5,720 \\
+3\,\% & 1,072 & 8,580 \\
+5\,\% & 1,787 & 14,300 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \textbf{Federated learning.} The simulator uses 10 clients with full participation, 30 rounds and one local epoch. Partitions are IID or Dirichlet with $\alpha\in\{1.0, 0.1\}$, and the algorithms are FedAvg~\cite{mcmahan2017fedavg} and FedProx~\cite{li2020fedprox} ($\mu=0.01$). The same model and partitions also run as Flower processes: the server on one Azure VM, five clients on a second VM and five on a laptop, over TLS.
 
@@ -147,10 +207,32 @@ Every success is re-checked against these constraints and re-queried; there were
 
 \textbf{Adversarial training.} Each round, successful adversarial training windows are added with their true labels, the model is retrained, and it is re-attacked adaptively on a fixed test sample. We run two rounds.
 
+\textbf{Threat models side by side.} Table~\ref{tab:threat} contrasts the two attackers. They target different stages: the poisoner changes the model while it is trained, the evader changes only its own traffic after deployment. Neither sees honest clients' data.
+
+\begin{table}[t]
+\caption{The two threat models}\label{tab:threat}
+\centering\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}p{0.2\columnwidth}p{0.37\columnwidth}p{0.37\columnwidth}@{}}
+\toprule
+ & Poisoning (training time) & Evasion (inference time) \\
+\midrule
+Attacker & $m$ of $K$ FL clients, fixed for all rounds & sender of the attack traffic \\
+Knowledge & current global model, protocol, aggregation rule & predicted label only \\
+Capability & arbitrary model update; own data & padding, slow-down, TTL of own packets \\
+Cannot & see honest updates; alter the server & change flags, protocol, headers, benign traffic \\
+Goal & collapse utility, or hide DDoS as Benign & detected window classified Benign \\
+Defence & median, trimmed mean, norm clip & adversarial training \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Deployment.} Two Azure B2s~v2 virtual machines run Ubuntu~24.04 in one resource group: one hosts the Flower~1.42 SuperLink, the other five SuperNodes, and the laptop runs the other five SuperNodes through an SSH tunnel. All Flower traffic uses TLS with a private certificate authority. Only derived files leave the laptop: each client receives only its own preprocessed partition, and the server only the validation and test arrays; the raw CICIoT2023 files never leave it. The firewall admits SSH on one port from the operator's addresses only. The trained global model is served by a FastAPI endpoint in a container that requires an API key and TLS, and a dashboard on the same VM lets a reviewer run detection and the evasion attack against the live model.
+
 \section{Results}
 All values are test-set results. Where three seeds were run, we give the mean $\pm$ the standard deviation.
 
-\subsection{Detection, and comparison with prior work}
+\subsection{Detection, and comparison with prior work}\label{sec:det}
 Table~\ref{tab:det} and Fig.~\ref{fig:lit} put our results next to those reported for CICIoT2023.
 
 \textbf{Agreement with the dataset authors.} Our 8-class macro-F1 (MLP 0.687, RF 0.709) is within 0.01--0.03 of Neto et al.'s own benchmark, and the hard classes are the same. The 0.92--0.99 results in~\cite{bilal2026dataset,nayak2026byzantine} come from balanced or random samples, which hide the benign class. Their split files are not public, so the effect of each factor cannot be isolated.
@@ -158,6 +240,27 @@ Table~\ref{tab:det} and Fig.~\ref{fig:lit} put our results next to those reporte
 \textbf{Binary results depend on the class prior.} Our binary MLP scores 0.750 on the de-duplicated, capped test set, but 0.920 on the whole test pool at the natural prior, close to Neto et al.'s DNN (0.940).
 
 \textbf{Accuracy and confusion.} Our 8-class accuracy is 0.807 (MLP) and 0.828 (RF), against 0.994 in~\cite{neto2023ciciot}. Fig.~\ref{fig:cm} shows where the errors lie. DDoS and DoS, the two largest classes, are confused with each other (18--22\,\% for the MLP). Most of the 30.6\,\% of raw rows that share their feature vector with another class are DDoS-$X$/DoS-$X$ pairs. Web and Brute force fall mostly into Recon. Binary accuracy on the whole test pool is 0.990 (MLP), close to the 0.997 reported in~\cite{neto2023ciciot}.
+
+\textbf{Per-class results.} Table~\ref{tab:perclass} gives 8-class F1 per class. Mirai is almost perfectly separated (0.996), and DDoS, Spoofing and Recon reach 0.80--0.89. Web attacks are the weakest class (MLP 0.24, RF 0.32): they are rare (3,534 test windows), their packets look like ordinary web browsing, and they are mostly predicted as Recon. Benign itself reaches only 0.59: half of the windows predicted Benign are attack windows that resemble normal traffic (precision 0.50). In the 34-class task the same pattern is sharper: all six Web sub-classes, Recon-PingSweep and DDoS-SYN stay below 0.15, while the fragmentation, ICMP, PSH-ACK and RST-FIN floods exceed 0.98.
+
+\begin{table}[t]
+\caption{Per-class test F1, 8-class task (MLP seed 0 and RF)}\label{tab:perclass}
+\centering\footnotesize
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Class & Support & MLP prec. / rec. & MLP F1 & RF F1 \\
+\midrule
+Benign & 10,000 & 0.50 / 0.71 & 0.586 & 0.580 \\
+BruteForce & 1,895 & 0.51 / 0.52 & 0.518 & 0.550 \\
+DDoS & 107,571 & 0.91 / 0.82 & 0.863 & 0.872 \\
+DoS & 40,000 & 0.62 / 0.77 & 0.686 & 0.629 \\
+Mirai & 30,000 & 1.00 / 0.99 & 0.996 & 0.996 \\
+Recon & 40,328 & 0.85 / 0.75 & 0.798 & 0.841 \\
+Spoofing & 20,000 & 0.82 / 0.84 & 0.829 & 0.888 \\
+Web & 3,534 & 0.21 / 0.28 & 0.242 & 0.317 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure*}[t]
 \centering
@@ -167,6 +270,25 @@ Table~\ref{tab:det} and Fig.~\ref{fig:lit} put our results next to those reporte
 \end{figure*}
 
 \textbf{Accuracy hides false alarms.} At argmax, every model flags 19--29\,\% of benign windows. At the 1\,\% validation threshold, the achieved test FPR is 0.7--1.3\,\%, and attack detection is 0.852 / 0.846 / 0.833 for the v2 MLP and 0.862 / 0.849 / 0.861 for HGB (8-class / 34-class / binary).
+
+\textbf{Which detector, and why the MLP.} Table~\ref{tab:models} compares all detectors at the same operating points. Three results stand out. First, the RF has the highest 8-class macro-F1 at argmax (0.709), but only because it flags 46\,\% of benign windows; at an equal 1\,\% FPR it detects fewer attacks than the v2 MLP (84.1\,\% vs 85.2\,\%). A ranking by macro-F1 alone would have chosen the least deployable model. Second, the v2 MLP improves on v1 by 0.3--0.7 points of detection and is far more stable across seeds (standard deviation of 34-class validation macro-F1 over three seeds: 0.002 vs 0.018). Third, HGB is the strongest detector at 1\,\% FPR, by 1--3 points. We keep the MLP as the main detector because federated averaging, the robust aggregators and the poisoning attacks all operate on model weights, which tree ensembles do not have, and because after adversarial training its residual evasion (0.09--0.12 across tasks) is more consistent than HGB's (0.08--0.17; Section~\ref{sec:evasion}). A two-stage detector (binary, then attack family) detects exactly what its binary stage detects, 0.842 on validation against 0.861 for the single v2 MLP, and names the family less well (validation macro-F1 at 1\,\% FPR 0.581 vs 0.608); it was dropped.
+
+\begin{table}[t]
+\caption{Detectors on the test set at argmax and at equal benign FPR (MLP: mean of 3 seeds)}\label{tab:models}
+\centering\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & \multicolumn{2}{c}{8-class, argmax} & Detection at 1\,\% FPR \\
+Model & macro-F1 & benign flagged & 8-cl. / 34-cl. / 2-cl. \\
+\midrule
+v1 MLP & 0.687 & 26.4\,\% & 0.849 / 0.844 / 0.826 \\
+v2 MLP & 0.691 & 25.6\,\% & 0.852 / 0.846 / 0.833 \\
+RF & 0.709 & 46.4\,\% & 0.841 / 0.854 / 0.824 \\
+HGB & 0.650 & 20.6\,\% & 0.862 / 0.848 / 0.861 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{table}[t]
 \caption{CICIoT2023 F1 by evaluation protocol (macro-F1 for multi-class)}\label{tab:det}
@@ -197,12 +319,16 @@ Ours & 8-cl., FedAvg IID & file/time, dedup. & 0.668 \\
 \label{fig:lit}
 \end{figure}
 
-\subsection{Federated learning}
+\subsection{Federated learning}\label{sec:fl}
 Table~\ref{tab:fl} gives the federated results.
 
 \textbf{Mild heterogeneity.} With IID or $\alpha=1.0$ clients, FL is 0.02--0.04 macro-F1 below centralised training, or 0.6--2.5 points of detection at 1\,\% FPR. This agrees with~\cite{bilal2026dataset}.
 
-\textbf{FedProx.} FedProx's change is within one standard deviation. Bilal et al. report a 1-point gain.
+\textbf{FedProx.} FedProx's change is within one standard deviation. Bilal et al. report a 1-point gain. Varying the proximal weight under strong skew does not help either: with $\alpha=0.1$ and $\mu\in\{0.001, 0.1, 1.0\}$ (one seed), 8-class macro-F1 stays at 0.34--0.40.
+
+\textbf{How skewed the clients are.} We measure heterogeneity as the mean total-variation distance between each client's label distribution and the global one. It is 0.003 for IID clients, 0.26 for $\alpha=1.0$ and 0.64 for $\alpha=0.1$ (8-class). With $\alpha=0.1$, clients hold very different class mixes, so one epoch of local training pulls each copy of the model towards its own few classes, and averaging these copies does not recover a model that is good for all.
+
+\textbf{Communication.} The v1 MLP has 13,128 parameters (51\,kB in float32). Thirty rounds with ten clients, each downloading and uploading the full model every round, move about 30\,MB in total. One simulated run takes 88--116\,s on a laptop GPU; FedProx adds about 25\,\% to the runtime.
 
 \textbf{Strong label skew.} With $\alpha=0.1$, training breaks in all tasks: the benign FPR rises to about 0.6, with large seed variance. Re-running for 60 rounds showed this is not under-training: round 30 of each 60-round run equals the 30-round run, and 8-class $\alpha=0.1$ stays at 0.31--0.51.
 
@@ -233,7 +359,7 @@ FedProx $\alpha{=}0.1$ & $0.469\pm.106$ & $0.426\pm.026$ & $0.640\pm.128$ \\
 \end{tabular}
 \end{table}
 
-\subsection{Model-update poisoning}
+\subsection{Model-update poisoning}\label{sec:pois}
 Table~\ref{tab:pois} gives the poisoning results with IID clients.
 
 \textbf{FedAvg.} Two malicious clients defeat FedAvg in every task. Sign-flipping collapses it to a single class (macro-F1 0.003--0.038). The targeted attack hides 23--62\,\% of DDoS windows as Benign, but it is not stealthy: macro-F1 falls and the benign FPR rises.
@@ -242,9 +368,9 @@ Table~\ref{tab:pois} gives the poisoning results with IID clients.
 
 \textbf{Non-IID clients.} With $\alpha=1.0$ (one seed), protection is partial: sign-flipping raises the 8-class benign FPR from 0.31--0.33 to 0.42--0.50.
 
-\textbf{Fraction sweep.} At 30\,\% malicious clients, the trimmed mean (which trims two values per side) fails (8-class 0.477), while the median holds (0.665).
+\textbf{Fraction sweep.} At 30\,\% malicious clients, the trimmed mean (which trims two values per side) fails (8-class 0.477), while the median holds (0.665). The sweep also shows how little it takes to hurt FedAvg: a single malicious client (10\,\%) already lowers 8-class macro-F1 from 0.668 to 0.640 with sign-flipping, and the targeted attack then hides 29\,\% of DDoS windows as Benign. At 30\,\% the targeted attack also gets through the trimmed mean partly (2.3\,\% of DDoS hidden, macro-F1 0.639), while the median keeps it at 0.3\,\%. With 30\,\% sign-flipping clients the trimmed mean also fails in the 34-class task (0.364, median 0.512) and degrades in the binary task (0.708, median 0.735).
 
-\textbf{Comparison with~\cite{nayak2026byzantine}.} Nayak and Reddy observe the same pattern: FedAvg collapses, and coordinate-wise rules hold only within their assumptions. Their rules break earlier (at 20\,\%), which is consistent with their stronger client skew ($\alpha=0.3$, 20 clients). We did not evaluate multi-Krum or FLTrust, the strongest rules in their study.
+\textbf{Comparison with~\cite{nayak2026byzantine}.} Nayak and Reddy observe the same pattern: FedAvg collapses, and coordinate-wise rules hold only within their assumptions. Their rules break earlier (at 20\,\%), which is consistent with their stronger client skew ($\alpha=0.3$, 20 clients). We did not evaluate multi-Krum~\cite{blanchard2017krum} or FLTrust~\cite{cao2021fltrust}, the strongest rules in their study.
 
 \begin{table}[t]
 \caption{Test macro-F1 under poisoning, 2 of 10 clients malicious, IID (3 seeds). DDoS$\rightarrow$B in brackets.}\label{tab:pois}
@@ -271,12 +397,34 @@ DDoS$\rightarrow$B & Median & 0.667 ($\le$.003) & 0.522 ($\le$.002) & 0.742 ($\l
 \label{fig:pois}
 \end{figure}
 
-\subsection{Evasion and adversarial training}
+\subsection{Evasion and adversarial training}\label{sec:evasion}
 \textbf{Which families evade.} Flood families (DDoS, DoS, Mirai) are rarely evaded. Spoofing, Web, Recon and Brute force can be made to look benign 20--65\,\% of the time; these are the families already confused with Benign. Most successes need no slow-down.
+
+\textbf{Which knob matters.} No single change is enough. Against the v1 MLP at argmax (8-class, $r\ge0.1$), padding alone evades at most 7\,\% of detected windows in any family, slowing down alone at most 6\,\% and changing the TTL alone at most 12.5\,\% (Spoofing). Combined, the same attacker evades 40\,\% of Spoofing, 33\,\% of Web, 29\,\% of Brute-force and 28\,\% of Recon windows. The attack works because the three knobs move different features at once, which is exactly what a feature-space defence that watches one feature would miss.
 
 \textbf{The deployable threshold is the most evadable.} At the 1\,\% threshold, the round-0 evasion rate is 1.1--2.1$\times$ the argmax rate: 0.24--0.41 for the v2 MLP and 0.33--0.49 for HGB. The binary RF looked robust at argmax (0.04), but only because it flagged 59\,\% of benign traffic. At a fixed FPR, every model is evadable.
 
 \textbf{Adversarial training.} One round of adversarial training reduces evasion 2--3$\times$ in every task and model. After two rounds it is 0.09--0.12 for the MLP and 0.08--0.17 for HGB (Fig.~\ref{fig:adv}). Clean detection changes by $-0.011$ to $+0.005$, and the benign FPR stays at 0.9--1.25\,\%. Spoofing (0.28--0.69) and Web (0.20--0.50) remain evadable.
+
+\textbf{Per family.} Table~\ref{tab:advfam} shows where adversarial training helps. For flood traffic and for Brute force and Recon, two rounds bring evasion down to 1--9\,\% for both models. Spoofing and Web drop by half or more but stay at 29--41\,\%: their benign-looking packets leave the model little room to move the decision boundary without flagging normal traffic. Robust detection of Recon stays low (0.35--0.36) because only about 38\,\% of the sampled Recon windows are detected at the 1\,\% threshold even before any attack.
+
+\begin{table}[t]
+\caption{Evasion rate per family at the 1\,\% FPR rule, 8-class, $r\ge0.1$: round 0 $\rightarrow$ round 2 of adversarial training}\label{tab:advfam}
+\centering\footnotesize
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Family & v2 MLP & HGB \\
+\midrule
+BruteForce & 0.45 $\rightarrow$ 0.08 & 0.39 $\rightarrow$ 0.03 \\
+DDoS & 0.26 $\rightarrow$ 0.04 & 0.39 $\rightarrow$ 0.02 \\
+DoS & 0.34 $\rightarrow$ 0.06 & 0.42 $\rightarrow$ 0.02 \\
+Mirai & 0.02 $\rightarrow$ 0.03 & 0.06 $\rightarrow$ 0.01 \\
+Recon & 0.41 $\rightarrow$ 0.08 & 0.37 $\rightarrow$ 0.06 \\
+Spoofing & 0.80 $\rightarrow$ 0.39 & 0.97 $\rightarrow$ 0.29 \\
+Web & 0.78 $\rightarrow$ 0.41 & 0.90 $\rightarrow$ 0.29 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[t]
 \centering
@@ -285,14 +433,66 @@ DDoS$\rightarrow$B & Median & 0.667 ($\le$.003) & 0.522 ($\le$.002) & 0.742 ($\l
 \label{fig:adv}
 \end{figure}
 
-\subsection{LLM-planned attacks}
+\subsection{Operating-point sensitivity: 1\% versus 2\% or 3\%}\label{sec:sweep}
+To check the choice of 1\,\%, we re-fitted thresholds on validation for targets of 0.5, 1, 2, 3, 5 and 10\,\% and applied each unchanged to the test split (Fig.~\ref{fig:sweep}, Table~\ref{tab:sweep}). This is a post-hoc sensitivity analysis; it changes no choice made earlier. The re-computed 1\,\% points reproduce the frozen results exactly.
+
+\textbf{Looser thresholds buy little detection.} Moving from 1\,\% to 2\,\% raises MLP detection by only 1.1--1.9 points, and moving to 3\,\% by 2.3--3.4 points, while the false-alarm load doubles or triples (Table~\ref{tab:workload}). Even at 10\,\% FPR, detection stays at 92--94\,\%: the last 6--8\,\% of attack windows look benign to every detector, so no threshold separates them cheaply. HGB follows the same curve 1--3 points higher.
+
+\textbf{Looser thresholds do not stop evasion.} For the frozen MLP the evasion rate is flat at 34--35\,\% between 1\,\% and 5\,\% FPR: the attacker simply pushes its windows further below the threshold. For HGB it falls from 44\,\% to 31\,\%. Adversarial training at the same 1\,\% threshold lowers MLP evasion to 15\,\%, more than any loosening of the threshold achieves, and without extra false alarms. The better response to evasion is therefore a hardened model, not a looser threshold.
+
+\begin{table}[t]
+\caption{Test detection when the validation FPR target is varied (MLP: mean of 3 seeds), and 8-class evasion ($r\ge0.1$, seed 0)}\label{tab:sweep}
+\centering\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Target FPR & 0.5\,\% & 1\,\% & 2\,\% & 3\,\% & 5\,\% & 10\,\% \\
+\midrule
+Det., MLP 8-cl. & 0.839 & 0.852 & 0.864 & 0.875 & 0.893 & 0.923 \\
+Det., MLP 34-cl. & 0.837 & 0.846 & 0.861 & 0.872 & 0.892 & 0.923 \\
+Det., MLP binary & 0.822 & 0.833 & 0.852 & 0.867 & 0.890 & 0.922 \\
+Det., HGB 8-cl. & 0.852 & 0.862 & 0.877 & 0.887 & 0.902 & 0.925 \\
+\midrule
+Evasion, MLP & -- & 0.346 & 0.347 & 0.348 & 0.340 & -- \\
+Evasion, HGB & -- & 0.445 & 0.395 & 0.367 & 0.313 & -- \\
+Evasion, MLP adv.\ trained & -- & 0.153 & 0.115 & 0.101 & 0.096 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.86\textwidth]{fpr_sweep.png}
+\caption{Left: test attack detection against achieved test benign FPR when the validation target is 0.5--10\,\% (the dashed line marks 1\,\%). Right: evasion rate of the label-only attacker at each target, 8-class.}
+\label{fig:sweep}
+\end{figure*}
+
+\subsection{LLM-planned attacks}\label{sec:llm}
 \textbf{Results.} Leave-one-LLM-out volume features reach AUC 0.903--1.000 and detect every session. A one-line rule (``IP address with more than one source MAC'') flags 89--99\,\% of attack windows with no false alarms on held-out normal operation.
 
 \textbf{Why the planner barely matters.} All sessions execute through the same toolkit (ARP MITM plus S7/Modbus modification), so the signature is set by the tools, not the LLM.
 
 \textbf{Without the ARP signature.} Removing the ARP and host-count features lowers AUC by only 0.003--0.007, and 98--100\,\% of sessions are still found. The residual signal is the MITM relay itself: about 5\,\% more S7 packets per window. SCADA process data alone carry no usable signal in this form (AUC 0.37--0.58).
 
-\subsection{Real traffic}
+\begin{table}[t]
+\caption{GridStratLLM, leave-one-LLM-out: window ROC-AUC / share of sessions detected}\label{tab:grid}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Held-out planner & Volume (14) & No ARP/hosts (12) & Process only (137) \\
+\midrule
+Claude Sonnet 4.6 & 0.996 / 1.00 & 0.993 / 1.00 & 0.501 / 0.83 \\
+Gemini 3.1 Pro & 1.000 / 1.00 & 0.996 / 1.00 & 0.373 / 0.54 \\
+MiniMax M2.5 & 0.976 / 1.00 & 0.969 / 1.00 & 0.545 / 0.94 \\
+GPT-5.3 Codex & 0.903 / 1.00 & 0.896 / 0.98 & 0.580 / 0.87 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{False alarms on normal operation.} With volume features, three of the four folds raise no false alarm on the 0.70\,h of held-out normal operation, and the MiniMax fold raises 1.4 per hour. Process-only models raise 78--172 false alarms per hour while detecting fewer sessions, so their session detection rates in Table~\ref{tab:grid} mostly reflect alarms raised at random.
+
+\subsection{Real traffic}\label{sec:live}
 The CICIoT2023 test split comes from the same lab as its training data. We therefore scored two captures that contain no attacks, so that every alarm is a false alarm: 10 minutes of the first author's laptop on home Wi-Fi (Wireshark/Npcap; web browsing and a video; 59,586 packets, 5,958 windows), and GridStratLLM normal operation (2.15\,M packets of S7 traffic). The CICIoT2023 extractor is not public without registration, so we re-implemented the 10-packet window features and checked each definition against the dataset's benign rows. Table~\ref{tab:live} gives the results.
 
 \textbf{The detectors do not transfer.} The 1\,\% rule, which flags 1.2\,\% of benign test windows, flags 86--89\,\% of the laptop's windows. 64\,\% of them are HTTPS over UDP port 443 (HTTP/3), which is nearly absent from the dataset's benign class; 98--99\,\% of those are flagged, and ordinary TCP browsing is flagged 62--70\,\%. Burst timestamps on Windows Wi-Fi capture inflate the rate features, but replacing them with the training median lowers the alarm rate only to 84.7\,\%.
@@ -328,6 +528,12 @@ Smart grid, normal op. & hardened & 35.5\,\% & 35.5\,\% & -- \\
 \item every CICIoT2023 result assumes CICIoT2023-like benign traffic~\cite{arp2022dos}.
 \end{itemize}
 
+\textbf{Threats to validity.} \emph{Internal:} every threshold, model choice and hyperparameter was fixed on validation data; the test split was scored once per frozen detector, and the evaluation code refuses to re-score an existing test result. The sweep in Section~\ref{sec:sweep} re-uses the test split only as a post-hoc sensitivity analysis and changes no choice. \emph{Construct:} macro-F1 weights rare classes such as Web as heavily as DDoS, which suits a multi-class IDS but makes our numbers look lower than accuracy-based reports. We therefore also give detection at a fixed benign FPR, which is what an operator experiences. \emph{External:} CICIoT2023 comes from one testbed, and the real-traffic test shows that its benign class does not represent a home network.
+
+\textbf{Ethics.} All attack traffic comes from the two public research datasets; no attack was run against a real system. The real-traffic capture was taken on the first author's own laptop and network, contains no attacks, and only aggregate window features were kept; no addresses or payloads were stored.
+
+\textbf{Reproducibility.} The repository contains the split manifests, every configuration, per-run metrics and histories, and 76 automated tests, including tests that no file or row appears in two splits. Seeds are fixed for partitions, client sampling, initialisation and shuffling; re-running the 8-class MLP without local data reproduced the frozen models exactly, and the Flower deployment reproduced the simulator to four decimals.
+
 \textbf{Limitations.}
 \begin{itemize}
 \item One dataset release, one split and one hardware setup. The poisoning sweep and non-IID poisoning cells use one seed.
@@ -339,7 +545,7 @@ Smart grid, normal op. & hardened & 35.5\,\% & 35.5\,\% & -- \\
 \end{itemize}
 
 \section{Conclusion}
-Under a leakage-aware protocol, CICIoT2023 multi-class detection is about 0.69 macro-F1, consistent with the dataset authors' benchmark and well below recent federated reports. A calibrated 1\,\% FPR operating point makes the detectors usable, but it is also where evasion is easiest. Adversarial training cuts evasion 2--3$\times$ at negligible clean cost.
+Under a leakage-aware protocol, CICIoT2023 multi-class detection is about 0.69 macro-F1, consistent with the dataset authors' benchmark and well below recent federated reports. A calibrated 1\,\% FPR operating point makes the detectors usable, but it is also where evasion is easiest. Loosening it to 2--3\,\% would double or triple the alarm load for 1--3 points of detection and leaves MLP evasion unchanged; adversarial training cuts evasion 2--3$\times$ at the same threshold and at negligible clean cost.
 
 Federated training matches centralised training under mild heterogeneity, and a real cross-cloud deployment reproduced the simulation exactly. Strong label skew remains unsolved. Robust aggregation stops two poisoning clients only within its assumptions. LLM-planned attacks on a smart-grid testbed are detectable because their signature is set by the attack toolkit.
 

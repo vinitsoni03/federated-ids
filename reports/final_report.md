@@ -240,6 +240,63 @@ Test attack detection at the 5 % / 1 % validation thresholds (achieved test beni
 * **Caveat.** These are per-window rates. On a busy network, 1 % of benign windows can still mean many alerts;
   alert aggregation was not evaluated.
 
+**Why the MLP is the main detector, although HGB detects slightly more.**
+* **Against the dataset paper's Random Forest:** the RF has the highest 8-class macro-F1 at argmax (0.709 vs
+  0.691), but only because it flags 46.4 % of benign windows. At an equal 1 % FPR the v2 MLP detects more
+  (0.852 vs 0.841). Ranking by macro-F1 alone would have picked the least deployable model.
+* **Against v1:** +0.3-0.7 points of detection at 1 % and about 9x more stable across seeds.
+* **Against HGB:** HGB is 1-3 points better at 1 % FPR. The MLP stays the main detector because FedAvg, the
+  robust aggregators and the poisoning attacks all work on model weights, which tree ensembles do not have,
+  and because after two rounds of adversarial training its residual evasion is more consistent (0.09-0.12 across
+  tasks vs 0.08-0.17 for HGB, section 7.1).
+* **Against published federated results (0.92-0.99):** those numbers come from balanced or random samples of a
+  dataset with 55 % duplicate rows. Under the leakage-aware split, the MLP is within 0.01-0.03 of the dataset
+  authors' own benchmark (section 1.2), so it is the more trustworthy number, not a weaker model.
+* **On real traffic:** adding 2.6 minutes of the laptop's own benign windows to training cut false alarms from
+  86.9 % to 0.45 % without lowering CICIoT2023 detection (section 4.2).
+
+#### 4.1.1 Why a 1 % benign false-positive rate, and not 2 % or 3 %
+The 1 % target (with 5 % as a looser alternative) was fixed in `PHASE2_PLAN.md` before any test-set run; it was
+not tuned on test data. The reason is analyst workload. Attacks are rare in real traffic, so the number of false
+alarms, not recall, decides whether an IDS is usable (the base-rate fallacy, Axelsson 2000; Sommer and Paxson
+2010; Arp et al. 2022). The laptop capture in section 4.2 produced 5,958 ten-packet windows in 10 minutes, about
+9.9 windows per second or 35,700 per hour from one device:
+
+| Benign FPR | False alarms per hour (one device) | per 8-hour day |
+|---|---|---|
+| 0.5 % | 179 | 1,430 |
+| 1 % | 357 | 2,860 |
+| 2 % | 715 | 5,720 |
+| 3 % | 1,072 | 8,580 |
+| 5 % | 1,787 | 14,300 |
+
+Every extra percentage point adds about 360 false alarms per device per hour, so 2-3 % would double or triple
+the triage load. Targets below 1 % cannot be calibrated reliably: with 5,000 benign validation windows, a 0.1 %
+threshold rests on only 5 windows. 1 % is therefore the strictest point the validation data support.
+
+**Measured: what 2 % or 3 % would buy** (`scripts/fpr_sweep.py`, `reports/tables/fpr_sweep.csv`,
+`fpr_sweep_evasion.csv`, `reports/figures/fpr_sweep.png`). Thresholds were re-fitted on validation for 0.5-10 % and
+applied unchanged to test. This is a post-hoc sensitivity analysis; the re-computed 1 % points reproduce the frozen
+results exactly, and no choice was changed.
+
+| Target FPR | 0.5 % | 1 % | 2 % | 3 % | 5 % | 10 % |
+|---|---|---|---|---|---|---|
+| Detection, MLP 8-class (3 seeds) | 0.839 | 0.852 | 0.864 | 0.875 | 0.893 | 0.923 |
+| Detection, MLP 34-class | 0.837 | 0.846 | 0.861 | 0.872 | 0.892 | 0.923 |
+| Detection, MLP binary | 0.822 | 0.833 | 0.852 | 0.867 | 0.890 | 0.922 |
+| Detection, HGB 8-class | 0.852 | 0.862 | 0.877 | 0.887 | 0.902 | 0.925 |
+| Evasion, MLP 8-class (seed 0, r >= 0.1) | - | 0.346 | 0.347 | 0.348 | 0.340 | - |
+| Evasion, HGB 8-class | - | 0.445 | 0.395 | 0.367 | 0.313 | - |
+| Evasion, MLP after adversarial training | - | 0.153 | 0.115 | 0.101 | 0.096 | - |
+
+* **Little extra detection.** 1 % -> 2 % adds 1.1-1.9 points of MLP detection, 1 % -> 3 % adds 2.3-3.4 points, for
+  two to three times the false alarms. Even at 10 % detection only reaches 92-94 %.
+* **No protection against evasion.** The frozen MLP's evasion rate stays at 34-35 % from 1 % to 5 %; HGB falls
+  from 44 % to 31 %. Adversarial training at 1 % brings the MLP to 15 %, better than any looser threshold and
+  without extra alarms.
+* **Answer:** 1 % is kept. 2-3 % would multiply the analyst workload for a 1-3 point gain and would not fix the
+  evasion problem; adversarial training does that at the same 1 % threshold.
+
 ### 4.2 Real traffic: does the detector transfer? - `reports/tables/live_capture.csv`, `live_recalibration.csv`, `live_retrain_summary.csv`
 CICIoT2023's test split comes from the same lab as its training data. To test the detectors on traffic they have
 never seen, two captures that contain **no attacks** were scored with the demo bundle's models (frozen v2 MLP and
@@ -708,6 +765,10 @@ Every entry below was checked against the publisher, proceedings or arXiv record
   PMLR 108, 2938-2948.
 * Sun, Z., Kairouz, P., Suresh, A. T., & McMahan, H. B. (2019). Can you really backdoor federated learning?
   arXiv:1911.07963.
+* Blanchard, P., El Mhamdi, E. M., Guerraoui, R., & Stainer, J. (2017). Machine learning with adversaries:
+  Byzantine tolerant gradient descent. In *Advances in Neural Information Processing Systems 30* (pp. 119-129).
+* Cao, X., Fang, M., Liu, J., & Gong, N. Z. (2021). FLTrust: Byzantine-robust federated learning via trust
+  bootstrapping. In *Network and Distributed System Security Symposium (NDSS)*. arXiv:2012.13995.
 
 **Adversarial ML and evaluation practice**
 * Apruzzese, G., Andreolini, M., Ferretti, L., Marchetti, M., & Colajanni, M. (2022). Modeling realistic
@@ -716,3 +777,7 @@ Every entry below was checked against the publisher, proceedings or arXiv record
 * Arp, D., Quiring, E., Pendlebury, F., Warnecke, A., Pierazzi, F., Wressnegger, C., Cavallaro, L., & Rieck, K.
   (2022). Dos and don'ts of machine learning in computer security. In *31st USENIX Security Symposium*
   (pp. 3971-3988).
+* Axelsson, S. (2000). The base-rate fallacy and the difficulty of intrusion detection. *ACM Transactions on
+  Information and System Security*, 3(3), 186-205. https://doi.org/10.1145/357830.357849
+* Sommer, R., & Paxson, V. (2010). Outside the closed world: On using machine learning for network intrusion
+  detection. In *2010 IEEE Symposium on Security and Privacy* (pp. 305-316). https://doi.org/10.1109/SP.2010.25
