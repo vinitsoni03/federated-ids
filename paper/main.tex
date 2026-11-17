@@ -533,6 +533,7 @@ since $(\texttt{Max}+p)-(\texttt{Min}+p)=\texttt{Max}-\texttt{Min}$ and $(r\,\te
 \caption{Proposed attacker-invariant model vs.\ the v2 MLP, 8-class, 1\,\% FPR rule, mean $\pm$ s.d.\ over 3 seeds}\label{tab:inv}
 \centering\footnotesize
 \setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}lccc@{}}
 \toprule
  & v2 MLP & v2 MLP, adv.\ trained & Invariant (ours) \\
@@ -545,7 +546,7 @@ Detected under attack & $0.450\pm.027$ & $0.617\pm.018$ & $0.614\pm.008$ \\
 Adversarial examples needed & -- & 2 rounds & none \\
 Guarantee for any $p, r$, TTL & no & no & yes \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \subsection{LLM-planned attacks}\label{sec:llm}
@@ -629,6 +630,7 @@ The real threat is the adaptive attacker, who chooses slow-down, padding and TTL
 \caption{YouTube case study (17 Nov., 20,190 windows), 1\,\% rule, mean of 3 seeds. Values in \%}\label{tab:yt}
 \centering\footnotesize
 \setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}lcccc@{}}
 \toprule
  & Frozen & Hardened & Invariant & Local (14 Nov.) \\
@@ -649,7 +651,7 @@ Slowed, $r=0.5$ & 73.9 & 74.0 & 61.4 & 73.1 \\
 Slowed, $r=0.1$ & 80.1 & 83.7 & 61.4 & 77.8 \\
 Adaptive attacker & 45.0 & 61.7 & 61.4 & -- \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \begin{figure*}[t]
