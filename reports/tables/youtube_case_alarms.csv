@@ -1,0 +1,5 @@
+detector,alarm_rate_mean,alarm_rate_tcp_mean,alarm_rate_udp_mean,alarm_rate_sd,alarm_rate_tcp_sd,alarm_rate_udp_sd
+frozen,0.7593,0.703,0.9881,0.2225,0.2771,0.0035
+hardened,0.9724,0.9669,0.9947,0.0198,0.0244,0.0012
+invariant,0.5726,0.4726,0.9785,0.1255,0.1535,0.012
+local (14 Nov),0.0138,0.0166,0.0023,0.0021,0.0027,0.0007

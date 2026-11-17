@@ -1,0 +1,17 @@
+detector,r,detected_mean,detected_sd
+frozen,1.0,0.7015,0.0073
+frozen,0.5,0.7392,0.0053
+frozen,0.25,0.7811,0.0064
+frozen,0.1,0.8013,0.0192
+hardened,1.0,0.7032,0.0054
+hardened,0.5,0.7397,0.0051
+hardened,0.25,0.7862,0.0024
+hardened,0.1,0.8374,0.0078
+invariant,1.0,0.6144,0.0078
+invariant,0.5,0.6144,0.0078
+invariant,0.25,0.6144,0.0078
+invariant,0.1,0.6144,0.0078
+local (14 Nov),1.0,0.6968,0.0038
+local (14 Nov),0.5,0.7306,0.0057
+local (14 Nov),0.25,0.7686,0.0076
+local (14 Nov),0.1,0.7779,0.0191

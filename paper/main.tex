@@ -36,6 +36,7 @@ A label-only black-box attacker that can only pad, slow down and re-TTL its own 
 On GridStratLLM, LLM-planned attacks are detected across planning LLMs (leave-one-LLM-out AUC 0.90--1.00), even without the ARP signature.
 A Flower deployment across two Azure virtual machines and a laptop reproduces the simulator to four decimals.
 On real traffic without attacks from a laptop on home Wi-Fi, however, the same 1\,\% rule flags 86--89\,\% of windows, mostly HTTP/3 (QUIC). Adding 2.6 minutes of that laptop's benign traffic to training lowers this to 0.45\,\% on held-out traffic from the same session without reducing CICIoT2023 detection.
+A YouTube streaming capture recorded three days later supports both results. The locally trained model raises 1.4\,\% false alarms on it. Slowing down, padding or re-TTLing its packets never changes the invariant model's verdict (0 of 20,190 windows), while it changes 3--23\,\% of the plain MLP's verdicts.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -69,6 +70,8 @@ It makes the following contributions:
 \item An improved detector with attacker-invariant inputs, which makes the evasion threat model ineffective by construction (0\,\% evasion for any perturbation value) and matches adversarial training under attack without needing adversarial examples (Section~\ref{sec:inv}).
 \item A leave-one-LLM-out evaluation on GridStratLLM~\cite{kellerer2026gridstratdata}, with and without the ARP signature.
 \item A Flower deployment across Azure and a laptop that reproduces the simulator, and an authenticated model endpoint.
+\item A real-traffic evaluation on the first author's laptop, including a YouTube streaming case study. It measures false alarms across days after local benign training, and the effect of slowed, padded and re-TTLed packets on each detector's verdict (Section~\ref{sec:yt}).
+\item A side-by-side comparison of all our detectors and federated variants with the published methods (Table~\ref{tab:methods}).
 \end{itemize}
 
 \section{Related Work and Comparison}\label{sec:lit}
@@ -150,7 +153,7 @@ We also score the whole test pool (8,980,013 windows at the natural class prior)
 
 \textbf{GridStratLLM.} The dataset has 436 attack sessions planned by four LLMs and 1.75\,h of normal operation. We use 10\,s windows with a 20\,s guard band, identity-free features, leave-one-LLM-out folds, and a time-split normal hold-out (0.70\,h).
 
-\section{Methods and Threat Models}
+\section{Methods and Threat Models}\label{sec:threat}
 Fig.~\ref{fig:arch} shows the pipeline.
 
 \begin{figure*}[t]
@@ -319,6 +322,53 @@ Ours & 8-cl., FedAvg IID & file/time, dedup. & 0.668 \\
 \caption{Reported CICIoT2023 F1 in prior work and in this work, coloured by evaluation protocol.}
 \label{fig:lit}
 \end{figure}
+
+\textbf{All methods side by side.} Table~\ref{tab:methods} puts every detector and federated variant of this work next to the published methods. It draws on the results of Sections~\ref{sec:det}--\ref{sec:yt}. Four points stand out:
+\begin{itemize}
+\item At an equal 1\,\% FPR, the four centralised detectors are within 2 points of each other (0.841--0.862). Model choice matters less than the protocol and the operating point.
+\item Only the defences change the robustness columns. Adversarial training cuts evasion from 0.36--0.45 to 0.08--0.12. The invariant MLP removes it entirely, at a cost of 4 points of clean detection.
+\item Only local benign training fixes the false alarms on real traffic. None of the robustness methods does.
+\item Federated training costs about 1 point of detection with IID clients, and it collapses under label skew or unfiltered poisoning.
+\end{itemize}
+The published studies report higher F1 under random or balanced protocols. None of them reports a fixed FPR, evasion or real traffic, so those columns cannot be compared.
+
+\begin{table*}[t]
+\caption{All methods compared. This work: CICIoT2023, file/time split, de-duplicated, 8 classes, mean of 3 seeds unless marked. Published work: as reported, under its own protocol}\label{tab:methods}
+\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llccccc@{}}
+\toprule
+Method & Model / setting & macro-F1 & Detection & Evasion & Detected & YouTube \\
+ & & (argmax) & at 1\,\% FPR & at 1\,\% FPR & under attack & false alarms \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{This work, centralised}} \\
+MLP v1 & neural network & 0.687 & 0.849 & -- & -- & -- \\
+MLP v2 (frozen) & neural network & 0.691 & 0.852 & 0.359 & 0.450 & 75.9\,\% \\
+Random forest & tree ensemble & 0.709 & 0.841 & -- & -- & -- \\
+HGB$^a$ & gradient-boosted trees & 0.650 & 0.862 & 0.445 & 0.397 & -- \\
+MLP v2 + adversarial training (2 rounds) & neural network & 0.689 & 0.852 & 0.122 & 0.617 & 97.2\,\% \\
+HGB + adversarial training (2 rounds)$^a$ & gradient-boosted trees & 0.657 & 0.863 & 0.083 & 0.670 & -- \\
+Invariant MLP (proposed, Section~\ref{sec:inv}) & neural network, 29 inputs & 0.620 & 0.812 & \textbf{0.000} & 0.614 & 57.3\,\% \\
+MLP v2 + local benign traffic$^b$ & neural network & 0.691 & 0.851 & -- & -- & \textbf{1.4\,\%} \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{This work, federated (10 clients, 30 rounds)}} \\
+FedAvg, IID clients & MLP v1 & 0.668 & 0.839 & -- & -- & -- \\
+FedProx, IID clients & MLP v1 & 0.667 & -- & -- & -- & -- \\
+FedAvg, Dirichlet $\alpha=0.1$ & MLP v1 & 0.423 & 0.803 & -- & -- & -- \\
+FedAvg, 2 of 10 clients sign-flipping & MLP v1 & 0.008 & -- & -- & -- & -- \\
+Median, 2 of 10 clients sign-flipping & MLP v1 & 0.666 & -- & -- & -- & -- \\
+Flower, Azure + laptop$^a$ & MLP v1 & 0.669 & -- & -- & -- & -- \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Published (reported F1; no fixed FPR, evasion or real-traffic results reported)}} \\
+Neto et al.~\cite{neto2023ciciot}, RF / DNN & random 80/20 split & 0.719 / 0.697 & \multicolumn{4}{c}{not reported} \\
+Bilal et al.~\cite{bilal2026dataset}, LSTM, Transformer; FedAvg, FedProx, FedNova & FL, balanced test & 0.920--0.952 & \multicolumn{4}{c}{not reported} \\
+Nayak and Reddy~\cite{nayak2026byzantine}, 5 aggregators & FL, binary, balanced sample & 0.989--0.990$^c$ & \multicolumn{4}{c}{not reported} \\
+Kampourakis et al.~\cite{kampourakis2026k2d}, LLM-generated training data & AWID3 (Wi-Fi) & up to 0.956 & \multicolumn{4}{c}{not reported} \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\parbox{\textwidth}{\footnotesize $^a$ One seed. $^b$ Retrained with 2.6 minutes of the laptop's benign traffic from 14 November and scored on YouTube traffic from 17 November (Section~\ref{sec:yt}). $^c$ Binary F1. In their study FedAvg collapses at 30\,\% sign-flipping clients, median and trimmed mean at 20\,\%, while multi-Krum and FLTrust hold. ``Detected under attack'': share of the fixed WP5 attack sample still detected by the label-only attacker at $r\ge0.1$.}
+\end{table*}
 
 \subsection{Federated learning}\label{sec:fl}
 Table~\ref{tab:fl} gives the federated results.
@@ -530,7 +580,7 @@ The CICIoT2023 test split comes from the same lab as its training data. We there
 
 \textbf{Recalibration is not enough.} We split the laptop windows into halves (the first 2.6 minutes and the remaining 7.4). A threshold fitted so that 1\,\% of the first half is flagged reduces false alarms in the second half to 5.4\,\% (frozen) and 0.1\,\% (hardened). It lies within $10^{-8}$ of 1, and at that threshold the detectors find only 59\,\% and 53\,\% of CICIoT2023 test attacks instead of 85\,\%.
 
-\textbf{Local benign training works.} We added the first half (2,979 windows) to the training split as benign and retrained the 8-class MLP with the same recipe: seeds 0--2, early stopping and thresholds on CICIoT2023 validation, the second half used only for scoring. Without the added windows, retraining reproduces the frozen models exactly. With them, false alarms on the second half fall from 86.9\,\% to 0.45\,\% (TCP 1.8\,\%, QUIC 0.0\,\%). CICIoT2023 test detection at the 1\,\% rule stays at 85.1\,\% (85.2\,\% before) and macro-F1 at 0.609 (0.612). Repeating the windows five times gives 0.10\,\%. Both halves come from one session, so this shows that the detector can learn a site's benign traffic at no detection cost, not that it generalises to other days or networks.
+\textbf{Local benign training works.} We added the first half (2,979 windows) to the training split as benign and retrained the 8-class MLP with the same recipe: seeds 0--2, early stopping and thresholds on CICIoT2023 validation, the second half used only for scoring. Without the added windows, retraining reproduces the frozen models exactly. With them, false alarms on the second half fall from 86.9\,\% to 0.45\,\% (TCP 1.8\,\%, QUIC 0.0\,\%). CICIoT2023 test detection at the 1\,\% rule stays at 85.1\,\% (85.2\,\% before) and macro-F1 at 0.609 (0.612). Repeating the windows five times gives 0.10\,\%. Both halves come from one session, so this shows that the detector can learn a site's benign traffic at no detection cost. Section~\ref{sec:yt} tests the same models on traffic recorded three days later.
 
 \begin{table}[t]
 \caption{False-alarm rate on traffic without attacks, 1\,\% rule}\label{tab:live}
@@ -549,6 +599,66 @@ Smart grid, normal op. & hardened & 35.5\,\% & 35.5\,\% & -- \\
 \end{tabular}
 \end{table}
 
+\subsection{Case study: YouTube streaming and slowed packets}\label{sec:yt}
+We recorded 3 minutes of the laptop's Wi-Fi traffic while a YouTube video streamed. This was on 17 November, three days after the first capture. It holds 201,908 packets in 20,190 windows (81\,\% TCP and 19\,\% UDP windows) and contains no attack. We compare four detectors, each with its own 1\,\% threshold fitted on CICIoT2023 validation data:
+\begin{itemize}
+\item the frozen v2 MLP;
+\item the adversarially trained MLP;
+\item the invariant MLP (Section~\ref{sec:inv});
+\item the v2 MLP retrained with the first half of the 14 November capture (Section~\ref{sec:live}).
+\end{itemize}
+Each detector is evaluated with seeds 0--2. Table~\ref{tab:yt} and Fig.~\ref{fig:yt} give the results.
+
+\textbf{False alarms.} The lab-trained detectors flag most of the video traffic: 57--97\,\% of windows on average, with large differences between seeds (frozen MLP 53--98\,\%). Adversarial training makes this worse (97.2\,\%). The invariant inputs help only partly (57.3\,\%), because the cause is that home traffic does not look like the dataset's benign class, not that a sender shapes its packets.
+
+The model retrained with 2.6 minutes of the same laptop's traffic flags only 1.4\,\% (1.1--1.6\,\% across seeds), close to the 1\,\% target. This holds even though that capture was recorded three days earlier and was mostly web browsing, while this one is video streaming. It is evidence that local benign training transfers across days, for one laptop and one network.
+
+\textbf{Slowed packets in real traffic.} We applied the evasion attacker's own changes (Section~\ref{sec:threat}) to the real YouTube windows: slowing the sender down by $r=0.5$, 0.25 or 0.1, padding every packet by 100 or 400 bytes, setting the TTL to 64, and all three together.
+\begin{itemize}
+\item For the frozen MLP, these changes flip the verdict of 3--23\,\% of windows.
+\item Adversarial training reduces this to 2--6\,\%, and local training to 0.4--4\,\%.
+\item The invariant MLP's verdict did not change for a single window, for any change and any seed (0 of 20,190), because it receives exactly the same inputs.
+\end{itemize}
+Its decision depends only on what the traffic is, not on how fast or how padded it is sent.
+
+\textbf{Slowed attacks are still detected.} We then slowed down every attack window of the fixed WP5 test sample (19,895 CICIoT2023 windows) by the same factor $r$. A uniform slow-down hides attacks from none of the detectors: the frozen MLP detects 70.2\,\% at full speed and 80.1\,\% at $r=0.1$, and the invariant MLP detects 61.4\,\% at every $r$.
+
+The real threat is the adaptive attacker, who chooses slow-down, padding and TTL for each window separately (Section~\ref{sec:evasion}). Against it, the frozen MLP keeps only 45.0\,\% of these windows, while the invariant MLP keeps 61.4\,\%. Slowing packets down therefore never lets an attack through the invariant model. Its clean detection is lower, however, and it does not fix false alarms on its own. A deployment would combine it with local benign training; we leave that combination to future work. The changes were applied in feature space, as in Section~\ref{sec:evasion}, and not replayed as packets.
+
+\begin{table}[t]
+\caption{YouTube case study (17 Nov., 20,190 windows), 1\,\% rule, mean of 3 seeds. Values in \%}\label{tab:yt}
+\centering\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & Frozen & Hardened & Invariant & Local (14 Nov.) \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{False alarms on the YouTube windows}} \\
+All windows & $75.9\pm22.3$ & $97.2\pm2.0$ & $57.3\pm12.6$ & $\mathbf{1.4\pm0.2}$ \\
+TCP / UDP windows & 70.3 / 98.8 & 96.7 / 99.5 & 47.3 / 97.9 & 1.7 / 0.2 \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{YouTube windows whose verdict changes}} \\
+Slow-down $r=0.1$ & 9.2 & 5.0 & \textbf{0} & 3.3 \\
+Padding +400 B & 10.6 & 4.4 & \textbf{0} & 0.8 \\
+TTL set to 64 & 23.4 & 1.6 & \textbf{0} & 1.5 \\
+All three & 17.6 & 6.1 & \textbf{0} & 4.0 \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{CICIoT2023 attack windows detected (WP5 sample)}} \\
+Not slowed ($r=1$) & 70.2 & 70.3 & 61.4 & 69.7 \\
+Slowed, $r=0.5$ & 73.9 & 74.0 & 61.4 & 73.1 \\
+Slowed, $r=0.1$ & 80.1 & 83.7 & 61.4 & 77.8 \\
+Adaptive attacker & 45.0 & 61.7 & 61.4 & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.92\textwidth]{youtube_case.png}
+\caption{YouTube case study. Left: share of real YouTube windows whose verdict changes when the sender's packets are slowed down, padded or re-TTLed (the invariant MLP: 0 for every change). Right: CICIoT2023 attack windows detected when all of them are slowed down by the factor $r$ (mean $\pm$ s.d.\ over 3 seeds).}
+\label{fig:yt}
+\end{figure*}
+
 \section{Discussion and Limitations}
 \textbf{What drove the results.} Data handling and the operating point, not model choice, determined the numbers. Each defence carries a measurable assumption that an attacker can step outside:
 \begin{itemize}
@@ -561,7 +671,7 @@ Smart grid, normal op. & hardened & 35.5\,\% & 35.5\,\% & -- \\
 
 \textbf{Threats to validity.} \emph{Internal:} every threshold, model choice and hyperparameter was fixed on validation data; the test split was scored once per frozen detector, and the evaluation code refuses to re-score an existing test result. The sweep in Section~\ref{sec:sweep} re-uses the test split only as a post-hoc sensitivity analysis and changes no choice. \emph{Construct:} macro-F1 weights rare classes such as Web as heavily as DDoS, which suits a multi-class IDS but makes our numbers look lower than accuracy-based reports. We therefore also give detection at a fixed benign FPR, which is what an operator experiences. \emph{External:} CICIoT2023 comes from one testbed, and the real-traffic test shows that its benign class does not represent a home network.
 
-\textbf{Ethics.} All attack traffic comes from the two public research datasets; no attack was run against a real system. The real-traffic capture was taken on the first author's own laptop and network, contains no attacks, and only aggregate window features were kept; no addresses or payloads were stored.
+\textbf{Ethics.} All attack traffic comes from the two public research datasets; no attack was run against a real system. The two real-traffic captures (10 minutes of browsing, and 3 minutes of YouTube streaming) were taken on the first author's own laptop and network. They contain no attacks, and only aggregate window features were kept; no addresses or payloads were stored. The slow-down, padding and TTL changes in Section~\ref{sec:yt} were applied to recorded features, not sent over the network.
 
 \textbf{Reproducibility.} The repository contains the split manifests, every configuration, per-run metrics and histories, and 76 automated tests, including tests that no file or row appears in two splits. Seeds are fixed for partitions, client sampling, initialisation and shuffling; re-running the 8-class MLP without local data reproduced the frozen models exactly, and the Flower deployment reproduced the simulator to four decimals.
 
@@ -572,7 +682,7 @@ Smart grid, normal op. & hardened & 35.5\,\% & 35.5\,\% & -- \\
 \item Evasion is modelled in feature space and not replayed through the feature extractor. Adversarial training was tested only against the same attacker.
 \item Multi-Krum, FLTrust and formal privacy were not evaluated.
 \item Comparisons with prior work rest on their published tables, not their split files.
-\item The real-traffic test covers one laptop, one network and 10 minutes, and measures false alarms only. The local-training result is tested on the same session's traffic.
+\item The real-traffic tests cover one laptop, one home network and 13 minutes, and measure false alarms only. The cross-day result rests on a single pair of captures three days apart.
 \end{itemize}
 
 \section{Conclusion}
@@ -580,9 +690,9 @@ Under a leakage-aware protocol, CICIoT2023 multi-class detection is about 0.69 m
 
 Federated training matches centralised training under mild heterogeneity, and a real cross-cloud deployment reproduced the simulation exactly. Strong label skew remains unsolved. Robust aggregation stops two poisoning clients only within its assumptions. LLM-planned attacks on a smart-grid testbed are detectable because their signature is set by the attack toolkit.
 
-On real home traffic, the same detectors raise false alarms for most windows, and a local threshold removes them only by missing a third of the attacks. A few minutes of the network's own benign traffic in training removes them without that cost. Deployment therefore needs the target network's benign traffic in training, which federated learning with clients on those networks can provide.
+On real home traffic, the same detectors raise false alarms for most windows, and a local threshold removes them only by missing a third of the attacks. A few minutes of the network's own benign traffic in training removes them without that cost, and this held three days later on YouTube streaming traffic (1.4\,\% false alarms). On the same YouTube traffic, slowing down, padding or re-TTLing the packets never changed a single verdict of the invariant model. Deployment therefore needs the target network's benign traffic in training, which federated learning with clients on those networks can provide.
 
-Future work: federated fine-tuning on local benign traffic tested across days and networks, attacks generated in an isolated lab, adaptive attackers, clustered FL for label skew, multi-Krum and FLTrust under the same protocol, and replay of evasion through the feature extractor. Code, tests and run records are available at \url{https://github.com/vinitsoni03/federated-ids}.
+Future work: the invariant model trained with local benign traffic, federated fine-tuning on local benign traffic tested across more days and networks, attacks generated in an isolated lab, adaptive attackers, clustered FL for label skew, multi-Krum and FLTrust under the same protocol, and replay of evasion through the feature extractor. Code, tests and run records are available at \url{https://github.com/vinitsoni03/federated-ids}.
 
 \bibliographystyle{IEEEtran}
 \bibliography{refs}

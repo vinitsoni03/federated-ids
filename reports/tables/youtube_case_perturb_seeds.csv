@@ -1,0 +1,85 @@
+detector,seed,change,verdict_changed
+frozen,0,slow-down r=0.5,0.009162951956414067
+frozen,0,slow-down r=0.25,0.01961367013372957
+frozen,0,slow-down r=0.1,0.03472015849430411
+frozen,0,padding +100 B,0.018177315502724122
+frozen,0,padding +400 B,0.021545319465081723
+frozen,0,TTL set to 64,0.019068845963348194
+frozen,0,"all three (r=0.1, +400 B, TTL 64)",0.045418524021792965
+frozen,1,slow-down r=0.5,0.05002476473501734
+frozen,1,slow-down r=0.25,0.08157503714710253
+frozen,1,slow-down r=0.1,0.10737989103516592
+frozen,1,padding +100 B,0.08945022288261516
+frozen,1,padding +400 B,0.09935611688954928
+frozen,1,TTL set to 64,0.4616146607231303
+frozen,1,"all three (r=0.1, +400 B, TTL 64)",0.2993065874195146
+frozen,2,slow-down r=0.5,0.04056463595839525
+frozen,2,slow-down r=0.25,0.08103021297672115
+frozen,2,slow-down r=0.1,0.13363051015354135
+frozen,2,padding +100 B,0.1087667161961367
+frozen,2,padding +400 B,0.19598811292719168
+frozen,2,TTL set to 64,0.22129767211490836
+frozen,2,"all three (r=0.1, +400 B, TTL 64)",0.18315998018821197
+hardened,0,slow-down r=0.5,0.006686478454680535
+hardened,0,slow-down r=0.25,0.01575037147102526
+hardened,0,slow-down r=0.1,0.03571074789499752
+hardened,0,padding +100 B,0.015205547300643883
+hardened,0,padding +400 B,0.016740960871718672
+hardened,0,TTL set to 64,0.012134720158494304
+hardened,0,"all three (r=0.1, +400 B, TTL 64)",0.04259534422981674
+hardened,1,slow-down r=0.5,0.003368003962357603
+hardened,1,slow-down r=0.25,0.00866765725606736
+hardened,1,slow-down r=0.1,0.021644378405151064
+hardened,1,padding +100 B,0.009658246656760773
+hardened,1,padding +400 B,0.011094601287766221
+hardened,1,TTL set to 64,0.006191183754333828
+hardened,1,"all three (r=0.1, +400 B, TTL 64)",0.040416047548291235
+hardened,2,slow-down r=0.5,0.020802377414561663
+hardened,2,slow-down r=0.25,0.04631005448241704
+hardened,2,slow-down r=0.1,0.09356116889549282
+hardened,2,padding +100 B,0.040465577018325906
+hardened,2,padding +400 B,0.10351659237246162
+hardened,2,TTL set to 64,0.030312035661218425
+hardened,2,"all three (r=0.1, +400 B, TTL 64)",0.09861317483902922
+invariant,0,slow-down r=0.5,0.0
+invariant,0,slow-down r=0.25,0.0
+invariant,0,slow-down r=0.1,0.0
+invariant,0,padding +100 B,0.0
+invariant,0,padding +400 B,0.0
+invariant,0,TTL set to 64,0.0
+invariant,0,"all three (r=0.1, +400 B, TTL 64)",0.0
+invariant,1,slow-down r=0.5,0.0
+invariant,1,slow-down r=0.25,0.0
+invariant,1,slow-down r=0.1,0.0
+invariant,1,padding +100 B,0.0
+invariant,1,padding +400 B,0.0
+invariant,1,TTL set to 64,0.0
+invariant,1,"all three (r=0.1, +400 B, TTL 64)",0.0
+invariant,2,slow-down r=0.5,0.0
+invariant,2,slow-down r=0.25,0.0
+invariant,2,slow-down r=0.1,0.0
+invariant,2,padding +100 B,0.0
+invariant,2,padding +400 B,0.0
+invariant,2,TTL set to 64,0.0
+invariant,2,"all three (r=0.1, +400 B, TTL 64)",0.0
+local (14 Nov),0,slow-down r=0.5,0.0059930658741951465
+local (14 Nov),0,slow-down r=0.25,0.018177315502724122
+local (14 Nov),0,slow-down r=0.1,0.03694898464586429
+local (14 Nov),0,padding +100 B,0.00391282813273898
+local (14 Nov),0,padding +400 B,0.010104011887072809
+local (14 Nov),0,TTL set to 64,0.011144130757800892
+local (14 Nov),0,"all three (r=0.1, +400 B, TTL 64)",0.026696384348687468
+local (14 Nov),1,slow-down r=0.5,0.003615651312530956
+local (14 Nov),1,slow-down r=0.25,0.011045071817731551
+local (14 Nov),1,slow-down r=0.1,0.05175829618623081
+local (14 Nov),1,padding +100 B,0.005002476473501733
+local (14 Nov),1,padding +400 B,0.007429420505200594
+local (14 Nov),1,TTL set to 64,0.021446260525012383
+local (14 Nov),1,"all three (r=0.1, +400 B, TTL 64)",0.07206537890044576
+local (14 Nov),2,slow-down r=0.5,0.002823179791976226
+local (14 Nov),2,slow-down r=0.25,0.004952947003467063
+local (14 Nov),2,slow-down r=0.1,0.008766716196136701
+local (14 Nov),2,padding +100 B,0.004457652303120356
+local (14 Nov),2,padding +400 B,0.005844477464091134
+local (14 Nov),2,TTL set to 64,0.012332838038632986
+local (14 Nov),2,"all three (r=0.1, +400 B, TTL 64)",0.021495789995047053

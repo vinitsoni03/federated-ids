@@ -1,0 +1,29 @@
+detector,change,verdict_changed_mean,verdict_changed_sd
+frozen,slow-down r=0.5,0.0333,0.0214
+frozen,slow-down r=0.25,0.0607,0.0356
+frozen,slow-down r=0.1,0.0919,0.0512
+frozen,padding +100 B,0.0721,0.0477
+frozen,padding +400 B,0.1056,0.0874
+frozen,TTL set to 64,0.234,0.2215
+frozen,"all three (r=0.1, +400 B, TTL 64)",0.176,0.1271
+hardened,slow-down r=0.5,0.0103,0.0093
+hardened,slow-down r=0.25,0.0236,0.02
+hardened,slow-down r=0.1,0.0503,0.0381
+hardened,padding +100 B,0.0218,0.0164
+hardened,padding +400 B,0.0438,0.0518
+hardened,TTL set to 64,0.0162,0.0126
+hardened,"all three (r=0.1, +400 B, TTL 64)",0.0605,0.033
+invariant,slow-down r=0.5,0.0,0.0
+invariant,slow-down r=0.25,0.0,0.0
+invariant,slow-down r=0.1,0.0,0.0
+invariant,padding +100 B,0.0,0.0
+invariant,padding +400 B,0.0,0.0
+invariant,TTL set to 64,0.0,0.0
+invariant,"all three (r=0.1, +400 B, TTL 64)",0.0,0.0
+local (14 Nov),slow-down r=0.5,0.0041,0.0016
+local (14 Nov),slow-down r=0.25,0.0114,0.0066
+local (14 Nov),slow-down r=0.1,0.0325,0.0218
+local (14 Nov),padding +100 B,0.0045,0.0005
+local (14 Nov),padding +400 B,0.0078,0.0022
+local (14 Nov),TTL set to 64,0.015,0.0056
+local (14 Nov),"all three (r=0.1, +400 B, TTL 64)",0.0401,0.0278

@@ -77,6 +77,12 @@ python -m federated_ids.live.score D:\federated-ids-work\captures\my_capture.pca
 python scripts\live_analysis.py "laptop=D:\federated-ids-work\live\my_capture\features.csv"   # -> reports\tables\live_*.csv
 python scripts\live_retrain.py --features D:\federated-ids-work\live\my_capture\features.csv   # GPU, ~12 min: retrain with the capture's first half as benign
 ```
+Live, while a video plays (2-second slices, nothing stored), and the YouTube case study of report §4.2.1:
+```powershell
+python scripts\live_monitor.py --seconds 60                                    # one line per slice: false alarms of both models
+powershell -ExecutionPolicy Bypass -File scripts\live_capture_score.ps1 -Seconds 180 -Name youtube_case   # record + score
+python scripts\youtube_case_study.py --features D:\federated-ids-work\live\<capture>\features.csv     # GPU, ~2 min
+```
 The capture is cut into the dataset's 10-packet windows and turned into the CICIoT2023 features
 (`src/federated_ids/live/`, pure Python, no extra packages). Keep captures out of the repository: they contain
 addresses and visited hosts. Capture only traffic you own.
