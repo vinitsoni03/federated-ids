@@ -103,6 +103,10 @@ python -m federated_ids.experiments.evasion_exp
 python scripts\run_fl_grid.py m5 m5_mu m6 m6_frac m6_seeds
 # M9 - all tables and figures from the artifacts above
 python scripts\make_figures.py
+# Operating-point sweep: why the 1 % rule (GPU, ~20 min) -> reports\tables\fpr_sweep*.csv, reports\figures\fpr_sweep.png
+python scripts\fpr_sweep.py --device cuda
+# Improved detector with attacker-invariant inputs (GPU, ~4 min per seed) -> reports\tables\invariant_model.csv
+python scripts\invariant_model.py --seeds 0 1 2 --device cuda
 ```
 A single FL run, e.g.:
 `python -m federated_ids.federated.simulation --partition dirichlet --alpha 0.1 --algorithm fedprox --mu 0.01 --seed 0 --run-name my_run`
