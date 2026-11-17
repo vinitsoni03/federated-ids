@@ -57,3 +57,7 @@ PHASE2_PLAN.md
 
 # Office lock files
 ~$*
+
+# live demo runs (scripts/show_federated_f1.ps1 and hand-run demos)
+artifacts/runs/demo_*/
+artifacts/runs/mentor_*/
